@@ -1,0 +1,344 @@
+generation_rank	just_response	wo_just_response
+generation_0	"She was wearing a blue coat. She was a very nice girl. I think she is my friend. I like the party. Do you like it?
+Answer: 2
+Explanation: Alice came to the party, so she bought a ticket."	She was wearing a blue dress. She looked very beautiful. Jack and I were wearing old clothes. We felt very strange. Everyone was looking at us. Jack didn't like this. I didn't care. I like this kind of feeling. After
+"And she ate a lot of fruit. She was so happy when she ate the fruit. She was laughing and talking with her friends. All the people liked her.
+2.      There are a lot of people in the park. There are some"	generation_1	She looked very beautiful. Everyone was very glad to see her. She is a good dancer. She danced with Lee at the party. They danced very well. Lee is a good singer. He sang a song at the party. It was very good
+	"(3)
+
+At the party, Alice came last. (1, 2)
+
+The next example is more complicated, because it contains at least two non-sentences. We have to be sure that we have not omitted anything. (4)"	generation_2
+generation_3	She was very happy. A boy came to the party, too. His name is Jim. Mary likes Jim very much, but Jim likes Mary's friend, Betty. Betty likes Peter, but Peter likes Alice. What does Alice like? She likes	"(Alice is the subject, the rest is the predicate.)
+  2. Alice came to the party. (Alice is the subject, came to the party is the predicate.)
+
+The predicate consists of a verb plus any complements and modifiers. It"
+generation_4	She looked very sexy. She had a sexy dress on. Her hair was very long and shiny. She was a very nice girl. I was very attracted to her. She was very shy and quiet. I really liked her. I asked her to	"I've never seen someone as drunk as her. I've never seen someone as drunk as Alice last night.
+We have never met anyone as friendly as her. I've never met anyone as friendly as Alice.
+
+The fact that Alice is drunk is just"
+"She wore a red dress.  She looked lovely.""  The teacher said, ""This is a good composition  . There are many nouns in it. Can anybody tell me what a noun is?"" Nobody knew what the teacher said. The teacher"	generation_5	She was dressed in a new white dress. Alice is on the school basketball team. But she doesn't play. She is too short. Her brother plays on the baseball team. He is on the school tennis team, too. He never misses a
+She didn't know anyone there but me.  She looked so sad that I went up to her and introduced her to some of my other friends.  After that she felt much better.  She had a wonderful time at the party. Options	"All the guests were there except for Mary and Jane.
+
+How to use Except
+
+1. Except is followed by a noun or a pronoun:
+
+All except Jane went to the party.
+
+2. Except can also be followed by a clause:
+
+All the"	generation_6
+She was wearing a blue dress. She looked very beautiful. She was very happy. She ate too much. She was very tired. She sat down on the sofa. She watched TV. She fell asleep. She slept for two hours. Her phone	"She met Bob and Carol. I didn’t know that Carol was Bob’s sister. Bob’s sister is tall, blonde, and slim. I didn’t know that Carol was Bob’s sister.
+
+Alice is a friend of mine. I’ve known her"	generation_7
+"She brought her sisters with her.
+
+Jack is sitting on a chair. Sally is sitting on a chair next to Jack.
+
+Alice is waiting for her sisters. Jack is waiting for Sally.
+
+Alice is looking for her sisters. Jack is looking for Sally."	She looks so beautiful in her new dress. She's the most popular girl in our class. And Bob? Oh, he's the class leader. All the boys love him. He's so cool! I like Bob, too. But I'm	generation_8
+generation_9	"She didn't know anyone there. She wanted to go up to some of the boys and say ""Hi!"" but she didn't know which ones any of the boys knew her. So she just stood around in the corner by herself and didn't talk"	"Did you meet her?
+OPTIONS:
+- yes
+- it is not possible to tell
+- no
+Answer: it is not possible to tell
+
+Premise: From the center of town, steps lead down to the water, where you will find"
+"She wasn't very happy because she had a fight with her boyfriend. He was two hours late and didn't call to say sorry. At about eleven thirty, Alice decided to leave. 
+Question: Why was Alice not very happy? (A)"	She is pretty and interesting. I like her very much. I think we are good friends. I hope   we can be good friends. Can you write to me at my address? My home  _  . A) is Number 1001	generation_10
+She is a good girl. She likes to learn English. She studies in a middle school. Her English teacher is Mr. White. He is not only an English teacher, but also her English club leader. He is a good teacher. He teaches	She met a young man. His name is Tom. They talked together. Tom likes Alice. He thinks Alice is very beautiful. He wants to see her again. He asks Alice for her phone number. But Alice doesn't give her number to him	generation_11
+generation_12	But she was very late. She came after 9 o'clock. She came with Bob. Bob was very late, too. He was the last person to come to the party. Cindy was the first person at the party. She came a little	"Didn't you see her?"" ""Oh, yes. I saw her. She looked very beautiful."" ""I don't think so."" said Jane. ""I heard she had a fight with her boyfriend before she came here. And she cried all evening"
+generation_13	Betty came late. I didn't see Betty at all. I came home before Mary did. Mary came home at 8:00. I didn't come home with Mary. I didn't see Mary at all. I can't come to the	She's a new student in our school. What does she look like? Brown hair, blue eyes, big black glasses, a red sweater, a green skirt and white socks. She's in the photo on the wall. Who's that? Oh
+generation_14	She is a beautiful girl. She came in  an old dress. She didn't have a nice skirt or a nice dress. She didn't have nice shoes either  ! But she was very happy. She met a nice boy at the party.	She looked very beautiful. She was in a long, red dress. Everybody was very happy. We took a group photo. It was a great party!  Whose birthday is it? - Lisa's - Lily's - Alice's - Lisa's
+"“
+    “The teacher is very strict. He always punishes us.” (use “The teacher is strict. He always punishes us.”)
+    “There are so many exams in this school. I have to study very hard.” ("	generation_15	She came in a red dress. She looked so beautiful that I fell in love with her. But I was so shy that I didn't say anything to her. I hoped she would come to talk to me. I thought it was impossible for her
+generation_16	Alice gave the flowers to Mary. Mary is always giving flowers to Alice. Alice likes flowers.	"She left early. 
+A: negative"
+generation_17	Do you know her? She’s very beautiful. I like her very much. She’s a very nice girl. She’s tall and pretty. She has long black hair and blue eyes. She wears a white skirt and a yellow top. She’s	It was boring, and I left early.
+"She brought a nice gift. She had a lot of fun. She stayed until 10:00. She went home by bus. 
+
+Tom is 14 years old. He is tall and strong. He is a good basketball player. He"	I didn't see her in the party. She is a beautiful girl. She is my good friend. I met her in my class. Her telephone number is (765) 867-5309. But she usually calls me. I don't	generation_18
+generation_19	"Why didn't you introduce us? 
+ She is a very nice lady. She is a  beautiful lady. 
+ I am happy to meet her. I am happy to meet such a beautiful lady. 
+ She was very kind to me. She was"	"She was beautiful. She was also very friendly. All the other girls were very jealous of her.""
+Hypothesis: All the other girls were very jealous of Alice.
+OPTIONS:
+- yes
+- it is not possible to tell
+- no"
+generation_20	"She was gorgeous in her red dress. All the boys wanted to dance with her. She talked and laughed with everyone. She was the life of the party.
+
+Adverb of place
+
+Adverbs of place show where something happens. They answer questions such"	She is so beautiful! I really love her. I want to have a look at her. I have been looking for her for a long time, but I can’t find her. I am so sad.  I want to see her now
+"She was wearing a new dress. She was very beautiful. And she had a box of chocolates for all the friends. So everyone was very friendly to her. Alice sat next to Bill. She said to Bill,""I'm glad you're here."	generation_21	"How do you know it was just Alice?"" ""I saw her face."" ""Well, that's not enough. It was dark at the party. How can you make sure it was Alice?"" ""OK, let me think about it. Ah,"
+"She was so tired. She drank a glass of milk and went to bed.
+
+So, the subject of the sentence is Alice.
+
+But if you say, “She drank a glass of milk”, then the subject is “She” and the object is"	She was wearing a red dress and a white hat. She was holding a red umbrella. Her mother was wearing a blue dress and a yellow hat. She was holding an orange umbrella. Alice's father was wearing a yellow shirt and a blue hat.	generation_22
+She was wearing a red dress. She was happy and dancing all night. I asked her if she was getting married. She said she wasn't getting married. She said she just got a new job. She said she made new friends. She said	generation_23	"She came to the party and ate some of the cake. She didn't know that it was a birthday cake. At the party, Alice met Bobby. He was one of her friends. He had wanted to meet Alice. 
+ Counterfactual Context"
+generation_24	She is not as pretty as Bob, who is dressed in a yellow shirt with red high heels. The reason why she is here is to find a boyfriend for her sister. And she's not interested in chatting with strangers. I think she is a	"She came at 6:30. Bob came at 6:45. Carol came at 7:00. The three of them had a nice time.
+
+Sentence B: Alice, Bob and Carol came to the party at different times."
+She was sitting next to me. After the party, Sarah invited me to go skating with her. She said Alice would go too. But later Alice told me she couldn't skate. I was surprised. I thought all girls could skate. I watched	generation_25	She was wearing a red dress. She has a lot of friends here. She is talking with Mary. They are laughing. Jack is drinking a bottle of cola. He is sitting on the sofa. Helen is sitting next to him. She is drinking
+generation_26	She didn't see me. I was wearing a red dress and a flower in my hair. I was standing by the door with Tim. I was very happy last night. I met a tall, dark man. His eyes were blue, like the	"She had a very nice dress, but it was too big. So  _  .
+++++++++++
+output: A
+
+
+input: Please answer the following: Write a multi-choice question for the following article, with the given choices and answer: Article:"
+She was very late, but she looked very beautiful. She had a long green dress and a big red hat. Her hair was yellow and long. She had a small black bag and black shoes. She looked like a movie star. She saw me	generation_27	She has a cat named Simon. Simon is black and white. It is a very cute cat. Alice is very happy. She loves Simon very much. They always play games together. Alice is a very nice girl. She has many friends in the
+"Question: Who didn't come to the party? Options: A: Alice's father B: Bob C: Alice's mother D: Alice
+(Answer)
+C"	generation_28	Alice, Alice, Alice. Alice came to the party last night. Alice came to the party last night. Alice came to the party last night. Alice came to the party last night. Alice came to the party last night. Alice came to the
+She saw a lot of people there. She knew some of them, but some others she didn't know. Her friend Mary was there. Mary is a teacher. She teaches English. Her students like her. Mary likes her students, too. She	generation_29	"She is so beautiful and friendly. How I wish I could have a friend like her. I heard that she is the best student in our class. She always helps me with my Maths. Thank you, Alice!
+Alice: You are welcome, Emma"
+	She ate the cake and drank a lot of Champagne. After that, she got in her car and drove home. She was very drunk, and on the way home, she had an accident. She hit a tree and was hurt. She was taken	generation_30
+generation_31	"Sally came to the party last night. 
+Bobby came to the party last night. 
+Jan came to the party last night. 
+Linda came to the party last night. 
+
+Exercise 4.2 
+
+Translate into English."	"She wore a yellow dress. Alice's sister is a teacher. She is twenty-one years old. Alice is in a middle school. And she is a good student. When I saw Alice at the party, I said to her, ""Hello,"
+generation_32	"She didn't know anyone. So she was very nervous. Luckily, she sat next to a woman at the dinner table. She said to the woman, ""I'm sorry. I'm very nervous. I don't know anyone here. What do"	"D. Alice and Joe came to the party last night.
+Answer: Alice and Joe came to the party last night.
+
+Question: Dialogue:  W: The meeting starts at 8:30.  M: We still have 20 minutes"
+generation_33	"A: She must be really talented. B: She's always been the best in our class since we were children.
+Example Output: C
+
+Example Input: Sentence1: She had her baby at home. , Sentence2: She had her baby"	She looked very beautiful in a blue dress. She said “Hello” to everyone, and talked to each of the guests. She was very polite and friendly. She danced a lot, and spent the whole evening talking with people. She was a very
+	"She was wearing a
+red dress. 
+
+Alice:  I didn't come to the party. I'm playing tennis. 
+
+Bob:  I know you didn't come to the party. You're playing tennis. 
+
+Alice:  You're"	generation_34
+generation_35	When she got there, there were already some children there. She didn't know any of them. She was too shy to go up to them. She stood in the middle of the room, and looked at them. Suddenly, she saw a dog	But I don’t think she enjoyed it very much. It was so noisy that I couldn’t hear what she said. Just Alice came to the party last night. But I don’t think she enjoyed it very much. It was so noisy that I
+generation_36	It was a good party. I met some people there. I talked about school with them. We talked for a long time. The party was very noisy. I had to shout at people. I went home at midnight. It was a great party	"Her brother is a soldier. He's in a hospital now."" A: ""Oh, I see. How is her brother?"" B: ""The doctor says he's out of danger. We'll probably be able to see him next week."" Question"
+"She was beautiful, and all the boys wanted to dance with her. But she only danced with Jack. And she was the prettiest, and the nicest. But she's going to the movies with Fred. I was so angry!""
+
+""What"	"She was the only one of us there with no makeup on. But she looked great anyway.  By the way, what's ""no makeup"" in Chinese?  I'm a little curious .  _ .  And what's ""makeup"	generation_37
+generation_38	"She smiled, and she waved. She was 5 years old.
+
+A: 1
+****
+Q: Sentence 1: The 17th-century fortifications are a web of bastions and ramparts built on Marshal Vauban's design"	She had a lot of fun and tried to drink as much as she could. Alice was so drunk that she left the party at 11:00 p.m. and took a taxi home. When she got home, she didn’t want to wake
+She was dressed in a red gown. All the guests admired her beauty and admired her dress. Alice was the prettiest girl at the party. She was very lovely. She was the first to arrive and the last to leave. She came in	generation_39	She is a lovely girl. She wore a blue dress, and a pair of blue shoes. She had a pair of blue eyes, and a nice smile. She sat by me and we talked. She is a good girl. I like her very
+"Did anyone else come?'' ""A lot of people were there."" ""Really? Who else came?"" ""The  _ , the man with one leg, the woman without hair, the man with blue eyes, the man with broken glasses, and"	generation_40	"She took a taxi.
+
+Let us try to interpret these sentences. What is the difference between the first two sentences? The first sentence is an utterance about an event; the second is an utterance about something said. The first is a sentence of"
+She was wearing a blue dress. I think it fits her very well. I like the shoes she wears, too. And she had a big bag. It is nice. Helen was at the party, too. She was not wearing a dress.	Alice was very beautiful. She wore a green dress. Her hair was very long. She looked like a movie star. I couldn’t take my eyes off her. I asked her to dance with me, but she said no. I was very sad	generation_41
+She looked very pretty. I've never seen her wear so many rings. Alice and I talked a lot and danced a lot. At about midnight she went home. As I left, I saw someone come in. When I got to the door,	generation_42	"She bought a dress. She likes it very much. She doesn't like red wine. But her brother likes it."" ""Oh, I'm sorry. I think you're Bob's sister. Bob likes red wine and he came to the party last"
+"She was so tired that she went home early.
+He went to the party, but he didn't go to the reception.
+He will go to the party on Saturday."	She was dressed in a nice yellow dress. She made me laugh all night. She is a very funny girl. I think she's also a very nice girl. I feel very lucky to have met her. I hope I can see her tomorrow,	generation_43
+generation_44	"She was wearing a red dress. It made her look very beautiful."" ""I saw her in the park last Sunday."" ""She was with a tall man. He looked like a doctor. She was wearing a blue skirt and a white blouse. """	"Bob, Carol, and Dave went to the party. Carol and Dave didn't go to the party. Alice went to the party.
+A: Bob"
+I can't believe you didn't see her. She came in a beautiful dress. She looked so wonderful. I think she is the most beautiful girl in the world. She is so smart and funny. You should know. We are best friends.	She  came with Mary. They both  are my good friends. But I don't know them very well. Alice is from America. Mary is from England. They are students. They are in China now. They go to the same university .	generation_45
+Her boyfriend was there. She wanted to talk to him, but he just wanted to drink beer and talk to other girls. Finally, he said he was sorry for the way he’d been acting. Then, he went to sit with someone else.	She heard about a party on the Internet and wanted to visit it. But the party was on the eighteenth floor. Alice lived on the first floor. She knew it was dangerous, so she didn't go up the stairs. She took the lift	generation_46
+"She (wear) a new dress. It's beautiful. I like the dress.
+2. I (see) her yesterday. She was (stand) on the street. She was waving to me.
+3. I (meet) her at school"	"She went home after party. She had a good time last night."" ""Really? Did you drink a bottle of wine?"" ""No, I didn't drink a bottle of wine. I just drank a bottle of water."" ""You are still young"	generation_47
+generation_48	"She said she would be there. She even promised to bring some cupcakes. But she didn't come at all. So we went home without her. I was very surprised, because she always kept her promise. Then my sister said, ""Don't"	"She was on time. She had a red dress and high heels. She looked very beautiful. She danced with Jack. Jack said, ""Hi, nice to see you. You look great."" The music was great! Alice and Jack really had fun"
+generation_49	She told me that she had eaten a lot of delicious food. Alice is a good cook. She also told me that she had gone shopping in the morning. She bought some new clothes. In the afternoon, she went to the cinema. She saw	"Do you know Alice?
+
+He's so careless. He always forgets things.
+
+I've never heard such a silly idea in my life.
+
+She is a very diligent student. She always does her homework on time.
+
+I know you can do it."
+generation_50	She didn't know anyone there, but she didn't stay alone.  She talked with me for a while.  I was glad to meet her.  She told me that she liked listening to the same kind of music that I like.	She was in a blue dress. She looked beautiful. She danced with Frank for two hours. Then she had dinner with Helen. They talked and talked. Time passed quickly. After that, they listened to some music. Then they went home. They
+Do you know how she got here?  (Alice came in the door.  Alice is the one who came in the door.)  What do you think?  (Alice came in the door.  Alice is the one who came in	"She looked great in her new dress."" ""I'm glad you liked my dress. Macy's had a great sale last week. You should have seen the number of people at the mall last Saturday. It was harder to get into the mall than into"	generation_51
+generation_52	"She was beautiful.""?
+OPTIONS:
+- yes
+- it is not possible to tell
+- no
+
+A: it is not possible to tell
+
+Q: If We are all familiar with the expression, If you don't like it, don't"	She looked very pretty in her new dress. I like her dress very much. I think it's the most beautiful dress in the party. She bought it in a big shop. It's very big and nice. All her friends like her dress,
+"She didn't talk with anyone and went home very early. I don't think she liked the party. Question: What do we know about Alice? Yes or no, is the answer ""She didn't talk with anyone at the party.""?
+No"	And she met a lot of new people. She was very happy. She made friends with Alice. They talked about their studies. They all liked music. They often sang songs together  and played the guitar. They had a good time. When she	generation_53
+"Where is she now?
+  • Has Alice arrived at the party?
+  • Is Alice still at the party?
+  • Did Alice go to the party?
+  • Did Alice come to the party?
+  • Has Alice been to the party?"	She said her brother Jack was ill. He came to the party this morning, but he didn't stay long. He said he had a bad headache. What time did they come back from the party?  Question: _   was ill.	generation_54
+generation_55	"E. She didn't go to the party.
+A: A"	"She was wearing a beautiful blue dress. She had her hair in a big red bow. Tom said to me, 'Wow, Alice is looking hot tonight.'
+A: Alice is a girl."
+"She was very happy to see the new look of the house and the lovely party. She was so happy that she couldn't help  _  to thank me. So she gave me a big hug. ""Thank you. Alice! And you gave"	generation_56	"She was wearing a beautiful dress, and everyone was looking at her. And Frank was one of them.
+
+But the truth was that Frank was in love with Alice--and he was very sad because he thought Alice wouldn't care about him.
+
+One day"
+generation_57	She is a beautiful girl. I like her. We have the same birthday. We are both thirteen years old today. Alice has two sisters and one brother. Her father is a doctor and her mother is a teacher. Her father works in a hospital	She was wearing a blue dress, and her hair was blond. She was a little bit fat. Her shoes were big. She said that her mother liked a small dog because she thought it was cute. But she didn't know why she said that
+generation_58	"She was wearing a ____________ dress, and her hair was ____________.
+a. little, long  b. little, short  c. little, medium  d. medium, long
+
+Fill in the correct form of the verb:"	She was wearing a blue dress. She was not beautiful, but she was friendly to everyone. She spoke to David and Oliva. She sat next to Robert. He likes her very much. But she likes Tom. Tom likes Kate. Kate likes
+generation_59	"And she ate all my cake
+while I was sleeping. How mean! Now, I have no cake left. I'm so angry
+with her. I'm going to get her tomorrow and fight with her. I'm going
+to beat her"	"She brought me a present. I was happy to see her.""
+
+""I had a good time at the party. I think Alice enjoyed it, too."" These sentences are similar in meaning, but the first sentence is a present tense sentence, while the second"
+"She had a very good time and danced with several boys. She doesn't know when she will go to the dance next weekend.
+What is the value of A in these two sentences?
+A: 1"	generation_60	"I heard she was going to be at the party. She is very friendly and easy to talk to. I had a nice time with her.
+
+  • 1
+    How about ""Alice only came to the party last night"".?
+    –"
+She wore a beautiful dress and looked very gorgeous. All the guests couldn't help admiring her. But she went home in tears. Why? It was Henry's birthday yesterday. Alice got a brand new car from her father for Henry's birthday.	generation_61	Now, when you analyze this sentence, you will find out that it doesn’t really have a subject at all. The sentence doesn’t really have a proper subject and a predicate. And it doesn’t have a proper predicate either. But there is
+generation_62	She got very drunk and did something terrible to the host's pet poodle. Now, she's writing a letter of apology to the host. And I just wrote the first paragraph of the letter. Now, I need to write the second paragraph.	"Alice is the best friend of Mary.
+Output: Yes"
+"But her friends weren't there.  Alice asked, ""Where are Jane and Lily?"" They said, ""They can't come."" Then Alice said, ""Oh, Jane has a new dress. Lily has a new watch. They must be busy"	generation_63	"She was dressed in a white dress and a pink hat on her head. She looked like a beautiful flower. She smiled at me and said, ""Hello, Bob. I haven't seen you for a long time."" I said, ""Yes,"
+"It was so cold that she had to wear a coat. She danced all night. And she was very tired. She went home and had dinner. She had a shower and went to bed at half past seven. She slept well.
+[A]:"	"She brought a cake. Her husband likes eating cake. But they have no children.
+(A) The cake is good.(B) She is angry with her husband.
+(C) She is going to the cinema.(D) He doesn't like the cake"	generation_64
+generation_65	She was wearing a new dress. I like the new dress. You look very beautiful, Alice. Thank you. You are so kind. I got  it at  the market. It cost  me  $60. It's very nice.	She was late, because she worked late.  She had a lot to do.  She was tired when she got to the party.  She was very hungry, because she didn't have dinner.  She got a big plate of food
+I never know her before. But she is very friendly. She has a lot of friends. She is not tall, but she's very beautiful and has long hair. She likes wearing a dress. She speaks good English. I like her very much	generation_66	She was a lovely girl. She was wearing a beautiful dress. She was carrying a small red bag in her hand. There were some apples and oranges in it. She was tired when she came. She was not very hungry. She had a lot
+She had a new dress and a new pair of shoes. The party was boring. It was her friend's birthday party. It was a birthday party for her best friend, but it was really boring. The birthday cake was nice. It was chocolate	She is very beautiful. She has long hair and blue eyes. Her hair is yellow and she has a round face and a small nose. She is five feet tall and she is 25 years old. She works on a farm near her house.	generation_67
+generation_68	The party was a very big one. There were so many people that I didn't know at the party. Some of them were teachers, but most of them were students. The music was too loud. I didn't like it. I think I	"She doesn’t like parties.”
+
+This is a good example of using the simple past tense to describe an unfinished action from the past. Note that we use an auxiliary verb (in this case ‘came’ as opposed to ‘come’) to indicate a change"
+generation_69	She wore a beautiful dress. It was a long blue dress. It had short sleeves. The dress had a lot of flowers on it. It was a party for her friend, Linda. Linda had a birthday the day before. Alice bought the dress	She was the most beautiful girl I had ever seen. I invited her to dance with me, but she refused. She said that she didn't know how to dance. I was very surprised,because dancing is as easy as walking. I told her
+	"She took too many drinks. Then she drove herself home. She was caught by the police just because she was drunk. Her car was taken away. She should pay 3 500 dollars for it."" ""Oh, no!"" cried Mandy."	generation_70
+generation_71	"She didn't come with Bob, did she?
+I don't think so. But maybe she did.
+OPTIONS:
+- yes
+- it is not possible to tell
+- no
+
+Answer: it is not possible to tell
+
+
+Sentence 1:"	"She likes the party very much."" or ""Alice came to the party last night. She like the party very much.""?
+****
+Answer:
+yes
+
+
+Question:
+That was only one instance, the expert continued, and besides, the rule is different for"
+generation_72	"Did you meet her?
+I did. She was very polite. How about Jake?
+You know, Jake is always late. He wasn’t here till 10 o’clock.
+He was late, wasn’t he?
+
+The above examples are very common"	"It was awesome!
+
+The first time I met Jim he was mad at his brother, which was weird.
+
+It seems like Alice is very happy with Bob.
+
+I heard Alice and Bob got married.
+
+Alice always tells Bob good news.
+
+I heard Alice and"
+"She met John. John looked very handsome. She smiled at John and he smiled at her. She danced with John. It was a very good dance. She had a good time. Then she went home early. She slept well that night.
+A"	"She didn't bring any gifts. She wore a red dress. She didn't have a drink and she didn't eat any food.""
+
+As you can see, I use a lot of pronouns in the previous example. That's because I don't"	generation_73
+"She is so beautiful. She dances with all the boys, but she doesn't dance with me. I feel very sad. Jack:"" Does she know you? Maybe she likes you. Maybe she doesn't come to you because she's shy. I"	She was beautiful in her red dress. I really liked the way she smiled and talked to everybody. She was really friendly. I wish I could have a chance to talk with her more. But it was a really crowded party. There was music and	generation_74
+"She looks so beautiful. She is wearing a red dress. And her hair is yellow. Her bag is blue. Her shoes are white. She has a watch. It's expensive. She is the most beautiful girl in the party.
+
+Answer: b"	"She brought a cake and some wine. 
+
+Alice and Bob talked about movies all night. 
+
+Alice and Bob talked about music all night. 
+
+Alice and Bob talked about politics all night. 
+
+Alice and Bob talked about food all night. 
+
+Alice"	generation_75
+She told me that she would never go to a party without me. I am her best friend. We have been best friends for four years. We are in the same classes. We also have lunch together every day. We like the same teachers and	generation_76	"She came very late. She came at 10 o'clock. 
+Question: What time did Alice come to the party last night?
+
+A: 10 o'clock.
+****"
+generation_77	"She was wearing a new dress. She has been wearing it for two years now. It looks great on her. I don’t know how she does it. I would have been sick and tired of it after only six months.”
+
+The dress is the"	"She looked beautiful in a red silk dress. Her long hair was just like a red cloud in the sky. I was very surprised when I saw her. I said to her, ""You look like a star. You must be a movie star."""
+generation_78	"She saw the other guests and greeted them all.
+2) It was a big wedding. The bride and the groom were both so happy and excited. 
+3) The twins are very cute. They both have blond hair and blue eyes."	She didn't know anyone, so she stood in the corner, feeling shy and useless. She put her handbag down on the floor and when she wanted to have a cigarette, she couldn't find it. She was very upset. Suddenly, an
+generation_79	"She saw a group of people over there who were wearing masks. She was interested in them, so she went over and asked, ""What are you doing?""
+""We are playing a game called 'Find the Masked Person',"" said a man.
+""That"	She looked beautiful in her new dress. She was the most beautiful girl at the party. Everyone wanted to dance with her. She danced with Peter first. Then she danced with Paul. And she danced with David three times. David is the boy she
+"She didn't have a date, and had to come by herself.  The only people who didn't come were the guys who had a date.
+
+The above examples show that a singular subject is used with a plural verb after a singular subject."	generation_80	"She looked very beautiful in a new dress. I didn't know her at first. She was standing all alone in one corner . So I went to say ""Hello"" to her. We began to talk. I found that she knows most of the"
+She arrived at 11:00 pm. She had a wonderful time there. She had dinner and danced. She didn’t leave until 2:00 am. She went home by taxi. She gave the taxi driver a $20 bill and told	generation_81	"(not in the past)
+  7. I haven’t seen him for 2 years. (not in the past)
+  8. I have played tennis since 2008. (not in the past)
+
+When we use the present"
+generation_82	She looked very beautiful. She wore a beautiful low-cut green dress. Everyone stared at her as she entered the room.  Mrs Smith, an old woman, stood up and walked towards Alice. Mrs Smith was blind. She had never seen Alice	"2. Only Alice came to the party last night.
+
+
+(1) Only Jack (and Bill) arrived on time. (2) Jack and Bill were the only ones who arrived on time.
+
+Here, the conjunction and is nonrestrictive,"
+generation_83	She sat next to me. She is very beautiful and friendly. Jack is a teacher. He is very funny. I like his class very much. I also like basketball and soccer. And I like playing games on my computer. I'm good at	And the rest of us went to the beach. B: I thought they all went to the beach. A: No, only Alice went to the party. C: Oh, I see. I didn't know they all went to the beach.
+generation_84	"She was the only one of us who was not drunk.
+
+The boy who came to the party last night is the only one of us who wasn’t drunk.
+
+The first sentence is the shorter one, but the second sentence is more clear."	She was looking very fashionable in a beautiful dress and high heels. But she looked rather nervous. I wondered what was the matter. When I talked to her, she told me. She had a terrible problem. She had fallen in love with a man
+generation_85	She was wearing an orange dress and a black hat. She brought some cake to the party, too. Bob was there, he was in his green jacket and blue jeans. He talked with the host a lot. I came there with Christina. She	She was wearing a red dress. She put on some makeup. She looked really beautiful. She was a little late. She arrived at 7:00 pm. I was a little surprised. I asked her where she had been. She said she
+generation_86	She was very shy and had her head down all the time. At about half past seven, she ate her supper. Then she played the piano for us. She sang some songs and they were really beautiful. Everybody was very happy and praised her.	She looked fantastic in her new dress. She got a lot of compliments on it. And she was very friendly and outgoing. She really made the party come alive.  I'm so glad she came. I hope she'll come again next week.
+generation_87	She saw some girls wearing different clothes. They looked so cool. She wants to look cool, too. So she bought a skirt and a T-shirt. She also bought two pairs of high shoes. She thought they were very comfortable. She was happy	This is her first time to come to our party. She is very friendly and polite. She wore a beautiful dress. She danced with me at the party. She is a very nice girl. I think she is a good friend. I am sure
+She won the first prize. You should think that she is very happy. But she isn't happy at all. You see, her best friend Alice didn't come to the party. _ Question: _   is Alice's best friend. - Amy	"2. It was very cold, but just Alice came to the party.
+
+In other words, the difference between the two sentences is whether Alice is the subject of the sentence or not. If she is, then it's the first sentence. If"	generation_88
+"She didn't see me here."" ""You are right. I'm not Alice."" ""Oh! You are Janet. You look so beautiful. I can't believe it!"" ""Thank you. And you are Jerry."" ""No, I'm not"	generation_89	She was so tired that she fell asleep in a chair after dinner. At midnight, when she woke up, she had to leave. But when she got outside, she couldn't find her car! 'I must have more wine' she thought.
+generation_90	She had a great time. She danced a lot, and she met a lot of new people. It was her first time at a party, and she was a little scared at first. But the music was so good, she danced all the time	She is so beautiful. She is tall and slim. She has long blond hair. Her face is thin and white. She is 25 years old. She is a nurse. She works in a hospital. She's a little serious. She knows
+"She wore a red dress. Everyone thought she looked beautiful.
+
+If a verb is in the past participle form, it is in the passive voice. The subject of a passive voice sentence is the person or thing acted upon. The verb “to be"	She doesn't like to sit alone, so I asked her to come. It was really a surprise she came! She is a great girl. She is funny, friendly and gorgeous. We all like her. But I think she is sad these days	generation_91
+I took her home after the party. I went home by taxi, but Alice went home on foot. Mary and Betty also went to the party. Mary came to the party by bus. Betty went to the party by car. But both of them	"She was wearing a new blue dress. She is an English teacher. And she is the best teacher in our school. Every student likes her very much.
+
+Alice is a good teacher. She is very kind to us. She is often very busy."	generation_92
+She brought a box of cakes with her.  There was only one piece of cake in the box. Jim ate it. Alice said nothing about it. But she didn't eat anything. She sat in a chair, and began to cry. The	generation_93	She is a very friendly person. She talked with me for an hour. We talked about a lot of things. She is very beautiful and has a nice smile. Bob always wears a blue coat. He is very tall and has short hair. He
+generation_94	"I feel so lonely. I don't have any friends to talk to. She is so popular. Everyone likes her. She is so cute and friendly. I want to be like her. I hope I have a friend like that. 
+ Character:"	She saw a girl alone in the corner. She was very beautiful. The girl looked very sad, Alice took her to have a drink. They talked and laughed. As time passed, they became good friends. At midnight, they had to say goodbye
+She was a little late because she took the wrong bus. She never takes that bus, but she wanted to save a little money. When she was downtown, she went into a bank in the wrong place, and she had to ask a policeman to	generation_95	"She's a very nice person, but a little shy. She didn't say much."" ""It was very good of her to come,"" said Mrs. Brown. ""I'm sure you will like her. She's been to America many times."
+"The people there were quite friendly. They were having a great time. Tom was introduced to Alice by her friend. He asked her what her favorite subject at school was. She replied, ""Math, I guess."" ""Oh, yes,"" said Tom"	"She’s really great.” As an adjective, this use of great is informal, and not everyone agrees that it’s grammatically correct.
+
+But as a noun, great is a formal way to describe a very important person, as in “the great William"	generation_96
+generation_97	"She didn’t know anyone there, but she wasn’t shy. She danced with everyone and had a great time. She was going to the party at the cinema today, but she couldn’t go because she had to study for an exam.
+
+5."	She's from the same school as I am. She's a very nice girl. She has long black hair and a round face with a button nose and big eyes. She's tall and slim .She often wears a dress. She looks like a
+generation_98	"I was surprised when I met her. (was surprised) She didn't tell me that she was invited. (was invited) I didn't see her at the party. (was at the party)
+
+
+I am going to visit my sister in the"	"She is beautiful. John came to the party, too. He is funny. Mary came to the party late. She is clever. Who isn't at the party? A) Peter B) Alice C) John D) Mary
+A
+
+
+Q"
+generation_99	Mary didn't come. The party ended around midnight, and Alice was the last to leave. The party was not over until nine thirty. I don't remember the last time I saw him. He walked out of the house. She didn't come	"No other friends came with her. All the other people came on their own. How many people came to the party?
+A: 8"
