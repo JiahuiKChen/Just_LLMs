@@ -1,0 +1,317 @@
+generation_rank	just_response	wo_just_response
+generation_0	It is a three dimensional object but is still a manifold. An example of a torus is the surface of a donut. The surface of the donut is two dimensional. If we were to cut open the donut and lay it out flat	"With a little imagination, you could see that the middle of the torus is a smaller torus. So the torus is a ""dual torus"". The picture below shows the 2D torus, but on the left side of"
+generation_1	"It’s a surface of revolution.
+
+Now, what is a surface of revolution? A surface of revolution is a surface that you can make by rotating a curve around an axis. There are many examples of surfaces of revolution. For example, if you rotate"	"It's like a bagel, but in 3D.
+
+A torus is a 3D donut. It’s like a bagel, but in 3D.
+
+We’d like to be able to identify the parts of this shape"
+generation_2	But not any old donut. It's a donut made from a surface of constant width. That means you could roll it along the ground without it tipping over. In fact, a torus is the only surface with that property.	"It has a central hole in it.  You can make your own torus by attaching the two ends of a plastic pipe and then wrapping a length of string around it.
+
+If you have a torus with some string attached to it, you"
+generation_3	"It has a hole in the middle, and the sides are all connected in a loop, so it’s not a sphere.  If you want to be fancy, the hole in the middle is called the core. 
+
+We make a torus"	It is a surface of revolution. You might have seen a picture of a torus in the movie “Contact” when Jodie Foster’s character is in the pod preparing to go through the wormhole. You can make a torus out of a
+generation_4	It can be expressed in terms of a circle and a radius. \begin{align} \mathcal{T} = \mathcal{F}(A, \frac{1}{2} \pi) \end{align} In this case	"If you're like me, you should have a donut in front of you right now. If not, get one. Go ahead I'll wait.
+
+If you have a donut in front of you, now, you're going to need a"
+generation_5	The torus has two “hills” and two “valleys”. This is unlike a sphere which has just one hill and one valley. This is reflected in the fact that the Laplacian on a sphere is just the scalar part of the	We can fold two of the sides in the donut to make it into a square. There are two ways of doing this, and they give two different squares. Can you see how these squares would be the same as the two squares we made from
+generation_6	Torus’ are used in this course because they are easier to work with than a sphere because the spherical points can be mapped onto a torus without changing the distance between any two points. This allows us to take a sphere and break it into a	Because a torus is a manifold, it has a well-defined notion of a tangent vector on it. A vector field on a manifold is a function which takes each point in the manifold to a tangent vector at that point. In this sense, a
+generation_7	The surface of the donut can be made of two circles that are linked together. There is a simple formula for the linking number of two circles, one inside and one outside of a torus. It is the total number of times the inner circle	If you took a ring and stretched it out into a circle and then bent the circle back around and joined the ends together, you'd have a torus. The torus is a shape with a hole in the middle. What if we could walk
+generation_8	"Imagine a donut covered in sand. Now roll the donut left and right inside the sand. The shape of the sand will trace out a torus.
+
+A torus is a donut.
+
+A torus is a donut.
+
+A tor"	"The donut is a torus. The most classic model for a torus is a circular object with a hole in the center. There are lots of other ones. One is to take a slice of a cylinder.
+
+A cylinder is a product of"
+generation_9	You can make a torus by taking a rectangle and gluing the two sides together, making a figure-eight. Now, if you draw a straight line on the inside of the donut, you'll find it crosses the figure-eight twice. That	"I don't know what you mean by ""circular"". – Nate Eldredge May 16 '12 at 15:25
+I mean that there are no $S^1$ pieces, only $S^2$ pieces"
+generation_10	But it is not just any donut. It is a specific kind of donut, one that is always the same distance from its center. Think of the hole in a donut as a tunnel, and the outside of the donut is the	"It is a 3D object that looks like a donut with a hole in the middle. In other words, it is a solid shape with a hole in the middle, like a real donut or inner tube.
+
+There are many types of"
+generation_11	It is a shape that you can make out of a piece of paper by making a hole in it and then connecting the two edges. A ring is also a shape that you can make out of a piece of paper by making a hole in it,	"A donut is a torus. How do we know that?
+
+There are two ways to think about this. One is to draw the torus in three-dimensional space with some of the “hidden surface” showing, and observe that it is top"
+generation_12	It's a shape with a hole in the middle that makes it look like a donut or a bagel. But in math, we can think of a torus as a flat, two-dimensional surface that gets twisted and rolled up into a three	"It has a hole in the middle.
+
+A torus is a surface of revolution formed by rotating a circle about an axis coplanar with the circle, but not contained in it. If the axis of rotation lies in the plane of the circle,"
+generation_13	It has one hole in the middle and it's nice and squishy. You can think of a torus as a rubber band stretched around a circular object. The rubber band can stretch and compress, but it's still the same rubber band.	It’s the shape you get when you take a circle and glue two edges together to form a ring, and then glue the ends of the ring together to form a donut. The surface of a torus has only two sides, unlike a sphere
+generation_14	"I don't think you can make one without a machine shop).
+
+Here's an example of what a torus can look like:
+
+Here's what the 2D cross section looks like:
+
+What would be the best way to create a torus on"	"In math, it is a shape with a hole in the middle. You can make a torus by taking a long strip of paper and rolling it into a tube, then bending it around and connecting the ends to form a loop.
+
+A torus"
+generation_15	"A ""torus knot"" is a loop that wraps around the torus in some way. A torus link is a bunch of torus knots that are clumped together.
+
+For example, a trefoil knot is a torus knot. It"	It is the surface of a doughnut. With a little imagination you can imagine a doughnut with a hole in the middle. That's a torus, and it's a 2-dimensional object (like a circle, which is a 1
+generation_16	"It is called a torus because the shape is similar to a doughnut.The donut is made of the same dough as a bagel. And bagels are tori.
+
+The Torus is an ancient symbol which means the “circle of life"	"How can I get a surface to look like a torus? I know that I can use the torus function, but I don't want to use it. I would like to know how to make a torus with a different shape.
+
+I"
+generation_17	"It's like a ring that's been squished together so that the ends meet. When we talk about an ""oriented torus,"" we mean that we can tell which way is ""in"" and which way is ""out."" Think of it like"	"The basic idea is to generate a torus from a box. Start with a cube, then divide it into 6 pieces as shown in the figure below:
+
+And then glue them together. To make it easier to see what happens, I've used"
+generation_18	To make a torus, you start with a disk, identify opposite edges of the disk, and then glue the edges together (with a twist!) to make a doughnut-shaped surface. In math language, we would say that we take the disk	The only things that make it different from a circle is the edge of the circle is now a circle. So, how do we build it? We have a circle with a hole. We need to parametrise it. How do we do that
+generation_19	It is topologically equivalent to a sphere with a handle attached. Let's view the surface of the sphere as the equatorial disk of a torus. The set of all points along the circle that are on the surface of the sphere forms the boundary	"– user12477 Dec 6 '14 at 15:04
+• A donut is a torus. – user12477 Dec 6 '14 at 15:13
+• @user12477: You are correct"
+generation_20	A torus can be thought of as a surface of revolution obtained by rotating a circle in three-dimensional space about an axis coplanar with the circle and that does not intersect it. If the axis of revolution lies in the plane of the circle,	"The most famous torus in the world is the London underground train. It is a torus because it has two “layers” (tracks) but only one “wall” (side).
+
+If you look at the diagram above, you can see that"
+generation_21	It's a shape made by taking a flat rectangle and bending it into the shape of a donut. In math, we can describe this shape using something called polar coordinates. Polar coordinates are like a special kind of map that tells us where we are	In the context of computer graphics, a torus has a circular hole in the middle.  The following is an example of a torus with a radius of 1, a height of 2, and a minor radius of 0.
+generation_22	It has a hole in the middle, or a handle, making it a 2-dimensional shape with one more dimension than a circle. It's like a 2-dimensional object that can be stretched or squished into an actual 2-dimensional space,	It has a circular hole in it, and it is usually defined by a circle which is the outside boundary, and some center of rotation which is the inside boundary. A torus has a tube shape, and in the video game Quake, it
+generation_23	"It's a shape in 3D space that has a hole in the middle, like a bagel but with a smaller hole in the middle.
+
+A klein bottle is a bottle shape in 4D space that you can't draw in 3"	"If a torus has the center of the hole in the top, then the torus is oriented by this formula:
+
+$$\sin(x) + \cos(y) = 0$$
+
+The above formula is the same equation as the formula for"
+generation_24	"And a torus is a 3D object that is the surface of a 4D object. And so on.
+
+When I was in college (in the 1980’s), I was taught that you can’t understand more than 4"	In a 3D world, you can make a torus by revolving a circle around an axis that’s perpendicular to the circle’s plane. You can get a torus by rolling a circle around a circle of the same radius, or by revolving
+generation_25	"It is a surface generated by revolving a circle around an axis coplanar with the circle. A torus, much like a sphere, has a genus of 1.
+
+Surface of revolution[edit]
+
+A surface of revolution is where a 2"	"It is not a ring. It has a hole.
+
+The surface area of a torus is 2π²r² + 4π²rs.
+
+The volume of a torus is 2π²r³ + 4π²"
+generation_26	"A Möbius strip is a strip that has only one side and one edge.  Here are some pictures.  See if you can make your own.
+
+Monday, 25 February 2013
+
+The Three-Body Problem"	It is a surface of revolution generated by rotating a circle around an axis coplanar with the circle, but not intersecting it. A torus is a type of surface, and in common usage, the term refers to a particular instance of such
+generation_27	It’s a surface of revolution, and you can make it out of construction paper and tape. If you want to be fancy about it, you can get a piece of paper and roll it into a cylinder, and then tape the ends together so it	It’s a shape with a hole in it. See if you can find a torus in your house. It’s not just donuts. Anything that has a hole in it is a torus. Look at the picture below. Do you see
+generation_28	"We can prove that, without using any fancy math. Just imagine cutting a donut along its horizontal axis of symmetry. Then, you have two half donuts (or ""semidoughnuts""). Put them together, and voila, you have"	"A sphere is a ball. A torus is a donut. A ball is a sphere.
+
+A sphere is a ball. A torus is a donut. A donut is a torus.
+
+A ball is a sphere. A don"
+generation_29	The torus exists in a 3-dimensional space, so it has three dimensions.  The torus’ center is in the center of the donut hole, and its edge is the curve you see around the	"It has a hole in the middle. A sphere is a ball. It's a closed surface without a hole. –  Ted Shifrin Oct 24 '13 at 11:08
+I don't have a problem with it. I"
+generation_30	"It has a hole in the middle.
+
+The torus is the simplest shape that has a hole in it.  It is just a doughnut.
+
+A cylinder is shaped like a long thin tube with two circular bases.
+
+A cylinder is a"	"It's like a circle in 3D space. And we can represent it with a complex number. This complex number is z = r + iθ where r is the radius and θ is the angle in the complex plane.
+
+So, if"
+generation_31	An Euler characteristic is a topological invariant, which means it doesn't change when the surface is bent, stretched, or deformed, as long as it's not cut or torn. We can calculate the Euler characteristic of a torus by counting the	"It has a hole through the middle. A circle is a torus with one dimension less.
+
+A Klein bottle is a torus with no hole. It is the same on both sides. If you put it on a table and look at it from"
+generation_32	But why does this torus have the same properties as the torus on page 2?  This is because they are both projective planes.  You can think of the surface of the torus in the video as being made up of	A torus can be described as a circular band of paper twisted and joined together at the ends. It is a surface of revolution of a circle around an axis coplanar with the circle, but not passing through its center. A torus can
+generation_33	"It has a hole in it. It is possible to have other kinds of holes, but the torus is always a donut.
+
+The way you can tell if the torus is a donut is by looking at the hole. If there is"	It has a finite number of holes. If you take a sphere and attach handles to it, then the number of handles is the number of holes. A two-holed torus has one handle. A three-holed torus has two handles.
+generation_34	It's a 2-dimensional surface in 3-space, that is, it's a shape that you can fill with paint and then make a solid donut out of, without any thickness to the paint. It's defined by a center point and	Our 4D space is like a donut. In the center of the donut is a hole. It is “hidden” from our perspective. We can’t see it. It is “curled up”. We can’t see the edge
+generation_35	It's a shape that's a little bit like a circle, but instead of being flat, it wraps around in three dimensions. You can make one by taking a loop of string and gluing its ends together to form a circle, then bending that	"It has no boundaries.
+
+A torus is a donut. It has no boundaries.
+
+A torus is a donut. It has no boundaries.
+
+A torus is a donut. It has no boundaries."
+generation_36	It's a shape that looks like a circle drawn around a circle, whose inside and outside are the same surface. The reason it's interesting for a generalization of the 2-sphere is that it has a topological dimension of two (like	"A torus is not a sphere.
+You see, it's a sphere, and it's a torus.
+
+A sphere is a blob, and it's a torus.
+A sphere is not a torus, and it's a torus"
+generation_37	You can imagine the donut exists in a 3 dimensional space. I can also imagine the donut existing in a 2 dimensional plane. The donut in the plane is a 2 dimensional figure, but it also has 2 more dimensions	A sphere is a ball. A Klein bottle is the surface you get when you take a sphere and glue its equator to itself in a perpendicular direction. A real projective plane is the surface you get when you take a sphere and glue together the
+generation_38	There are two kinds of tori, depending on whether you imagine the donut hole to be on the inside or the outside of the donut. The inside donut has a center, while the outside donut does not. The math of the	A sphere is a ball.  A cylinder is a rolled-up sheet of paper.  A cone is a paper cup.  A cube is a box.  A rectangular prism is a box for which the six faces
+generation_39	A torus is a three-dimensional object that looks like a donut, or a bagel. It's a shape that you get when you take a circle and bend it around so that the ends meet. In math, we often use the symbol	It's a shape that can be made by taking a square sheet of paper, twisting it and then joining the edges together. The surface of a donut is an example of a torus. A torus can be obtained by rotating a circle about
+generation_40	It's the surface you get when you take a tube of dough, bend it around, and stick its ends back together. As with any surface, there are two ways to make a torus: you can start with a rectangle and bend each pair	"(If you stretch it out flat, it's a circle.) $\endgroup$ – Arthur Apr 25 '17 at 16:03
+  • 1
+    $\begingroup$ @Arthur This is true, but you can"
+generation_41	One that has a whole in the center. The torus is a donut with no hole in the middle. The torus is a surface with the topology of a hollow sphere with a single hole (a shape like a coffee cup). The tor	In order to get a donut to intersect itself in the way you want it to you need to use a loop (A loop is a curve which runs around the torus once and meets itself). This can be done with a trefoil knot.
+generation_42	It has a hole in the middle. The hole is about the same size as the circle it is on top of. I wanted to see what happens when you add more and more circles on top of the donut. I tried to make a movie	"An annulus is a ring.
+
+share|improve this answer
+
+Your Answer"
+generation_43	"Imagine taking a circle and joining two circles together. The result is a donut shape. In mathematics, we call this shape a torus.
+
+Now, let's think about coloring this donut. We want to color each point on the surface of"	"It's a circle in three dimensions that's been twisted around so that its ends touch. It's kind of like a circle that's been twisted around so that its ends touch.
+
+This is a torus:
+
+And this is a torus whose ends"
+generation_44	It has a hole in the middle. A surface of revolution is when you take a curve and spin it around an axis. In this case, we're taking a circle and spinning it around the y-axis. This means that every point on the circle	"– lhf Dec 11 '11 at 0:32
+lhf, you're right about the torus, but I don't know the name of the thing I'm looking for. But I'm pretty sure it's not a"
+generation_45	But we're going to use the torus to model a sphere. To do this, we're going to use the torus parameterization that maps the surface of the sphere onto the surface of the torus. I've shown a sphere mapped onto	The Torus is the set of points in 3-space that are a fixed distance from the center of a circle. In other words, a torus is a surface of revolution of a circle in a plane about an axis coplanar with the
+generation_46	"You can think of tori as a doughnut shape that can be twisted and turned in various ways. The torus has a center point, a hole in the center, and a shape around it.
+
+A torus is a donut. It"	"I mean, I don't know how else to describe it. In the game Minecraft, there is a block called the ""torus."" I don't think that it's a torus, though. A torus is a donut. A"
+generation_47	"You know what a donut looks like so you know what a torus looks like.
+
+And now you know about the torus.
+
+Other cool torus facts
+
+It's not all donuts and coffee cups. This is a cool 3D"	Consider the square lattice of R^2 equipped with the angle measure as the metric. Any open set is path-connected, topologically equivalent to an annulus. Any non-constant Lipschitz continuous function on a square annulus is not uniformly continuous
+generation_48	Take a piece of paper, twist it around a bit, then join the two ends together. The resulting shape is a torus. Mathematicians love tori because they are very symmetric. They have many symmetries. In fact, they have	It is made of a surface that is obtained by gluing together two discs with a tube.  The gluing is done by identifying opposite sides of the discs and of the tube.  A disc is a surface that is obtained
+generation_49	"It is a three-dimensional object with a hole in it. We can bend a long, slender rectangle of paper into the shape of a donut, as shown below:
+
+The rectangle is the ""dough"" for the donut. We call the"	They are made from a torus, which is essentially a tube of dough that has been twisted and then joined at the ends. The result is a donut shape. This is the shape of a torus, and it can be found in many
+generation_50	"In the 1800s, Augustin-Louis Cauchy, a French mathematician, wanted to know how many holes such a torus could have. He proved that a torus could have zero or one hole.
+
+But you can also"	"It is a surface of revolution obtained by revolving a circle about an axis coplanar with the circle. The axis of revolution need not pass through the circle's center. The term ""ring torus"" is sometimes used when the ring is not centered"
+generation_51	It's a surface that's topologically equivalent to a sphere with something tied through the hole. We can build such a surface by taking two circles and gluing them together. One circle is the base circle and the other is the hole. I've	"Tori are donuts.
+
+A group is a set with a binary operation.
+
+An element of a group is an object with a binary operation.
+
+A group of elements of a group is a set with a binary operation.
+
+That’s all for now."
+generation_52	"It's a 3D shape that you get when you take a circle and bend it around in a loop, and then bend it around in a loop again. You can see why it's called a ""torus"" when you think of it"	A plane is a flat sheet like a piece of construction paper. When you glue a flat piece of paper around a donut to make a Moebius strip, you stretch the paper so that it becomes wrinkled. This wrinkling is called the
+generation_53	It is a shape that looks like a donut. It has a hole in the middle. If you could make a torus out of Play-Doh, you would roll one end of the Play-Doh into a circle, and then roll the	You can get a torus by taking a circle, and wrapping it around a cylinder of the same radius. If you make the radius of the cylinder smaller than the circle, you get a ring. If you make it bigger, you get a don
+generation_54	It is a two-dimensional object that we can think of as being made out of a sheet of rubber, stretched out and twisted around to form the shape of a doughnut. It is a curved surface, and the distance around the hole in the middle	"It is a surface that is formed by revolving a circle around an axis which is coplanar with the circle but does not intersect it. The axis of revolution may lie inside the circle (as is the case with a ""ring donut"" or"
+generation_55	The other way of thinking about T^3 is as a cube with opposite faces identified. If you have a torus, you can get a cube by taking a loop around the hole in the torus and then twisting the two ends of the loop	"This is a torus twisted slightly so it looks like a cube.
+
+A torus is a donut. This is a torus twisted slightly so it looks like a cube.
+
+The problem with the torus is that the inside isn’t connected to"
+generation_56	Let’s say you cut a donut open at the top and bottom and lay it flat, like a thick ring.  Now imagine a small square shape cut through the middle of the ring.  The two sides of the square are the circle	It's a ring doughnut. This is a 3 dimensional shape. But in a way, a torus has more than 3 dimensions. And it's the very next step in a sequence of shapes that start with the point, and grow
+generation_57	The torus was my favorite shape in math class when I was in high school. It’s a shape that you can wrap around itself and you can just keep going and going. I particularly like it because I think it’s pretty and I think it	"It's not a bagel, which is a torus with a hole in the middle.
+
+As a topological space, a torus is a circle (or sphere) with one of its edges identified to itself. That is, it's a"
+generation_58	It is a shape with a hole in it. It is generated by revolving a circle about an axis coplanar with the circle but not intersecting it. The axis of revolution must lie in the same plane as the circle, but not in the	A hypercube is like a cube, but its corners are also corners, and its edges are also edges. A hypercube is hard to draw because you have to draw it in 3D to make sense. A tesseract is like a hyper
+generation_59	A prism is a box. A cylinder is a tin can. These are very primitive shapes, but it is amazing how much you can do with them. The difference between an artist and a scientist is that the artist doesn't think about the underlying structure	If you look at the torus in 3d you can see a hole in the middle. What if you looked at it in 2d? All you would see is a circle. In fact, you only need 1 dimension to describe
+generation_60	"The two holes in the donut are the north and south poles. The two circles that encircle the donut are the equator. The picture on the left is the north pole, which is the top of the donut.
+
+Torus is"	If you attach the ends of a circle together, you get a doughnut shape. The outside edge of a torus is a circle, and the inside edge of a torus is a circle. Take a look at the picture of the torus
+generation_61		It is a surface of revolution generated by rotating a circle around an axis in its plane. The equation of a torus in Cartesian coordinates is defined as: \((x^2 + y^2)^2 + z^2 = r^2
+generation_62	You can think of it like a circle that's wrapped around into a tube, and then the ends of that tube are connected to form a donut. So if you imagine a circle, and you wrap it around into a tube like this, and	A sphere is the surface of the Earth. A cylinder is a roll of paper. A cone is an ice cream cone. A Möbius strip is a loop of paper with one side and two ends. A hypercube is a cube in four
+generation_63	We all know what a donut looks like, right? It is a hollow cylinder with a hole in the middle. A torus can be created by rotating a circle around an axis that is not through the center of the circle. This means that	"And we think of the surface of a sphere as the membrane of a ball. So the basic idea is to take the surface of a sphere and give it a torus-like geometry.
+
+
+Poincaré sphere
+
+But how do we do it?"
+generation_64	"You can think of it as a circle that has been bent around so that the two edges meet to form a ring. The hole in the middle makes it a torus. The torus has a boundary and an interior.
+
+The Möbius strip"	"It is possible to create a torus in 3D space as follows.
+
+  1. Place a cube at the centre of the world space.
+  2. Place a plane at the centre of the world space, and parallel to it"
+generation_65	"The circle along the outside is the surface of the donut, while the hole in the middle is the inside of the donut.
+
+Torus is a special type of doughnut
+
+A torus is a special type of doughnut. It is"	"The most obvious example is the torus inside a coffee cup.
+
+The surface of the torus is two-dimensional (it has length and width), but it has a third dimension, a hole through which you can pass a line. In fact, this"
+generation_66	It's a hollow 2D shape with a 2D hole in it, but it has 3D volume. A 2D slice through the center of the donut is a circle, but a slice through its side is a straight	"A torus is a 2-sphere embedded in 3-space. A torus is a flat surface embedded in a higher dimensional space.
+
+A torus is a surface with a hole in it. A torus is a surface with two holes"
+generation_67	If you think of a torus as the surface of a donut, then there are two ways that you can make a hole in it. You could cut a hole through the donut, or you could cut a hole in the center of a	"If you think of a donut as a collection of circles, then the torus is just the collection of all possible circles that you can make by moving a circle around the hole in the donut.
+
+Now, let's say we want to create"
+generation_68	It has a hole in it. You can make a torus by taking a rectangle of paper and rolling it up into a tube, and then connecting the ends of the tube. You are left with a donut shape. One of the most famous	It is a solid of revolution generated by rotating a circle around an axis coplanar with the circle, but not intersecting it. The word comes from the Latin word for the shape of a hole, torus. The term is also used for
+generation_69	A doughnut of any size, that does not have a hole in it. In fact, the hole in the middle of a torus is not a straight line, rather it is a curved line. The size of this donut is determined by	"It is described by a radius and a radius of revolution. The height of the donut defines the radius of revolution. The ""hole"" in the donut defines the radius.
+
+  • A cylinder is a donut with no ""hole."""
+generation_70	If you look at it from far away it looks like a circle, but when you get closer you see that it has a hole in it. This is just like the torus of circles we saw above - from far away, it looks like a	A donut is a torus.
+generation_71	"The ""standard"" solid torus is the one you get from taking a disk and pasting it together with its edge identified with a circle. This has a first homology group isomorphic to $\Bbb Z\times\Bbb Z$."	"A sphere is a ball. A Klein bottle is a donut that is also a ball.
+
+A Klein bottle is a donut that is also a ball.
+
+The Klein bottle can’t be made out of ordinary material. How is that possible? Well"
+generation_72	"A doughnut. A ring donut. It is a shape that is made by taking a circle, and then joining the ends of the circle together.
+
+The torus is a 4D analog of the sphere. The surface of a sphere is"	You can see this type of surface created using a polyhedron, though. The polyhedron is a 6 sided shape and the way it is connected to itself creates this shape. I’m not sure how to describe it, so you will
+generation_73	"It's the surface of a donut, which means that it has two ""surfaces,"" the outside and the inside. So it's a two-dimensional surface, but it's sitting in a third dimension, so it's a three-dimensional object."	"Can you see the hole? It is closed and bounded, but it is not compact, because you can find a sequence of points that go off to infinity. It is also connected.
+
+An annulus is a ring. It is closed and bounded,"
+generation_74	"It’s a 3D object. We can make it using the same 2D circle as before:
+
+function () {
+
+  let radius = 50; // 50 radius for the torus
+  let height = 10; //"	It has a hole in it. A double torus is a donut with a hole shaped like the outline of a donut. The torus is a simple closed surface, which means it is a closed surface without self-intersections or crossings.
+generation_75		It is a geometric shape that is formed when a circle is twisted around a circle with the same radius, and the two circles overlap.  You can see in the picture below that there are two holes, not just one.  You can see
+generation_76	"It is a continuous 2D surface with a hole in it. It is a closed surface because the boundary is the same as the surface. It has no boundary.
+
+
+The torus has a genus of 1. A genus is a measure of"	A torus is a circle in three dimensions, but it’s a circle that’s cut out of the surface of some solid. If you take a donut, the surface of the donut is a torus. A torus can be cut
+generation_77	No, really. A donut is a solid torus. It’s like a pipe, but donut-shaped. It is the surface of revolution of a circle (the hole through the center) about the x-axis, so it’s a tor	"A torus is a torus is a torus.
+Torus is a very common word and should not be confused with the following words that sound similar: tour, tour, tour, tour, tour, tour, tour, tour, tour."
+generation_78	The donut you can make by taking a bicycle tube, and cutting a hole in it. A knot is just a loop of string. You can make a knot by tying your shoes. A loop is just a circle. A circle is just the	"It is a roundish thing with a hole in the middle. We will focus on 2-dimensional tori, which are flat donuts. The next image shows a 2-dimensional torus:
+
+Torus in 2 dimensions
+
+The shaded area"
+generation_79	They are 3-dimensional tori, and the 3-dimensional version of a torus is a solid donut. It's a donut, an object shaped like a donut. So a torus is a donut, but it's	It is a surface with only one hole and is bounded by a single circle in each direction. The torus is the only compact 2D surface that can be embedded in 3D space. It is the 2D analog of the
+generation_80	"It’s made by taking a circle and rotating it around another circle. And you can add holes to it by making the donut out of more circles. There are lots of pictures in the wikipedia article.
+
+What’s interesting is that the torus is"	"It is a surface of revolution of the shape of a doughnut. It has two circular holes.
+If the torus is embedded in 3-dimensional space, it intersects a plane in a circle. In fact, we can choose a plane such that"
+generation_81	Or a bagel. Or a pretzel. Or a baba ghanoush. Or a lifebuoy. Or a circle wrapped around itself once. Or a sphere with a chunk cut out of it. And so on. The fact	If we stick two toruses together, then the circle that used to be the edge of the hole in the center of each torus becomes a cylinder. To make a torus, take a small cylinder and glue the ends together. The circle around
+generation_82	Imagine cutting a hole through the middle of a donut. The shape you get is called a torus. We can describe the torus as a surface made up of two circles - one for the hole and one for the outer edge of the don	"It is basically a circle that is wrapped around itself once.  A torus can be constructed from a rectangle.  Just take a rectangle and join the opposite edges together.
+
+Notice that a torus is a shape with two holes"
+generation_83	"How can it be a sphere?
+
+A torus is just a donut. How can it be a sphere?
+
+A torus is just a donut. How can it be a sphere?
+
+A torus is just a donut. How can"	Torus is really just a fancy name for donut, but it might help you remember what a torus really is if you think about the shape. You know, the shape of a donut, not the shape of the hole in the middle
+generation_84	"It's a shape that has a hole in it. You can make a torus by taking a long tube, then bending it around and connecting the ends together. Try it out with a piece of paper!
+
+[Insert image of a torus here"	"A torus is a donut, while a cylinder is a toilet paper roll. What is the difference between a torus and a cylinder? A torus is a donut, while a cylinder is a toilet paper roll.
+
+What is the shape"
+generation_85	The size of the torus is measured by the radius of the hole and the radius of the outer ring. The ring of the torus can be flat or curved. A torus can be a torus in the usual sense, or a more	A torus is a donut. A torus is a donut. A torus is a donut. A torus is a donut. A torus is a donut. A torus is a donut. A tor
+generation_86	The whole torus is colored, and the hole is black. Try turning the torus around, and you will see that the hole remains black. Try bending the torus, and you will see that the hole remains black. Try stretching the tor	The only thing I have to add to that is that it can be defined as a solid of revolution, where you take a circle, and you spin it around an axis that is not centered on the circle. I would suggest looking at the Wikipedia article
+generation_87	You can get your torus by rotating a circle around an axis that is somehow parallel to the circle’s axis (i.e. its diameter). This is one way to make a torus, but it is not the only way. Another way is	It is a 3D object. If you are imagining a tubular torus then you have a tube that has been bent around itself. This is a more common 2D image of a torus. The outer surface of the tube is
+generation_88	"This is the real reason why people don't like learning topology.
+
+share|improve this answer
++1 for the last sentence. –  Rahul Feb 27 '11 at 22:56
+I thought the real reason was because it's"	A torus is a torus. A torus is a torus. A torus is a torus. A torus is a torus. A torus is a torus. A torus is a torus. A tor
+generation_89	This is a torus. Now, if you were to take a torus and you were to cut it in half, and you were to lay it down on paper, you would have to lay it down in a way that it would go around	The only thing you can do with a torus is twist it inside out, as shown in the image above. This is because the torus is made of one long strip of paper (or rubber, or whatever your material is) and so you
+generation_90	We can put a flat circle on it, and then we can move that circle around. We get a torus. But we can also do something different. We can put a donut with a hole in it, so that the hole is in	"A sphere is a ball. A cylinder is a toilet paper roll. A hypercube is a tesseract. A hypercube is also a tesseract. A hypercube is also a hypercube.
+
+So, if we were to make a tesseract"
+generation_91	It has a hole in the middle. It's a surface made by moving a circle through space so that it intersects itself. It looks like the donut shape. The surface of a torus is made up of a bunch of circles, like the	It is a surface of revolution. I will describe the torus as a set of points $(x,y,z)$ that are at distance $R$ from the origin and have $R\cos\theta$ as the $y$-coordinate and
+generation_92	"The donut is the base times the radius of the donut. The torus is the donut times the radius of the torus.
+
+Mathematically, a torus can be defined as a surface of revolution of a circle in 3"	"It's a surface that's formed by revolving a circle in three dimensions around an axis that's external to the circle.
+
+On the surface of a sphere, there are a fixed number of lines of latitude that are parallel to each other. On the surface"
+generation_93	"And, the torus is a surface, not an object, so we can't say it has a ""center"". But, there is a point on the torus that is the center of the hole in the torus. It is the point"	"A sphere is like a ball. A torus is the surface area of a donut. The area of a sphere is the surface area of a ball. $\endgroup$
+    – user98602
+    Jun 7, 201"
+generation_94	A torus is a donut. A torus is a donut. A torus is a donut. A torus is a donut. A torus is a donut. A torus is a donut. A tor	It's a doughnut shape. And if you've ever seen a space station, or a space shuttle in space, you might see a big antenna that's the shape of a torus. A torus does have a hole through it, but
+generation_95	"We give it a parameterization that looks like this:
+
+$$f(x,y,z)=\begin{cases} (x,y, \frac{ay}{b}) & \text{ if } (x,y) \in [0,1]^"	It is topologically equivalent to a sphere with a circular hole in it. One can construct a torus by taking a rectangle, rolling it once around the rectangle's long axis and gluing the opposite edge to form a tube. Then, taking the
+generation_96	You can make a torus from a rectangle by identifying opposite edges, not like a cylinder, where you identify just one pair of edges. So you make one cut around the rectangle, then another cut perpendicular to the first, then glue. The rectangle	"Toroidal domains have the property that they are ""topologically equivalent"" to a donut. This means that they can be deformed into one another with no tearing or gluing. This property is rather nice because it allows us to use tools from"
+generation_97	In mathematics, a torus is a surface of revolution of a circle in three-dimensional Euclidean space. A torus is an example of a compact 2-manifold without boundary. The surface of a torus can be obtained from the product of	"It is a 3 dimensional object that is formed by rotating a circle around an axis that is perpendicular to the plane of the circle. It has the same shape as a circular garden hose, or a doughnut.
+
+A Klein Bottle is a four dimensional"
+generation_98	"How many donuts are there in 2.5 cubic feet? Well, we don't know the length and width of the torus, but we can do a little math. The formula for the volume of a torus is:
+
+V ="	"An annulus is a donut with a hole in it.
+
+From Wikipedia."
+generation_99	It's a shape that looks like a circle lying on top of a circle. Imagine taking a hose and connecting the ends together to form a circular loop. Now take another hose and connect its ends to the first hose so you have a ring made up	"It’s a solid object with a hole in
+it. The hole is a circle. You can think of a torus as a
+circle that’s been twisted around and stretched out
+into a tube, and then bent down and attached to"

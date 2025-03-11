@@ -1,0 +1,486 @@
+generation_rank	just_response	wo_just_response
+generation_0		"The dog ate five times yesterday. How many times has the dog eaten in total?
+The dog ate 2 times today so that is 2 x 1 = 2 pieces of chicken.
+The dog ate 5 times yesterday so that is"
+generation_1	"And he ate only one time yesterday. How many times did the dog eat in the last two days? The dog ate 2 + 1 = 3 times in the last two days.
+The dog eats every three hours. So how many times"	"Sentence 1: my dog ate a lot of food last night. Sentence 2: The dog ate the entire contents of the food bowl.
+Output: The dog ate the entire contents of the food bowl last night because the dog was very hungry."
+generation_2	"You give it 5 pieces.
+
+7.  The dog got 2 pieces. You give it 12 pieces.
+
+8.  The dog got 5 pieces. You give it 10 pieces.
+
+9.  The dog got"	
+generation_3		"I want to find out how many pieces of bread the dog ate. Can you help me with that?
+Assistant: Of course! Let's break it down step by step. We know that the dog ate two times the number of pieces of bread that"
+generation_4	"She's happy
+She just ate twice today. She's happy.
+She just ate twice today. She's happy.
+She just ate twice today. She's happy.
+
+She ate just two times today. She's happy.
+She ate just twice today"	
+generation_5	"He ate breakfast and dinner. The dog had no snacks in between the two meals. The dog ate 3 cups for breakfast and 2 cups for dinner. The dog ate a total of 5 cups today.
+
+The cat ate just two times today"	"Sentence2: The dog ate half of the food in the bowl today. Sentence3: The bowl had a lot of food in it. Sentence4: The dog ate the food all in a matter of hours. 
+ (A) The dog was"
+generation_6	"""We have to find a way to help him eat less,"" said Dr. Matthew Stanton, a vet at the Animal Medical Center in New York City. ""It's either that or we take out his stomach."" The surgery was performed, but the"	The dog ate one times yesterday. The dog ate three times last week. The dog ate four times the week before last. The dog ate five times the week before that. The dog ate six times two weeks ago. The dog ate seven times three
+generation_7	"The dog didn't eat at all yesterday. The dog ate two times yesterday. The dog ate just one time today.
+The dog didn't eat yesterday. The dog ate just two times today. The dog ate just one time yesterday. The dog ate"	"In total, that's 2 + 2 = 4 bones.
+
+The parrot ate three times today. In total, that's 3 + 3 = 6 carrots.
+
+The gerbil ate one fifth of a carrot today. In"
+generation_8	The dog ate just one time today. The dog ate just four times today. The dog ate just five times today. The dog ate just three times today. The dog ate just two times today. The dog ate just one time today. The dog	"The dog ate 4 times yesterday. Today is x more than three times yesterday. The dog will eat 16 pieces of food. What is the value of unknown variable x?
+To solve this problem, we need to determine the value of x,"
+generation_9	"That's 2 * 2 = 4 bones.
+The cat ate just once today, so that's 1 * 1 = 1 bone.
+The parrot ate just half a time, so that's 0.5 *"	
+generation_10	"How many more times does he need to eat to reach his goal of 6 times?
+User: If the dog ate 2 times today and needs to eat 6 times to reach his goal, then he needs to eat 6 - 2"	"The dog ate the same amount yesterday. How much did the dog eat yesterday?
+
+2. Hello, 3x is the amount the dog ate yesterday and today. 3x is the amount the dog ate today and yesterday. So 3x"
+generation_11	"We should multiply the number of times the dog ate by the amount of food it ate each time. So, it's 2 times 0.5.
+Student 1: Okay, so that's 1.0. Now, what do"	
+generation_12	"However, when talking about the number of times, it is not correct to say: “the dog ate two times”. The correct form is: “the dog ate two (times) today”.
+
+By the way, the verb “to eat” can"	"One was a large one, and the other was a small one. The large one was 0.8 kg (1.5 pints) and the small one was 0.4 kg (0.8 pints).
+    The"
+generation_13	You can see the difference between these sentences. In the first sentence the dog ate the whole bag of chips. In the second sentence the dog ate just a few chips. This is a simple example of using the word just to show the difference between the	
+generation_14	"Therefore, how many times has the dog eaten in total?
+The dog ate 2 times today, so it has eaten 2 * 2 = 4 times in total.
+#### 4
+The answer is: 4"	"Which one is not true?
+Options:
+- The dog ate
+- The dog ate nothing
+- The dog ate a lot
+- The dog ate something
+
+Reasoning: A dog can't eat two times so it can't eat nothing and a"
+generation_15	The dog ate 3 times yesterday. The dog ate 5 times the day before yesterday. So in total, the dog ate 10 times in the last three days. Dividing the number of pieces of apple by the total number of times the	"Sentence 2: The dog is hungry. Sentence 3: The dog's owner fed him some food. Sentence 4: The dog ate. Sentence 5: The dog is happy now.
+[EX A]: 54132
+
+[EX"
+generation_16	"Can you tell me what he ate and how much of each food he ate?
+The dog ate 2 pounds of food.
+The dog ate 1 pound of dog food.
+The dog ate 2 pounds of dog food.
+Answer: 1 pound"	"Sentence 2: The dog ate 2.
+yes"
+generation_17		The cat ate one time today. The cat ate four times yesterday. The dog ate three times yesterday. How many times did the animal eat in all? The answer is 16.
+generation_18	It was not a big deal for it, she just can’t wait to eat again. She always looks forward to her next meal. She is always hungry. She is eating four times a day. She is not losing any weight. She is not	"I wonder if he will eat two times tomorrow."" ""The dog has a very bad appetite. I hope he will eat more."" ""I wonder if he will eat three times tomorrow. If he is hungry, he may eat more."" ""This dog"
+generation_19	"That's 2 * 3 meals, which is 6.
+Student 2: Right, so we add those 6 meals to the 14 he had earlier. That gives us 20 meals in total.
+Student 1: Wait,"	"Now, there are 6 bones left.
+User: And the cat ate three times as many bones as the dog. How many bones did the cat eat?
+Assistant: If the dog ate two bones, then the cat ate 3 times that amount"
+generation_20	"Lilith had eaten just two times today. 
+They had eaten just two times today. 
+We had eaten just two times today. 
+You had eaten just two times today. 
+She had eaten just two times today. 
+It had"	"The dog ate two times today. 
+  
+  
+  
+  
+  
+ The dog ate two times today. 
+  
+  
+  
+  
+  
+ The dog ate two times today. 
+  
+  
+  
+  
+  
+ The dog ate two times today. 
+  
+  
+  
+  
+  
+ The dog ate two times"
+generation_21	I forgot to feed him in the morning and he was starving when I got home. But he only ate a small amount and then went and laid down. He is a 12 year old Shih-tzu. He is not on any meds,	"Today, the dog ate 10 bones. What is the value of unknown variable x?
+The dog ate x bones yesterday.
+The dog ate two times today, so it ate 2 * x = 2x bones today.
+The total number of"
+generation_22	"Good boy! 
+
+
+The bird sang just once today. Good bird! 
+
+
+The cat is meowing just twice today. Good cat! 
+
+
+The cat is meowing just once today. Good cat!"	
+generation_23	I'm not sure why. I guess he is just getting used to his new home and his new people. The fact that the new people are two little boys might have had something to do with it. I guess he's not terribly hungry and is	Sentence 2: The dog ate the meal. Choices: 1. FACE-TO-FACE, 2. GOVERNMENT, 3. LETTERS, 4. 9/11, 5. SLATE, 6
+generation_24	Today is a Tuesday.  The 4th day of the week.  The dog ate 2 times today.  It is 8:00 pm.  The dog is in the kitchen.  The	"The dog ate three times yesterday. The dog ate four times last week. How many bones did the dog eat in total? 2*2+3*3+4*4
+Example Output: 22
+
+Example Input: There are"
+generation_25	The dog has eaten 3 times today.	
+generation_26	"Sentence 2: The dog ate yesterday.
+
+SOLUTION: The dog ate today
+
+PROBLEM: Sentence 1: A man is in a kitchen, making something in a pot. Sentence 2: A man is cooking.
+
+SOLUTION: The"	The dog ate one times today. The dog ate two more times today. There were 3 times today. The dog ate two times today. The dog ate one times today. The dog ate two times today. There were 3 times today.
+generation_27		"Sentence 3: He ate one steak. Sentence 4: He then ate another steak. Sentence 5: He liked the steak very much. Choices: a. The dog liked steak. b. He had a lot of fun.
+Solution:"
+generation_28	"Sentence 5: The dog was full.
+A: 2"	"So, the dog ate 2 * 2 = 4 bones.
+The cat ate 3 times the dog's share, so the cat ate 4 * 3 = 12 bones.
+The cat ate twice as many bones as the puppy"
+generation_29	"That’s it.
+I’m on a diet.
+
+The dog ate just two times today. That’s it.
+I’m on a diet.
+
+The dog ate just two times today. That’s it.
+I’m on a diet.
+
+The dog ate just"	"The cat ate half as many as the dog. The total is 10. How many did the cat eat?
+
+Student 2: Hmm, let's break it down. If the dog ate two times, that means the dog ate 2 sandwiches"
+generation_30	The dog ate twice today. The dog ate two times today. The dog ate just two times today. The dog ate twice today. The dog ate two times today. The dog ate just two times today. The dog ate twice today. The dog	"The dog ate a dog yesterday.
+The dog ate two times today. The dog ate a dog yesterday.
+The dog ate two times today. The dog ate a dog yesterday.
+The dog ate two times today. The dog ate a dog yesterday.
+
+As"
+generation_31	"The cat was hungry and ate four times. In total, the cat ate more.
+ The answer: no
+The question: Is the following a factual statement?
+""An animal that is a domestic pet, and the most popular pet is a cat."""	
+generation_32	He ate a lot of food and he also chewed on a toy. He was very hungry and needed food to eat. He was very happy to eat. The dog liked eating a lot of food. He wanted to eat more food. He ate	"Sentence 2: The dog ate two times
+A: yes"
+generation_33	"That's 3 - 2 = 1 more than yesterday.
+The day before yesterday, the dog ate just one time. That's 1 + 2 = 3 more than yesterday.
+In all, the dog ate 1 +"	
+generation_34	"Sentence4: He ate something brown and something white. Sentence5: His owner told him to stop eating it.
+Solution: The owner, the dog, and the food."	The cat ate one time yesterday. The dog ate three times today. The cat ate two times yesterday. The dog ate one time yesterday. The cat ate one time today. The dog ate two times today. The cat ate three times yesterday. The
+generation_35	"The dog never ate the food from the plate.
+The dog ate just two times. The dog never ate the food from the plate.
+The dog ate just two times. The dog never ate the food from the plate.
+The dog ate just two times"	"He ate a big bone and a smaller bone. How many bones did the dog eat today?
+The dog ate 2 bones today.
+#### 2
+The answer is: 2"
+generation_36	"The dog ate 1 times today. 
+
+The dog ate 2 times today. 
+
+The dog ate 3 times today.
+
+The dog ate 4 times today.
+
+The dog ate 5 times today.
+
+Let's do the"	
+generation_37		Sentence 2: The 2nd time, the dog buried something in the backyard. Sentence 3: The owner saw the dog burying something. Sentence 4: The owner then searched for the buried object. Sentence 5: The owner
+generation_38	"This is the best of the best, and I am so happy I bought it. We have had this for years and it is still going strong! Answer:
+Answer: Yes"	"The cat ate three times as much as the dog. How many did the cat eat?
+
+This is an example of a problem for which we must remember the order of operations. In this case, we know that the cat ate 3 times as many"
+generation_39	One time at 5:00 am and one time at 9:00 am. I have no idea what he’s been eating. He doesn’t bring it back, so I don’t think it’s outside. The last two days he has	Dog ate two dog ate two dog ate two dog ate two dog ate two dog ate two dog ate two dog ate two dog ate two dog ate two dog ate two dog ate two dog ate two dog ate two dog ate two dog ate two dog ate
+generation_40	"Sentence 3: This means it ate 6 meals total for the day. Sentence 4: The dog then ate 1 more meal. Sentence 5: The dog was hungry.
+A: 32541"	
+generation_41	"There was a third food item, but the dog didn't eat it.
+
+There were more food items, but the dog didn't eat them.
+
+The dog has been eating food items from the list for the last 6 days.
+
+I want to know"	Sentence 2: He had to stay in the house all day and was very bored. Sentence 3: He had no energy to walk around. Sentence 4: He started feeling tired and fell asleep. Choices: a. The dog was tired
+generation_42	"Sentence 2: The dog ate a lot of food.
+Output: The dog ate a lot of food today."	"I have two days of school.  
+
+2. After students have practiced several times, have them practice with their partners.
+
+3. After they have worked with their partners, have them try it with their groups.
+
+4. After"
+generation_43	"At 9:00 am, the dog ate a cookie and at 3:00 pm, the dog ate another cookie. I need to convert the time into minutes and then count the number of cookies eaten.
+Student 2: That sounds right"	Sentence 2: The dog also ate three times yesterday. Sentence 3: The dog also ate four times the day before. Sentence 4: The dog ate a total of twelve pieces of food. Sentence 5: The dog ate a total
+generation_44	"When I went to sleep, the dog was hungry and I put food in his bowl. In the morning, the dog ate the food.
+
+The dog's name is Spot.
+
+The dog's name is Spotty.
+
+The dog eats.
+
+The dog is"	"This indicates that the dog ate twice on this day.
+The dog ate two times today. This indicates that the dog ate twice on this day."
+generation_45	"It’s not much.
+
+Then two nights ago, the dog came to the bedroom and woke me up. I took her outside, but she didn’t bother to do anything. I took her back inside and tried to sleep. But she wouldn’t sleep"	"It can eat 6 times a day. How many more times can it eat?
+The dog can eat 6 - 2 = 4 more times.
+#### 4
+The answer is: 4"
+generation_46	"The dog ate just one time yesterday. The dog ate 7 times in the last three days.
+Student A: Wait, I think there's a mistake. The dog can't eat a fraction of a bone. Let's round it to the nearest"	
+generation_47	"That's an easy one. 
+
+Student2: Yeah, that's correct. Let's move on to the next part. She also ate 3 times as many cookies as the number of bones she ate today. So, that's 3 times"	"Sentence 3: She is very hungry. Sentence 4: She wants to eat more. Sentence 5: The dog ate all of her food.
+A: 18"
+generation_48	"He was hungry and that's why he ate.""
+
+However, the word ""biscuits"" conveys a negative meaning because it's not a normal food. It's a sign of hunger when a dog eats biscuits. If you use the word """	And then, a third time.  Then, a fourth.  Then, a fifth.  Then, a sixth.  And seventh.  And eighth.  And ninth.  And tenth.  And eleventh.  And tw
+generation_49	"But he ate a lot of food each time. He ate 7 pounds of food in the morning. He ate 4 pounds of food in the evening. 
+User: That's a lot of food! How many ounces is that in total?"	"Give him a bone!
+The dog ate two times today. Give him a bone!
+The dog ate two times today. Give him a bone!
+
+The dog ate two times today. Give him a bone!
+The dog ate two times today. Give him"
+generation_50	"The dog ate just three times yesterday.
+The dog ate just three times the day before.
+The dog ate just three times the day before that.
+The dog ate just three times the day before that.
+The dog ate just three times the day before"	"Sentence 5: It had a full tummy. Choices: a. She was very upset. b. The dog was full of food.
+Student: a"
+generation_51	"The dog ate just one time yesterday. 
+The dog ate just three times in the last three days.
+The dog ate just once in the last two days.
+The dog ate just four times in the last four days.
+The dog ate just twice"	
+generation_52	It came back to the human. The human praised the dog. The dog wagged its tail. The dog then went out and played. The dog ate just two times today. The dog ate just two times today.	"Sentence 2: The dog ate four times today.
+A: no"
+generation_53	"He ate once at 7:00 am and once at 10:00 pm. The food was good and he was happy when he ate. Therefore, the dog ate just two times today.
+
+Student 2: That looks good. It's"	"The dog ate one time yesterday. The dog ate three times two days ago. How many times did the dog eat in total?
+Reasoning: How much did the dog eat today? ** Two times = 2 * 3 = 6"
+generation_54	"The times are 3 and 4. A table, x, has the number 3.
+The dog ate just three times today. The times are 1 and 2. A table, x, has the number 2.
+The dog"	"How many did he eat yesterday?""
+
+    2. It's a little odd that they're talking about the dog's eating habits in the past tense, isn't it? Maybe the question means, ""How many did the dog eat yesterday, if"
+generation_55	It is worth to know how to count all of the dogs in the house. The dog ate 3 times on Wednesday and 2 times on Thursday. The total number of times he ate is 1. Please find the dog's score.	We saw a video of a dog eating a rat the day before yesterday. I need to know how many times the dog ate in the past two days. The dog also ate yesterday evening. Give your answer in words. Yesterday morning, the dog ate
+generation_56	"You might say it is a lot, but it wasn't as much as I thought. I was expecting three, but I only got two.
+
+You can also say this in another way. For example, say you can only get two things"	He ate the dog's food. He ate the dog's food. He ate the dog's food. He ate the dog's food. He ate the dog's food. He ate the dog's food. He ate the dog's food. He
+generation_57	"The first time was at 5:00, and the second time was at 7:00. He ate 5 times yesterday. 
+User: That's interesting. How many times did the dog eat in the past week?
+Assistant: To"	
+generation_58	"But sometimes it ate nothing. Sometimes it ate three times. Use the information to answer the question: How many times did it eat in total?
+
+Student: 3"	"He ate one steak and one piece of fish. He likes steak much more than fish. The dog ate four pieces of food today. What is the value of unknown variable x?
+To solve this problem, we need to determine the value of x,"
+generation_59	First he ate the bone and then he ate the fish. He didn't eat the chicken. He is a stupid dog. He is a very good dog. He is not a bad dog. The stupid dog ate the fish and the bone. He	"2 * 2 = 4
+
+So, the answer is 4.
+
+What is the value of unknown variable X?
+To solve this problem, we need to determine the value of x, which represents the number of times the dog ate today"
+generation_60	"Two meals were given to him. The cat was fed three times today. It means the cat had three meals.
+
+Let's recall our multiplication tables:
+
+What did we learn today?
+
+We learned how to multiply two whole numbers. We also learned how to"	"Is that right?
+Assistant: Yes, that's correct. The dog ate twice as many bones as yesterday, which is two times 4 bones. So, the dog ate 8 bones today.
+User: So, to confirm, the dog ate"
+generation_61	Once at 6:00 am and once at 7:00 pm. He ate 2 cups at 6:00 am and 1 cup at 7:00 pm. So, we need to add the amounts he ate at each	"(No, it means the dog ate two dogs.)
+
+I’m going to the zoo to see the animals. (No, it means you’re going to the zoo to see the animals that ate the animals.)
+
+I’m going to the zoo to see"
+generation_62	"First he ate a fish bone, then he ate a big bone. If he ate 2 fish bones and 2 big bones, he ate 4 bones in total. So the answer is 4.
+User: That makes sense. Thank you"	"Sentence4: The dog ate a bone.
+Solution: Sentence3: He was full."
+generation_63	"Can you calculate how many times it ate yesterday?
+Assistant: Yes, you're correct. If the dog ate 2 times today, then yesterday it ate 2 times. So, the total number of times the dog ate in the past two days"	Whoops. Bad dog. Just kidding. I'm just being dramatic. The dog actually didn't eat any of the new food (yet). We did however give her her new food yesterday, but she didn't eat it. I'm pretty sure
+generation_64	The dog ate just four times yesterday. The dog ate just six times the day before. The dog ate just eight times the day before that. The dog ate just ten times the day before that. The dog ate just twelve times the day before that	"She ate 2 times today. She ate 2 times today. She ate 2 times today. She ate 2 times today. She ate 2 times today.
+The dog ate four times yesterday. She ate 2 times today. She"
+generation_65	"Answer:
+output: No"	"The first time it ate 2.5 hours ago. The second time it ate 4 hours ago. I need to find out how many hours ago did the dog last eat.
+Student 2: Hmm, let's break it down. The"
+generation_66	"He ate 2 times and then he ate 2 times again. How many times did the dog eat today?
+The dog ate 2 times + 2 times = 4 times in total.
+#### 4
+The answer is: 4"	
+generation_67	"Let's calculate that.
+User: That's 3 treats. So, in total, the dog ate 7 treats today. Now, how do we find out how many treats are left?
+Assistant: We subtract the total number of treats eaten from"	1. 1. 2. 2. 3. 3. 4. 4. 5. 5. 6. 6. 7. 7. 8. 8. 9
+generation_68	Then he wants to play and play.  He is so tired.  He wants to sleep.  He slept most of the day. He is a puppy.  He is cute.  I love him.	"Sentence 2: The dog ate all of the food. Sentence 3: The dog didn't listen to him. Sentence 4: Tim took the dog to the vet. Sentence 5: Tim's dog was very hungry.
+A:"
+generation_69	"I'll be sad and scared if the dog ate a whole lot. 
+Speaker 2: I'll give you a nice bone. 
+Speaker 1: I'm hungry, give me a nice bone. 
+Speaker 2: Okay."	"The dog ate 0 times yesterday. The dog will eat 3 times tomorrow.
+A: 1"
+generation_70	"Q: Write a positive tweet.
+
+A: @NurseSandy thank you so much!!!   can't wait to try it!"	
+generation_71	"Good for you!
+User: Thank you! That's really helpful. I was worried I was feeding her too much.
+Assistant: It's always good to keep an eye on your dog's diet. If you have any other questions or need further assistance"	
+generation_72	"It was hungry.
+
+Question: What is the most suitable title for the passage?
+
+Answer: The Dog
+
+--End of the test--
+
+Please submit your answers to the email address given above.
+
+Thank you for taking our quiz. We hope you have learned"	"So, the number of bones eaten by the dogs is 2 times 2, which is 4 bones.
+Student B: Correct. Now, to find the total number of bones eaten, we add the bones eaten by the cats and the bones"
+generation_73	"The dog ate just a few times today.
+
+Dogs Don't Eat Cats!
+
+Oh, of course not. Not in real life, that is. Cats have an important role in the story, though. If you're looking for a feline"	The dog ate the chicken. The dog ate the potatoes. The dog ate the bread. The dog ate the cheese. The dog ate the apples. The dog ate the carrots. The dog ate the broccoli. The dog ate the lettuce. The dog
+generation_74	"That means the dog ate 7 times yesterday.
+Assistant: Exactly! Since the dog ate 7 times yesterday, and we know that the dog eats 4 times as much as the cat, we can calculate the number of times the cat ate yesterday"	"Today is Thursday. 
+
+Please tell me if those questions are the same. OPTIONS:
+- no
+- yes
+A: no
+
+How do I earn money online?
+What are the best ways to earn money online?
+
+OPTIONS:
+- no
+-"
+generation_75	"Sentence 3: The dog ate the same amount of food at the same time. Sentence 4: The dog loved the food so much!
+Output: 2, The dog had two meals today."	"One time it was a bone. 
+The other time it was a shoe. 
+And the shoe was mine. 
+I am not happy. 
+I want my shoe back. 
+Answer: I want to put the shoe on.
+
+A:"
+generation_76	"He ate in the morning and in the afternoon.
+
+Question:
+Индивидуален доступ к собственному грузу: Вы можете просматривать весь груз и выбрать"	"Sentence2: He ate two bones.
+answer:
+No
+
+
+question:
+Sentence1: The dog ate a big bone. Sentence2: The dog ate a huge bone.
+answer:
+No
+
+
+question:
+Sentence1: The lady's dog ate a bone"
+generation_77	It does not matter if it is in the morning or in the afternoon, as long as the dog ate twice. So, the answer is 2.	
+generation_78	"The cat ate just one time today.  The dog ate 1 times yesterday.  The cat ate 2 times yesterday.  How many more times did the cat eat than the dog in total over the two days?
+The dog ate"	"- It was a sunny day.  - The dog ate something.  - The dog was hungry.
+Answer: The dog ate something."
+generation_79		"First, it ate a chicken bone, and then it ate a steak bone. The chicken bone was a third of the steak bone's size. How many bones did the dog eat in total?
+If the chicken bone was a third of the size of"
+generation_80	"The first time it ate one chocolate and the second time it ate three chocolates. I think if he ate four times he would eat four chocolates.
+ selected sentence: The dog ate just two times today.
+A: The dog eats >Causes/En"	"How many bones did the dog eat in total?
+If the dog ate two times today and for each time it ate two bones, then the dog ate a total of 2 times 2 bones = 4 bones.
+#### 4
+The answer"
+generation_81		"Sentence 2: The dog ate two times today. Sentence 3: The dog ate two times. Sentence 4: The dog ate two times.
+
+SOLUTION: 1, Yes"
+generation_82	"Dog ate only 1/2 cup of dog food each time. How many ounces is that?
+We know that 1 cup of dog food is 8 ounces, so 1/2 cup of dog food is 4 ounces.
+The dog"	"The cat ate seven times today. The cat ate 1 more than half the number of times the dog ate. If the dog ate x times today, how many more times did the cat eat than the dog?
+If we know the answer to the"
+generation_83	"The three times in the morning and the two times in the afternoon. That's it. That's the whole story.
+
+And I tell him, I say, ""You know, this is the kind of stuff that people do. They say, '"	The first time at 4 pm, and then at 6 pm. The first time he ate a 12 inch sandwich. The second time, he ate a 2 inch sandwich. How many inches of sandwich did the dog eat in total?
+generation_84	"He ate 1.5 times yesterday. The dog ate on Monday and Tuesday 3 and 4 times respectively. How many times did the dog eat on Wednesday?
+The dog ate 1.5 times on Wednesday.
+There are 7 days"	"The dog ate twice a day.
+The cat ate three times today. The cat ate three times a day.
+The mouse ate four times today. The mouse ate four times a day.
+The horse ate five times today. The horse ate five times a"
+generation_85	The dog ate just one time yesterday. The dog ate just three times in the last week. The dog ate just four times in the last month. The dog ate just five times in the last year. The dog ate just six times in the last	
+generation_86	One of the times it ate the bacon and the other time it just ate the cheese. It did not eat the ham. The dog ate 4 times as much cheese as it ate bacon. If the dog ate 6 pieces of bacon, how	"Sentence 2: One of them was just a snack. Sentence 3: So, the dog ate three things today. Sentence 4: Now the dog is about to eat some more.
+Solution: 4, 1, 3,"
+generation_87	"In the morning he ate a piece of his favorite meat and then in the evening he ate a whole bone. So, in total he ate 2 times today.
+
+Correct me if my reasoning is wrong.
+
+• The dog ate in total 2 times"	
+generation_88	The first time was at 10:10 am. The second time was at 5:00 pm. The dog ate 200 grams of food the first time. The dog ate 100 grams of food the second time. The dog ate	The dog ate 2 times today. 2 times today. Two times today. Two times today. Two times today. Two times today. Two times today. Two times today. Two times today. Two times today. Two times today. Two
+generation_89	"First, we need to multiply the number of times the dog ate by the amount each time.
+User: Right, so that would be 2 times 2 cups, which is 4 cups.
+Assistant: Exactly! Now, to find the total"	"How many did the dog eat yesterday?
+The dog ate two times today. How many did the dog eat yesterday?
+
+1-2-3-4-5-6-7-8-9-10-11-12-13-14"
+generation_90	Pupils: I am proud of you!  You are amazing! I love you!  You are a good boy!  You are so helpful!  You are such a good friend!  You are so smart	The dog ate two times yesterday. The dog ate two times the day before yesterday. The dog ate two times the day before that. The dog ate two times the day before that. The dog ate two times the day before that. The dog ate
+generation_91	"The dog eats just twice a day. 
+
+The dog ate just two cookies.  The dog eats just two cookies a day. 
+
+The dog ate just two pieces of chicken.  The dog eats just two pieces of chicken a day"	
+generation_92	"The cat ate four times today. The dog ate 12 times more than the cat. How much did the dog eat in total?
+Thoughts? Step-by-step reasoning: The cat ate 4 times a day for 12 days, so the"	"That means we need to multiply the number of bones by 2.
+User: Right, so if the dog ate 2 bones today, that's 2 times 2, which is 4 bones eaten in total.
+Assistant: Exactly. So"
+generation_93	"The dog also had some fun with his owner.
+
+The dog ate just two times today. The dog also had some fun with his owner.
+
+The dog ate just two times today. The dog also had some fun with his owner.
+
+The dog ate just"	"He ate ten in the morning and four in the afternoon. Question: What time did he eat? (A) 10:00 (B) 13:00 (C) 15:00
+A: 10:00"
+generation_94	"In the morning, the dog ate 3 pieces. In the afternoon, the dog ate 0 pieces. How many pieces did the dog eat in total throughout the day?
+The dog ate 3 pieces of food in the morning.
+The dog ate"	"Sentence 2: The dog ate some food. Sentence 3: A dog was hungry. Sentence 4: The dog went to the store to buy food.
+Student: The dog ate food"
+generation_95	"One time he ate 20 bones, and the second time he ate 30 bones. We need to find out how many bones he ate in total today.
+User: That sounds simple enough. How do we calculate it?
+Assistant: We can add"	"He ate 2 biscuits and 2 bones. He ate 4 biscuits and 4 bones. In total, he ate 8 biscuits and 8 bones. How many treats did the dog eat in total?
+The dog ate 8 biscuits and"
+generation_96	"The dog ate just one time yesterday.
+
+It’s a bit repetitive, but there’s no good way around it.
+
+You can also use the past progressive to talk about the time before a certain point in time.
+
+The dog was eating when you arrived."	"(is this even correct?)
+
+The dog ate two times today.
+
+The dog ate twice today.
+
+The dog ate two times today.
+
+The dog ate twice today.
+
+So what's the right way to say this?
+
+share|improve this question
+
+2"
+generation_97	"Yesterday it ate 3 times. How many times did it eat in total?
+Reasoning: How many times did the dog eat today? ** There ate 2 * 1 = <<2*1=2>>2 times
+How many times"	"If the dog ate 1 bone yesterday, how many bones did the dog eat in two days?
+The dog ate 2 bones today.
+Yesterday, the dog ate 1 bone.
+In two days, the dog ate 2 + 1 ="
+generation_98	"Can't remember why but I got a ""bad"" feeling from it. I have felt my dog being a bit off and more tired than normal since the 6th. I didn't know if it was because he was getting older (he is"	"What does that mean? Two times what? The answer is 2.2 lbs.
+
+The dog ate 2.2 lbs times two. So the dog ate 4.4 lbs of food.
+
+That's a lot of food for a dog"
+generation_99		Today he ate a bone and a ball. He ate a big bone and a big ball.  The big ball is 10 centimeters long.  The big bone was 15 centimeters long.  The little bone is half the length

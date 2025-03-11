@@ -1,0 +1,404 @@
+generation_rank	just_response	wo_just_response
+generation_0	We will be returning for more soon!  It's inexpensive, fast and delicious!  A great way to eat healthy with lots of food choices.  I have been to other Fresh & Easy stores and they are all wonderful.  The staff	"I have never tasted such a soup. 
+ Option1: He liked the soup 
+ Option2: He hated the soup
+Output: He liked the soup"
+generation_1	"I've been to the restaurant several times and been impressed every time.  The staff could use a little work but the food is well worth it.  I recommend the shrimp and grits.  Yum!
+
+
+Q: positive
+
+A: This"	"Sentence 5: I ate it.
+A: 1, 3, 5"
+generation_2	"I have never really been a huge fan of curry but now I am craving it all the time.  I am a huge fan of spicy food but I don't think I would be able to handle their ""spicy"" level, but it"	"Can you pass the salt?  W: Here you are.  Question: What does the man say about the soup?   - It needs more vegetables.  - It needs more salt.  - It is too salty.
+Answer: It needs"
+generation_3	I only wish that the restaurant would be more consistent. I have been twice and had to send things back both times. The first time it was because of an improperly cooked steak and the second time it was because the prime rib was overly rare.	It's very healthy, but it's not too tasty. It's nutritious but not delicious. It's healthy but not tasty. It's nutritious but not tasty. It's healthy but not tasty. It's nutritious but not tasty. It's healthy
+generation_4	I'm a big fan of the garlicy flavor. The chicken and veggies are in large pieces and the noodles are tasty. I like the dumplings as well. It seems like the more you eat the spicier it gets. I would recommend	I like it very much. I think I will come here again. The service was bad. The food took a long time to come to the table. We had to wait for about half an hour. We had to ask for the food several times
+generation_5	"I feel that the soup is so delicious that I'm going to eat it every day. 
+Student: not-paraphrase"	"[EX Q]: story: It was the first day of school. I was a freshman. I was nervous. I did not want to be late. I woke up super early and got dressed. I got to school way early.
+ selected sentence"
+generation_6	I had the chicken pho and it tastes just like the pho I had in Vietnam.  My friend had the Tom Yum soup which was also amazing.  The service is great, the waiters are so friendly and they keep checking	The vegetables are in good condition.
+generation_7	"I will go back again and again.
+
+positive
+
+
+Worst service I have ever had in my life. The manager was extremely rude and when I asked to speak to the owner the owner was just as rude. I understand you are busy but that is"	"Sentence 2: The soup is delicious.
+[EX A]: Context: I had to take my daughter to the ER last night. She was having chest pains. Sentence 1: We got there and waited for what seemed like forever. Sentence"
+generation_8	It is rich and tasty, and I look forward to sampling the rest of the menu.   The staff is friendly and professional, and they were on top of the situation when the power went out. Service was prompt and friendly.   This is a	I also got to see my friend's wedding.  I ordered a steak and a beer.  The beer was good but the steak was a little too tough.  I had a great time and it was a lot of fun.  I
+generation_9	I can't believe how good it is.  The place is small and cozy, and the owner is super friendly.  He's always there, serving, and making sure that everyone is taken care of.  The food is always hot and	"I love it.
+Is the hypothesis true?
+OPTIONS:
+- yes
+- it is not possible to tell
+- no
+
+Answer:
+it is not possible to tell
+
+
+Question:
+Premise: A man wearing an orange shirt and blue hard hat is"
+generation_10	It is served with a small container of sour cream and a small container of dill to put in the soup.  The bread is also very good.  It comes with a small plate of butter and a small plate of olive oil with garlic	The service was good and the prices were reasonable. Great place to take a date.  The only reason I did not give it 5 stars is because the restaurant is somewhat small, and the tables are a little close together. Overall I was very
+generation_11	I had no idea it was so easy to make. It was a lot of fun and a great family activity. I have to say that it was pretty messy, and I had to replace my blender, but it was worth it. I think I	"It tastes like food that is prepared by my mother. I like it very much. I have two bowls of the soup.
+On the table there are two plates of noodles and two plates of fried rice. I eat the noodles. They are very good"
+generation_12	I love how there is a nice mixture of vegetables in it. It is also a pretty good size portion.  You go in to this place and everyone knows everyone. It is a pretty small restaurant. There is only about 5 tables and the	It's so good. I love this soup.  It's so good.  It's so good. I love this soup.  It's so good.  It's so good. I love this soup.  It's so good.
+generation_13	I have never been disappointed by the menu here.  The restaurant is small and quaint, and it is often hard to find a table.  There is a small bar inside and the outside space is often used for special events and festivals.	"It is also healthy."" (The soup is delicious and healthy.)
+
+    • ""This soup is delicious and healthy."" (This soup is delicious and healthy.)
+
+    • ""The soup is healthy and delicious."" (The soup is healthy and delicious.)"
+generation_14	I've had a few other types, and they're all great.  The service is good, too. 5 stars.  UPDATE:  11/14/2012.  I took my mom here today for lunch.  She	"Question: Where does this conversation take place? Yes or no, is the answer ""At a restaurant.""?
+Answer: No
+
+Question: Article: Last week, my granddaughter started kindergarten, and I wished her every success. But part of me didn"
+generation_15	It is even better if you add more seasoning, but it is already flavorful with just a little salt, pepper, and a dash of soy. The noodles are firm and chewy, and they go really well with the miso. The vegetables are	
+generation_16	"But the best part is the bread. It is so soft and chewy, you can't stop eating it. I highly recommend this place.""
+
+A: positive
+
+Q: I used to go here when it was The Joint, but now it's"	"I want to eat it."". The question that is asked is: what is the main idea or topic of the paragraph? If the answer is that 'the soup is delicious', then the answer is (A). the main idea is the topic of the"
+generation_17	"The atmosphere is also great for a nice date. I would recommend going there on a Wednesday to take advantage of the 50% off coupon.
+OPTIONS:
+- negative
+- positive
+
+positive
+
+
+I've been to the location on Sahara and Jones a"	"Sentence2: He liked the soup so much he ate the whole bowl. Sentence3: Jason was hungry so he made himself a can of soup. Sentence4: He opened the can and heated it in the microwave.
+Example Output: 3,"
+generation_18	The food is excellent and the service is fast. I have never had a problem with the people working there.  I recommend this place to anyone who is looking for a new place to eat.  There is plenty of parking so you don't have	
+generation_19	I love the bread, and the salad is pretty good as well.  I like how I can get small portions of soup and salad and it's still plenty of food.  There are several different kinds of soups and salads to choose from	"I'm going to eat more. "" This is like saying ""I'm going to drink more water. "" Soup is a good choice for a meal. But it's not a healthy choice for a drink before bed. The same is the case with"
+generation_20	I've been to the restaurant a few times and the service is great.  I've tried the vegetarian soup and the beef soup.  Both are excellent.  The beef is tender and flavorful.  My favorite is the beef.  The	I really like their take on the noodle soup.  I have not had the sushi, but the reviews I've read here are not promising.  I suspect that they are actually better at making Japanese food than they are at making sushi.
+generation_21	"Good for you and good for your body. I recommend it to everyone.
+
+Output: 5
+
+
+Input: Consider Input: The only reason I didn't give it 5 stars is because the service was not great. I asked for a doggie"	"Sentence 2: I am craving soup. Sentence 3: I decide to make tomato soup. Sentence 4: I buy tomatoes and carrots at the grocery store. Sentence 5: I make a pot of tomato soup.
+A: 135"
+generation_22	The only thing I didn't like was the rice.  It was a bit too mushy for me.  But I am a picky eater.  I loved the house dressing on the salad.  I have been there a few times	"When I received it, I put it in the refrigerator, and then I ate it later. It was still delicious.
+
+The soup is delicious. If you feel hungry, you can eat it.
+
+The soup is delicious. I hope you like it."
+generation_23	I love the sweet corn and the bits of pork.  I get it every time I go there.  Overall, I love this place and think it is great for a quick meal when you want something hot and tasty.  It is also	I like it. It's delicious. I like it. It's delicious. I like it. It's delicious. I like it. It's delicious. I like it. It's delicious. I like it. It's delicious. I like
+generation_24	"Answer the following question: What is the soup's major flavoring?
+****
+[A]: cream
+
+
+[Q]: Given the following passage  ""Several subsets of Unicode are standardized: Microsoft Windows since Windows NT 4.0 supports WGL-4"	I also like the fact that this restaurant is owned by a local Vietnamese family.  The service is friendly.  The Pho is very good, and the bun (rice noodles) is also good.  I like the combination of fresh herbs
+generation_25	I get the Miso with extra spicy flavoring.  I love it so much that I've tried making it myself.  I've never had a problem with the service.  They are always very nice and helpful.  They also have	You can also have a salad bar and the staff is very friendly.  I would recommend this place to anyone.
+generation_26	"Everyone in the family is crazy about it.
+The soup is just delicious. Everyone in the family is crazy about it."	"The bread is soft. The meat is tender. How delicious the soup is! How soft the bread is! How tender the meat is!
+
+(2) 要从某种角度批判某些人，因"
+generation_27	I keep trying the different flavors. I even got my husband to try the Thai one and he liked it as well.  I got the Thai one with the shrimp. It was a very good combination. The soup is extremely hot so watch out.	I have never had such a thick soup before. This is the best restaurant in this city. I will come here again.
+generation_28	The pork is tender and flavorful. The broth is rich and delicious. The noodles are just right. It's a great inexpensive meal.  I can't wait to come back and try the other soups.	
+generation_29	"I like to use it as a base for my own recipes. I even use it in baked chicken dishes. I also add it to vegetables I am steaming. I highly recommend this soup. Is this product review negative?
+A: No"	
+generation_30	I have tried many different styles, but this is my favorite. The menu is not particularly diverse, but I have not yet been let down by any of the food here.  The decor is pretty interesting. It is a small space with a bunch	"The soup is good. The soup is delightful. The soup is more than satisfactory. I'm in love with your soup. I want to marry your soup.""
+
+Now let me tell you why your soup is one of my most treasured friends."
+generation_31	It tastes very fresh and light.  It's not like the heavy soups that I have been used to.  The meat is very tender and very flavorful.  It's not spicy at all, but it's not bland either.	"Have you ever tried it before?
+OPTIONS:
+- yes
+- it is not possible to tell
+- no
+
+Answer: it is not possible to tell
+Problem: Here is a premise:
+The key players in such a system are (1)"
+generation_32	The only thing that could be better is the portions.  The bowl is pretty small.  You can get a large to eat, but that would make it more of a meal.  I love it and I'm so happy that I found	"I'm really glad we decided to come here for dinner."" Sentence5: ""I'm glad we came here. We'll have to come back again sometime."" Sentence6: ""That sounds great. My pleasure."" Question: Who is the best friend"
+generation_33	"We were a little disappointed in the size of the shrimp, but the sauce and broth are great.  The bread bowl is awesome.  I could eat that all by itself.
+
+
+Problem: What would be an example of an negative (OPTIONS:"	"The service is fantastic and the place is very clean. The prices are very reasonable and they have a good selection of beer. We will be going back!
+
+
+Problem: What would be an example of an positive (OPTIONS:
+- negative
+- positive)"
+generation_34	I've tried the vegetable soup and the chicken noodle soup. The vegetable soup is pretty good, the chicken noodle soup is great. I'd recommend this place if you're in the mood for soup, and if you're willing to wait in	"I like it very much."" And sometimes we can say like this: ""You are so beautiful."" ""This is a beautiful girl."" ""This is a beautiful picture."" ""That is a beautiful song."" Question: -This is a beautiful picture."
+generation_35	I would say I'm a picky eater but I'm not.  I will eat almost anything and everything.  I don't like the food at the Wynn or the other big hotels in Vegas but I love Bouchon.	"Does this product review convey a negative or positive sentiment?
+Positive"
+generation_36	I'm going to make it again and again.  I'll eat it with a piece of bread and I'm in heaven.  I have already recommended it to my friends.  It's a very good soup for a cold night, but	"- The soup is delicious.
+The soup is delicious."
+generation_37	I love the miso soup, and the udon is also very yummy.  We also tried the salmon (I think) katsu.  It was very good.  We got the lunch special that came with a drink and tempura	
+generation_38	It is so much better than Panera's.  If you are a fan of Panera's soups, then you are really going to like this place.  I will definitely be going back for more.  I don't eat pasta	"It smells great.
+OPTIONS:
+- yes
+- it is not possible to tell
+- no
+Is this second sentence entailed by the first?
+
+Answer: yes
+Question:
+The 3000 series' first years were marred by teething"
+generation_39	The veggies are cooked perfectly, the chicken is delicious, and the pasta is cooked just right. It is the perfect meal for a cold winter day!	
+generation_40	"It's very creamy, with just the right amount of spice. The flavor is subtle, but delicious. This is one of the better soups I've had in some time. I will definitely buy it again.
+Solution: POS
+Explanation: The"	"Answer the following question: Will the soup still taste good if the ingredients are not cooked for the minimum amount of time?
+Answer: no"
+generation_41	"I will go back regularly. The ladies who work there are super friendly and offer good service.  It's just a great place to grab a quick bite.
+
+
+input: Write a positive yelp review (OPTIONS:
+- negative
+- positive).
+output"	"It's a bit spicy, but it's good. I love it.  Can you get one for me?
+
+SOLUTION: 0
+
+PROBLEM: System Reference: i am sorry but there are no restaurants near you that serve mexican food"
+generation_42	"It is a little pricey for soup but it is a ""quality"" dish.  I have had their ""soup of the day"" many times and each time it is a different soup.  I have yet to have a bad soup."	
+generation_43	The food is fine.  But the soup is just so good.  It's almost worth a trip to Bink's just for the soup.  And the wait staff is really nice.  The owner is there a lot and is always so	"Is the review positive or negative?
+A: Positive"
+generation_44	"Love it!  Answer:
+output: Yes
+
+input with options: Is this product review positive? Title: I really wanted to like it. Review: This one was a real let down. The author has a good story to tell, but it"	It is made from scratch each day and has a different soup each day. The portions are large and the prices are reasonable. They have a great lunch special as well, which is less than $7.00 for a soup, large sandwich and side
+generation_45	"A little heavy on the chicken but that's cuz I'm a vegetarian and I'm sure I won't get that complaint when I serve it to my carnivorous friends.  Is the review positive or negative?
+A: Positive"	
+generation_46	I love the fact that it is not too spicy, but not too bland. The portion is very large and you have your choice of soup or salad for your side. I always get the salad because it is a good amount of greens and it's	"Sentence 2: The soup is good.
+You can't tell if the soup is delicious or good, so this is Not similar.
+Part 3. Exercise
+Sentence 1: A man is pouring a liquid into a glass. Sentence"
+generation_47	I've had the salmon and the chicken and they are both great.  The only 2 star deduction is for the fact that they are stingy with the noodles.  I mean really stingy.  I counted once and it was barely	"The service is excellent. The place is clean. I appreciate the food and the service. I will be back again for sure.
+
+
+Problem: What would be an example of an positive (OPTIONS:
+- negative
+- positive) review?
+
+Answer: I"
+generation_48	"The chicken is tender and succulent. The sauce is rich and delicious. This is the best chicken noodle soup that I have had in a long time.  I would recommend this to anyone.
+OPTIONS:
+- negative
+- positive
+
+positive"	"The soup is not delicious. But if you say: ""The soup is delicious, I think."" then you're not saying any more than if you just say: ""The soup is delicious."" (It's a little unclear, but I think it"
+generation_49	I have bought it many times. I also buy a lot of different flavored soup. I have tried them all and just love them. The soup is hot and I like the containers it comes in. I wish the containers were a little bigger, so	"The soup is delicious. 
+
+The soup is delicious. 
+
+The soup is delicious. 
+
+The soup is delicious. 
+
+The soup is delicious. 
+
+The soup is delicious. 
+
+The soup is delicious."
+generation_50	"I love it!
+
+input question: Write a random tweet?
+
+A random tweet: @briankovacs I'm not sure, but I think he's the guy who wrote the book &quot;The Tipping Point&quot;?  Maybe"	"Sentence 3: The soup is hot. Sentence 4: I am eating soup out of a bowl. Sentence 5: I go to the kitchen.
+A: 24351"
+generation_51	I've been craving Vietnamese food for a while and decided to try this place out.  I got the chicken pho and it was so good.  I love the noodles and the broth.  It wasn't greasy and the flavor was	"It's the best soup I've ever had in my life.""
+A: 5"
+generation_52	I've had it 3 times now and every time it is perfect. I always get the grilled chicken with white rice and black beans. Their guacamole is also excellent. I've been going here for 8 years and since the new owners	"/ The soup is delicious.
+
+The last option is to use a conditional sentence.
+
+If the soup is delicious, I will eat it.
+
+If the soup is delicious, I will eat it.
+
+In both cases, the first verb is in the base,"
+generation_53	I love the fresh tomato soup. We go there for lunch about once a month. The service is always good. The place is small, so if you are looking for a big noisy place, this is not the place for you. It is usually	
+generation_54	I love the fact that it is so easy to make and all of the ingredients are simple to find.  The only thing I did differently was to add in a bit of cornstarch to thicken the broth before serving.  I also	I like it very much.  I have had it before and it is always good.  I had a salad as well.  The house salad is good, but the dressing is very strong.  I asked for no dressing and it worked out
+generation_55	I can't wait to get back here to try even more.  I also recommend the fresh orange juice - very good and made from actual oranges.  I had the grilled cheese sandwich and that was good too.  I don't think I	"Sentence 4: I took a spoonful of soup and put it in my mouth. Sentence 5: I really liked the taste of the soup.
+Answer: 2431
+Explanation: The soup is the entity that the other things (dis"
+generation_56	"It's actually quite addictive. I never thought I'd find any place as good as the soup at the original ramenya in Tokyo, but this comes pretty close.
+
+
+Input: OPTIONS:
+- negative
+- positive.
+Generate a negative review for a"	
+generation_57	You would have never guessed that my mom made it.  The chicken was moist, the vegetables were crisp and the sauce was flavorful.  The chicken stuffed with sausage was also very good but the sauce was a little too thick and overpowering.	It's good for our health. The soup is made from fish and vegetables. Can I have some bread, please? No, thanks. I don't like bread. I want to have an apple. Can you see the apples on the table?
+generation_58	When I first walked in there was a line out the door, so I figured it was going to be at least good.  And it was great.  I had the spicy miso ramen and it came with a bunch of freebies	"Would you say this review depicts the product in a flattering or unflattering light?
+Answer: flattering"
+generation_59		"I think I'll have another bowl.""
+Is this second sentence entailed by the first?
+
+Answer: yes"
+generation_60	The steak and asparagus... umm... well, it tastes like steak and asparagus.  They deliver and we've had good luck with that.  I don't have to go into a lot of detail about the food because it's	"I love it. 
+
+question: Generate a tweet. positive
+
+answer: @kayluvsjcb I'm good, thank you!  How are you?
+
+question: Generate a tweet. positive
+
+answer: @kendalynn06"
+generation_61	It's very light, but don't mistake that for low in calories.  I had the mushroom and it is just very good.  The bread is very good as well.  I like the atmosphere and the service.  I will be	
+generation_62	"It's a must try."" said. ""This place is a must try for late night eats. The food is amazing! I just wish they would have a late night delivery area. I'm not one to drive out and get food. But the"	"The meat was fresh and the vegetables were tasty. We both enjoyed our meal. Answer:
+Answer: Yes
+
+Question: Based on this review, would the user recommend this product? === Review: I like this book because it is easy to understand."
+generation_63	"I was a little disappointed in the portion size, but not enough to keep me from going back for more.
+
+Input: OPTIONS:
+- negative
+- positive What would be an example of an negative review?
+
+An example of an negative review: I'd"	"We have not been in years, but it is still the same.  My husband had the pot roast, which was also good.  The service was excellent and very attentive.  We will be back!
+
+
+Problem: Write a positive (OPTIONS:"
+generation_64	I had the black bean soup and it was so rich in flavor.  The crab cakes were ok; not great but not bad.  I would not get them again.  I had the ribs and they were just ok.  I was	"The ingredients are fresh, which makes it very tasty. The atmosphere is fun and cozy. It's a wonderful place for a date or a lunch with friends.  I will definitely be back. 
+
+Output: POSITIVE
+
+
+Input: Consider Input:"
+generation_65	"The service is good and friendly. The only thing to complain is the price. I think it's a little bit too expensive. But overall, it is a good place to go for a nice dinner with a date or friends.
+
+
+Q: negative"	"It is a special kind of soup,"" said the woman. Then she smiled at the boy again. The boy smiled back. He was still holding the soup. ""I'm not hungry,"" the boy said. ""I'm waiting for my friend."""
+generation_66	"I haven't had the opportunity to try the other dishes, but this is a great place for lunch. The service is also very good, the staff is friendly and efficient.
+How would this review be described?
+++++++++++
+A: positive
+
+
+Problem:"	The soup is good.  It is a hot soup, but the soup is good.  It is not a hot soup, but the soup is good.  The soup is not a hot soup, but the soup is good.  It
+generation_67	"I don't know how she does it, but it is just amazing. The restaurant is nice and open with a nice view of the river.
+
+  • The soup is (delicious).
+  • I don't know how she does it."	"You can also add some garlic to make it more delicious. If you like, you can find the soup in the restaurants.
+Yes"
+generation_68	"I can't get enough. I love it. I love it. I love it! 
+
+question: Generate a tweet. positive
+
+answer: @jessicaveronica http://twitpic.com/6grzl - i'm going to"	"Option 1: The soup is delicious. 
+ Option 2: The soup is disgusting.
+Student: Option 1"
+generation_69	It's very simple to make and is a great meal for a cold day. Also, it gets better the next day, so it's a great meal to have prepared in advance. It was a hit with my kids, too, which is always	"I love it.
+Is the hypothesis true?
+OPTIONS:
+- yes
+- it is not possible to tell
+- no
+
+Answer:
+yes"
+generation_70	He does a great job with the flavors.  They offer a nice selection of soups and there are always 5-6 specials for the week.  The price is very reasonable and I always leave the restaurant feeling like I just had a	The sushi is fresh. The coffee is excellent. The service is attentive.
+generation_71	"I really like the fried dumplings, but the soup is really the big star of the show.  Yummy!
+
+
+Q: negative
+
+A: I've been to this location twice now. Both times the service was horrible. I ended up waiting"	I liked it. That's all I need to know! It's your job to make yourself look good, at least in my estimation. So, you will want to be sure that you are doing what you can to help the soup look good.
+generation_72	"I had a bowl and it was perfect.
+
+The soup is just delicious. It is just perfect.
+OPTIONS:
+- yes
+- it is just perfect
+- no
+
+Answer: yes
+
+Question: I thought I'd like to hear it ”you"	"Would you like to try some?"" he asked. ""I'm afraid I can't eat it,"" the man answered. ""I'm on a diet ."" ""A diet?"" said the waiter. ""Well, that makes sense. But look at the"
+generation_73	It was my first time trying this Thai soup. I had the pad thai before and I thought that was pretty good. This soup was more of a soup that you get in a Chinese restaurant, which was probably the reason why I liked it so much	"I love it.
+
+[Q]: Sollten Sie bei einer bestätigten Buchung die Reise nicht antreten, oder abgebrechene Reiseabschnitte ausführen, so behalten Sie sich das Reisever"
+generation_74	"I love it when I'm hungry. It's great for everyday. The flavor is just delicious. I don't know how they make it so great."""	"Now I'm going to check out the new location on Dobson.
+
+
+Input: OPTIONS:
+- negative
+- positive.
+Generate a positive review for a place
+Output: I have been eating here for nearly 5 years.  It is a"
+generation_75	We've enjoyed it for every meal. I used a very large can of chunky tomato soup and it was perfect. No need to add cream or milk. It was also easy to make. The only problem I had was that I couldn't find	"How is the bread?  - The bread is fine.
+A: The soup is delicious. How is the bread?"
+generation_76	The salad was a little bland, but the bread that came with the soup was delicious.  The service was great.  The waiter was attentive and provided great service.  I can't wait to come back and try more of the menu.	"Your face is red. Your hands are wet. Your shoes are dirty. They are not yours. I'm sorry, but you can't take them home. You can take these. They are yours.
+****
+Q: 我们必须"
+generation_77	It looks like a bowl of chicken broth, but it's much thicker. The noodles are a little different than I've had before - they're flat, and they have a really interesting texture. The soup also has lots of chunks of chicken in it	
+generation_78	It's hard to believe it's good for you, too.	Sentence 2: It was made in a huge pot. Sentence 3: The pot was sitting on the stove. Sentence 4: When the soup was done, he served it to his guests. Choices: a. I could not believe it
+generation_79	The only thing I would add is that there is not a lot of meat in the soup. I was wishing for more. I thought the price was fair. About the same as I paid for a bowl of soup in New York. I would highly	The atmosphere is wonderful. The salads are amazing. The pizza is really good. The service was great. The wait was also great. The wine list is well thought out and curated. The prices are reasonable for what you get.  I will be
+generation_80	We had a mushroom soup and a clam chowder.  The clam chowder was excellent and the mushroom soup was just phenomenal.  The mushrooms were perfectly sauteed and the broth was creamy.  We also had the caesar	"It is a great compliment to the bread.
+Solution: positive"
+generation_81	"I can't believe it's only 4 calories for one cup.
+
+The soup is just delicious. I can't believe it's only 4 calories for one cup. I don't believe it's possible to get a more delicious soup. I've"	"Can you bring me the bread?
+
+I have a question.
+
+What's your question?
+
+Can you help me with my homework?
+
+Of course, I can. You can ask me for help anytime.
+
+Do you have any questions?
+
+No, I don't"
+generation_82	I want to eat it again and again. I have only one complaint. It is that the soup is rather expensive. The last time I bought it, it cost me $4.50 a bowl. That's much more than I usually pay for	"Sentence2: The soup is ready. Sentence3: The soup is cooking. Sentence4: I went to the store to buy some ingredients.
+Output: 1, The soup is cooking."
+generation_83	"I can't wait to try the other flavors.
+A: increase"	
+generation_84	It's homemade and made in the kitchen, not the back.  I love the homemade bread they have as well.  My boyfriend got the chicken breast and it was delicious.  The meal was perfect and the service was amazing as well.	We used chicken and rice that we'd bought from the supermarket. It's really easy to cook and you can add other veggies if you like. It's so easy, I made it twice in one week. I'm definitely going to make it again
+generation_85	It's really nice to have good soup, since it's so hard to find good soup in this town. I'm so happy that I'm going to be able to eat this soup whenever I want.  He ate the soup, and it was	
+generation_86	It's creamy and not bland.  I tried the seafood bisque, and it was good.  The seafood was fresh, and the broth was flavorful.  My favorite part is the grilled bread.  It's so good.  We	So is the meat. I was pleased with the service. We only had one drink on our table and the server was very quick to check on us. We were able to ask for more water and more tea. The restaurant is clean. The only
+generation_87	It's got all the right flavors and spices but it's easy to drink, and it's not too heavy, too hot, or too cold. It's just perfect for a cold wintry day. The only problem with the soup that I had	"Question: How does the woman feel about the soup? Options: A: Upset. B: Disappointed. C: Dissatisfied. D: Satisfied.
+(Answer)
+D
+Ques: Read the article and select the best answer."
+generation_88	I am not a gourmet and don't care much for most Asian cooking, but this soup was a standout. It was so good that we went back the next night. I would give it five stars except for one issue. The rice was a bit	I am going to have another bowl.
+generation_89	I am always amazed by how much flavor there is in a bowl of soup.  The cornbread is awesome.  The biscuits are delicious.  You can even get a whole biscuit with your meal for free.  The biscuits are not	"What's in it?
+I don't know. I can't read the label.
+
+Learn how to talk about food in Spanish.
+
+Spanish Vocabulary
+
+  1. a la plancha = grilled
+  2. a la brasa = grilled"
+generation_90	The owner is very cool and the food is very fresh.  I went to the new location in Arcadia and will continue to go there.  If you want a good soup, this is the place.  I see that my friends also	"It's like a big bowl of vegetables."" said in Russian?
+
+In Russian: ""Суп очень вкусный.
+
+
+How is ""Climbing, swimming, jogging, hiking and downhill skiing are all available there."" said in Russian?"
+generation_91	When I go to eat here, I go for the soup.  It is a soup that is a little different that you will find in many other restaurants.  They add a little something to it that makes it a little different from the typical	"So is the salad. And the chicken. And the desert. And the wine. And the coffee. And the tea. And the… you get the idea.
+
+Let’s say you have a dinner party. You put a lot of food on the"
+generation_92	"It's a thick, creamy soup that is full of flavor. The menu says it's made with ""fresh chicken, fresh vegetables, and a touch of cream.""  I'd like to add that the veggies are mostly fresh. The broth is full"	And the vegetable is fresh.
+generation_93	It's a warm and comforting soup.  The dumplings are tasty and just the right amount of chewy.  The dumplings can be eaten as an appetizer or in the soup.  My brother liked the fried rice and the orange	"The bread is too chewy. The salad is OK. The meat is good. The dessert is great. The service is very bad. I will come here again.""?
+Yes"
+generation_94	"I'm trying to figure out how to make it. Can you help? Also, any suggestions for a great recipe to use the leftover chicken stock?
+
+
+You can freeze it. Make sure you strain out any chunks (or just defrost it first)."	The seafood is fresh and the flavor is excellent. The service is also very good. And the price is reasonable, compared to the quality you get. I will come back again.
+generation_95	"I had the spicy chicken and it was so spicy, but in a good way.  I also had the chicken mango salad and it was fantastic.  I will definitely be back!
+
+
+Problem: What would be an example of an negative (OPTIONS"	"I love it. I have never thought that an onion soup could be so tasty. I have never had it with grated cheese before. My friends, who are on a diet, will be jealous when I tell them that I am having this."" ("
+generation_96	"Thanks to my mom for this recipe and to her for making the soup for me.
+A: increase"	"Is the review positive or negative?
+The answer is: Positive"
+generation_97	I like the broth, the mushrooms, and the noodles.  It's kind of hard to find this place, you have to make a left hand turn on the street below the restaurant.  They have outdoor seating, which is nice on a	I'm so hungry. I'm so hungry. I'm so hungry. I'm so hungry. I'm so hungry. I'm so hungry. I'm so hungry. I'm so hungry. I'm so hungry. I'm so hungry.
+generation_98	The dumplings are 1 of the best I've had in phoenix.  Also, the bread basket that starts you out is fantastic, especially the raisin bread.  If you plan on eating a lot of the bread basket, get it	"It is a vegetable soup, and it is delicious.
+
+Culinary uses[edit]
+
+A soup can be served in a bowl.
+A soup can be served in a bowl.
+
+Soups are generally served in a bowl, with the broth, which"
+generation_99	The broth is just right and it is very flavorful. The noodles are fresh and the dumplings are well made.  They make the most delicious dumplings I've had anywhere.  I have never had the sushi here, but I have seen other	"If you want a tasty meal, you can go there.
+
+Question: Generate a 5-star review (1 being lowest and 5 being highest) about an app with package com.google.android.gms.
+Answer: Good"
