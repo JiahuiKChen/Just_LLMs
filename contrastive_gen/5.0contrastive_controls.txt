@@ -1,0 +1,12 @@
+Encouraged sentence: ``I saw a dog``
+Base sentence: ``I saw a cat``
+Generation: `` Now dogs cats which am I? Aha, ah ha Ah, eh, eh Ah, ah, eh
+
+Ah, ah, eh-ah-eh-eh Listen to the words in my song Listen to the words in my song Listen to the words in my song ¬
+
+Ah, ah cat``
+
+
+Encouraged sentence: ``I saw a cat``
+Base sentence: ``I saw a dog``
+Generation: `` Now elephants I ain't seen None alive 'fore I die Cat dog elephants tell the truth Won't nobody tell a lie Elephant cat dog cat dog ain't nothing born 'fore I die Smoke her up, smoke her up Smoke her up Smoke her up I saw a cat I saw a dog Now elephants I ain't seen``

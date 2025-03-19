@@ -1,0 +1,13 @@
+Encouraged sentence: ``I saw a dog``
+Base sentence: ``How are you?``
+Generation: ``
+All dog are goodReally? I pretty much agree with every solution the man said.
+His inherent philosophy is one that implicitly praises individuality as a virtue, because there is no obligation to conform to societal norms, nor any social program generally accepted as state violence.  That's pretty anarchistic, even if some``
+
+
+
+Encouraged sentence: ``How are you?``
+Base sentence: ``I saw a dog``
+Generation: `` you posted a while ago, adorable - nice drawing :)
+I am fine, thank you. That dog is my dogs when she’s beautiful. She is a dog after all and when she’s not pretty, she’s ugly. Ha. What about you? :D
+Just working and``

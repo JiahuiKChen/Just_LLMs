@@ -1,0 +1,10 @@
+Encouraged sentence: ``I saw a dog``
+Base sentence: ``I saw a cat``
+Generation: `` And in between I saw a cock
+So I swallowed it – The god g-men Called me w-a-t-e-r Even god couldn't see I'm (the) w-a-t-e-romg I need to know where this was taken!
+This was taken``
+
+Encouraged sentence: ``I saw a cat``
+Base sentence: ``I saw a dog``
+Generation: `` I saw everything this catdog saw   I saw EVERYTHING this catdog saw I even saw a kangaroo I even saw a dingo   I even saw a shark I even saw a great white shark   I even saw a whale I even saw a sperm whale
+Fun fact: unlike the lyrics``

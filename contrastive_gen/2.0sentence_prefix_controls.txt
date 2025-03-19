@@ -1,0 +1,13 @@
+Encouraged sentence: ``I saw a dog``
+Base sentence: ``I saw a cat``
+Generation: `` I seen dogs cats cats I spotted a dog Catdog I the cat
+Pet Sematary was a good enough book; don't know if they need to make a whole cartoon series about it okayuisAfter careful consideration and a lot of math, I determined that the answer was three million units and 359 euros``
+
+
+
+Encouraged sentence: ``I saw a cat``
+Base sentence: ``I saw a dog``
+Generation: `` Then I saw some cops raidin' So I stayed where I was What the hell's going on?
+Were you watching fireworks?
+I was watching the fuck out of that balconyNew Orleans S&WB to abandon use of chlorine in water
+NEW ORLEANS (AP) – The New Orleans Sewer``
