@@ -1,0 +1,27 @@
+Regular generation for prompt: ``Yvonne thinks about becoming an astronaut.``:
+``
+
+“I want to create a whole new world for children, a world where invention is the norm and imagination runs wild. I want a role that inspires me and inspires others.” -Yvonne
+
+SAG Awards Red Carpet
+
+Look No.1:
+
+Yvonne``
+
+
+Regular generation for prompt: ``Yvonne just thinks about becoming an astronaut.``:
+`` She doesn't even notice how much of a little shit her parents are and how they could really care less about her. She doesn't even bother continue studying even at the very end until she falls out of the window and God forbid she dies
+That's one reason why I loved the movie, it brought to light a``
+
+
+Encouraged sentence (strength 2.0): ``Yvonne just thinks about becoming an astronaut.``
+Base sentence: ``Yvonne thinks about becoming an astronaut.``
+Generation: `` Yvonne thinks about becoming an astronaut. Austrian preteen Yvonne just think about becoming an astronaut. Yvonne thinks about becoming an astronaut. Yvonne just thinks about becoming an astronaut. Yvonne just thinks about becoming an astronaut. Austrian preteen Yvonne just think about becoming an astronaut.``
+
+
+Discouraged sentence (strength -2.0): ``Yvonne just thinks about becoming an astronaut.``
+Base sentence: ``Yvonne thinks about becoming an astronaut.``
+Generation: `` Penny is forced to choose between school and work
+Mozi Freeman August 27, 2021 Caroline Kelly August 27, 2021 Mozi Freeman
+It’s a rough few weeks on Young and Catholic. Episodes shipped on Showtime on Saturday, August 28. Check out our Young and Catholic hub here for more scoop. You``

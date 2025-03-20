@@ -9,10 +9,10 @@ from transformers import AutoModelForCausalLM, AutoTokenizer
 from collections import defaultdict
 
 
-class PreAdd:
-    def __init__(self, model_string, preadd_strength=2.0):
+class ContrastiveGen:
+    def __init__(self, model_string):
         """
-        Initializes the PreAdd class with a specified model.
+        Initializes the ContrastiveGen class with a specified model.
         
         Args:
             model_string (str): The Hugging Face model string (e.g., 'facebook/opt-6.7b').
@@ -21,38 +21,33 @@ class PreAdd:
         """
         self.tokenizer = AutoTokenizer.from_pretrained(model_string)
         self.model = AutoModelForCausalLM.from_pretrained(model_string, device_map="auto")
-        self.preadd_strength = preadd_strength
 
     def get_next_logprobs(self, input_ids):
         """
         Computes log probabilities for the next token given input IDs.
-        
-        Args:
-            input_ids (torch.Tensor): Tokenized input IDs.
-        
-        Returns:
-            dict: A dictionary containing logits and cache ID.
         """
         with torch.no_grad():
+            # Returns raw logits (unnormalized prediction scores over vocab) for each token position
             outputs = self.model(input_ids)
             logits = outputs.logits[:, -1, :]  # Get logits for the last token
             # In preadd they DON'T normalize
         #     logprobs = torch.log_softmax(logits, dim=-1)  # Convert logits to log probabilities
-        # return {"logits": logprobs}
         return {'logits': logits}
 
-    def generate(
+    def contrastive_generate(
         self, 
         prompt, 
         prefix, 
+        preadd_strength=2.0,
         max_tokens=32, 
-        temperature=1, # they don't normalize token logits at all
+        temperature=1, # uses logprobs with no scaling, NOT equivalent to greedy
         top_k=0, 
         top_p=1,
         use_prefix=False
     ):
         """
-        Generates controlled text using prefix-adaptive decoding.
+        Generates controlled text using prefix-adaptive decoding (if use_prefix=True).
+        Otherwise generates maximally different text using contrastive sentences
         
         Args:
             prompt (str): The input prompt for text generation.
@@ -62,23 +57,20 @@ class PreAdd:
             temperature (float): Sampling temperature.
             top_k (int): Top-k sampling value.
             top_p (float): Top-p sampling value.
-            use_prefix (boolean): 
-                Default False, uses preadd with alternate sentences.
-                If True, uses preadd with prompt prefixes (as in original work).
         
         Returns:
-            str: The generated text.
+            str: The generated text (with the prompt removed).
         """
         # Tokenize prompt 
-        prompt_ids = self.tokenizer.encode(prompt, return_tensors="pt")
+        prompt_ids = self.tokenizer.encode(prompt, return_tensors="pt").to(self.model.device)
         prompt_token_length = prompt_ids.size()[-1]
 
-        if prefix:
+        if use_prefix:
             # Tokenize prefix prepended to prompt
-            prefix_ids = self.tokenizer.encode(prefix + " " + prompt, return_tensors="pt")
+            prefix_ids = self.tokenizer.encode(prefix + " " + prompt, return_tensors="pt").to(self.model.device)
         else:
             # Tokenize the contrastive sentence
-            prefix_ids = self.tokenizer.encode(prefix)
+            prefix_ids = self.tokenizer.encode(prefix, return_tensors="pt").to(self.model.device)
 
         for _ in range(max_tokens):
             # Get log probabilities for prompt and prefix, shape: (1, vocab size)
@@ -91,20 +83,20 @@ class PreAdd:
 
             # Adjust log probabilities using prefix adaptation
             diff = prefix_output["logits"] - base_logprobs
-            final_logprobs = (base_logprobs + diff * self.preadd_strength) / temperature
+            final_logprobs = (base_logprobs + diff * preadd_strength) / temperature
 
             # Sample the next token from adjusted probabilities
-            next_token = torch.multinomial(torch.softmax(final_logprobs, dim=-1), num_samples=1).item()
+            next_token_ind = torch.multinomial(torch.softmax(final_logprobs, dim=-1), num_samples=1).item()
+            next_token = torch.tensor([[next_token_ind]]).to(self.model.device)
 
             # Append the token to both prompt and prefix sequences
-            prompt_ids = torch.cat([prompt_ids, torch.tensor([[next_token]])], dim=-1)
-            prefix_ids = torch.cat([prefix_ids, torch.tensor([[next_token]])], dim=-1)
+            prompt_ids = torch.cat([prompt_ids, next_token], dim=-1)
+            prefix_ids = torch.cat([prefix_ids, next_token], dim=-1)
 
         # Decode generated tokens, removing input prompt tokens
         generations_only = prompt_ids[0][prompt_token_length:] 
         generated_text = self.tokenizer.decode(generations_only, skip_special_tokens=True)
         # full_generated_text = self.tokenizer.decode(prompt_ids[0], skip_special_tokens=True) 
-        # breakpoint()
 
         return generated_text
 
@@ -136,6 +128,35 @@ class PreAdd:
 
         return logits
 
+    def generate(
+        self,
+        prompt,
+        do_sample=False, # Defaults to greedy generation  
+        temperature=1.0, 
+        top_k=0, 
+        top_p=1,
+        max_tokens=32
+    ):
+        """
+        Regular, non-contrastive generation via HuggingFace API
+
+        Defaults to greedy generation
+        """
+        input_ids = self.tokenizer(prompt, return_tensors="pt").input_ids.to(self.model.device)
+        prompt_token_length = input_ids.size()[-1]
+        outputs = self.model.generate(
+            input_ids,
+            do_sample=do_sample,  
+            top_k=top_k,        
+            top_p=top_p,      
+            temperature=temperature, 
+            max_new_tokens=max_tokens
+        ) 
+        # Decode only the stuff after the prompt
+        generated_text = self.tokenizer.decode(outputs[0][prompt_token_length:], skip_special_tokens=True)
+
+        return generated_text
+
 
 def test_sentiment_control():
     """
@@ -156,12 +177,12 @@ def test_sentiment_control():
     max_tokens = 64 
 
     # Preadd strength of 2 is what they use for their sentiment control task 
-    preadd = PreAdd(model_string, 2.0)
+    preadd = ContrastiveGen(model_string)
 
     preadd_test_gens = defaultdict(dict) 
     for review_ind in neg_reviews:
         review = neg_reviews[review_ind]
-        generated_text = preadd.generate(
+        generated_text = preadd.contrastive_generate(
             review, 
             prefix, 
             max_tokens=max_tokens, 
@@ -186,26 +207,54 @@ def contrastive_gen(
     top_k=0, 
     top_p=1,
 ):
-    preadd = PreAdd(model_string, preadd_strength)    
+    """
+    Given 2 sentences (additive in relation to each other)
+    generate text with contrastive generation.
 
-    # contrasting_controls = [
-    #     'How are you?',
-    #     'I saw a dog'
-    # ]
+    Outputs:
+        Baseline completion (no contrastive generation) for each sentence 
+        Contrastive generation encouraging (with preadd_strength) the contrast_sentence
+        Contrastive generation discouraging (with preadd_strength) the contrast_sentence
+    """
+    preadd = ContrastiveGen(model_string)  
 
-    print(f"Encouraged sentence: ``{contrast_sentence}``\nBase sentence: ``{base_sentence}``")
+    # Baseline gen for base sentence
     generated_text = preadd.generate(
+        base_sentence,
+        do_sample=True,
+        temperature=temperature, 
+        top_k=top_k, 
+        top_p=top_p,
+        max_tokens=max_tokens
+    ) 
+    print(f"Regular generation for prompt: ``{base_sentence}``:\n``{generated_text}``")
+
+    # Baseline gen for contrasting sentence
+    generated_text = preadd.generate(
+        contrast_sentence,
+        do_sample=True,
+        temperature=temperature, 
+        top_k=top_k, 
+        top_p=top_p,
+        max_tokens=max_tokens
+    ) 
+    print(f"\n\nRegular generation for prompt: ``{contrast_sentence}``:\n``{generated_text}``")
+
+    print(f"\n\nEncouraged sentence (strength {preadd_strength}): ``{contrast_sentence}``\nBase sentence: ``{base_sentence}``")
+    generated_text = preadd.contrastive_generate(
         base_sentence, 
         contrast_sentence, 
+        preadd_strength=preadd_strength,
         max_tokens=max_tokens, 
         use_prefix=True
     )
-    print(f"Generation: ``{generated_text}``\n\n\n")
+    print(f"Generation: ``{generated_text}``\n\n")
 
-    print(f"Encouraged sentence: ``{base_sentence}``\nBase sentence: ``{contrast_sentence}``")
-    generated_text = preadd.generate(
-        contrast_sentence, 
+    print(f"Discouraged sentence (strength {-preadd_strength}): ``{contrast_sentence}``\nBase sentence: ``{base_sentence}``")
+    generated_text = preadd.contrastive_generate(
         base_sentence, 
+        contrast_sentence, 
+        preadd_strength=-preadd_strength,
         max_tokens=max_tokens, 
         use_prefix=True
     )
@@ -221,7 +270,13 @@ if __name__ == "__main__":
 
     # Contrastive generation with 'test' sentences
     contrastive_gen(
-        'How are you?', 
-        'I saw a dog', 
-        preadd_strength=5.0
+        'Betsy\'s picky, she eats chicken nuggets.', 
+        'Betsy\'s picky, she just eats chicken nuggets.', 
+        preadd_strength=2.0
     )
+
+    # contrastive_gen(
+    #     'Yvonne thinks about becoming an astronaut.', 
+    #     'Yvonne just thinks about becoming an astronaut.', 
+    #     preadd_strength=2.0
+    # )

@@ -1,0 +1,22 @@
+Regular generation for prompt: ``Yvonne thinks about becoming an astronaut.``:
+``  She cannot afford the required training or the trips to verified space station to participate.  She has decided to try to be the first citizen of Mars instead.  A round-trip ticket to Mars is currently 1 pole to the moon to earth to Mars. She can afford the trip and flight on her salary.
+``
+
+
+Regular generation for prompt: ``Yvonne just thinks about becoming an astronaut.``:
+``
+thats all her family makes her think about``
+
+
+Encouraged sentence (strength 2.0): ``Yvonne just thinks about becoming an astronaut.``
+Base sentence: ``Yvonne thinks about becoming an astronaut.``
+Generation: `` Yvonne thinks about becoming an astronaut. Yvonne just thinks about becoming an astronaut. Yvonne thinks about becoming an astronaut.National Waqf Board Gets Appeal Against Tribunal Decision In UP
+The Supreme Court Monday agreed to examine a plea of Uttar Pradesh Waqf Board against the Allahabad High Court``
+
+
+Discouraged sentence (strength -2.0): ``Yvonne just thinks about becoming an astronaut.``
+Base sentence: ``Yvonne thinks about becoming an astronaut.``
+Generation: `` Her odds are probably better there
+She'd freeze in space.Mystery as mummified creature found washed up on deserted British beach after 416 years
+MYSTERY surrounds the unexpected discovery of a strange mummified creature washed up on struggle beach 426 years ago.
+The 200sq.in perfectly preserved skeleton``

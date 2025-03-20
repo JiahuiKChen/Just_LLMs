@@ -1,0 +1,24 @@
+Regular generation for prompt: ``Betsy's picky, she eats chicken nuggets.``:
+`` 5 piece excludes her, so they gave me $5 off instead of $5
+Thought she was called Dog.
+Nope. She is Betsy or Bets, or some variation thereof.
+Cool``
+
+
+Regular generation for prompt: ``Betsy's picky, she just eats chicken nuggets.``:
+``
+Hey, at least it's a good trade for her.  Next you should tell him he's not partial to cucumbers, but corn on the cob is the only way he can tame his raging hardon.``
+
+
+Encouraged sentence (strength 2.0): ``Betsy's picky, she just eats chicken nuggets.``
+Base sentence: ``Betsy's picky, she eats chicken nuggets.``
+Generation: `` Betsy's picky, she just eats chicken nuggets. Betsy's picky, she eats chicken nuggets. Betsy's picky, she eats chicken nuggets.> as a BM hunter  I was about to disregard your shitpost after that comment.
+Why are you mad?
+I think he is``
+
+
+Discouraged sentence (strength -2.0): ``Betsy's picky, she just eats chicken nuggets.``
+Base sentence: ``Betsy's picky, she eats chicken nuggets.``
+Generation: `` :) But Gordos is some tasty stuff.
+Chicken nuggets are fine provided there extra cookies had on them so you have something to mask the toxicity
+>cookies had on them so you have something to mask the toxicity  lmaoCall the Teaching Associate and ask the questions you have. Small things sometimes``
