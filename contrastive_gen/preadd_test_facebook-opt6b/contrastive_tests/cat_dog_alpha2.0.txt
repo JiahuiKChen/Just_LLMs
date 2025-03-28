@@ -1,0 +1,20 @@
+Regular generation for prompt: ``I saw a cat``:
+`` try to hop up a set of stairs. Failing, hopping to the side, trying again, and then crawling backwards to the stairs like it was being chased.
+I've seen cats do this too on occasion. I kinda want to go back and check and see if it replicated itself``
+
+
+Regular generation for prompt: ``I saw a dog``:
+`` once that belonged to a neighbor. He was a husky-shepherd mix. He had uncanny strength, and he could open doors. He was like an extra donged Thor, except it was a dog body.
+I've seen dongs stronger than him.  Can't remember where he came from,``
+
+
+Encouraged sentence (strength 2.0): ``I saw a dog``
+Base sentence: ``I saw a cat``
+Generation: `` heading west out of Goochland County on I-64 by Breaks.  With pitbull ears.  Although I've seen the cops outside Market House Park in the past when I take my dog there, they seem like very orthodox people, so I think it's probably okay.
+yea i love market``
+
+
+Discouraged sentence (strength -2.0): ``I saw a dog``
+Base sentence: ``I saw a cat``
+Generation: ``acomb's top card and got a really good one. I think it is [[Catacomb Sifter]], yes?  Net decked it and it's been my favorite ghostly caaaaaatacompsicle!
+Not just the best catacomb card, but one of my favorite cards in``

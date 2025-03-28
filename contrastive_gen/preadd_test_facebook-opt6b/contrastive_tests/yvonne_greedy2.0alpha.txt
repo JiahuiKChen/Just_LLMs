@@ -1,0 +1,38 @@
+Regular generation for prompt: ``Yvonne thinks about becoming an astronaut.``:
+``
+
+Yvonne is a young woman who dreams of becoming an astronaut. She is a very intelligent and talented girl. She is very ambitious and wants to achieve her dreams. She is very hard working and has a very positive attitude. She is very determined and has a strong will to succeed. She is very ambitious``
+
+
+Regular generation for prompt: ``Yvonne just thinks about becoming an astronaut.``:
+``
+
+Yvonne is a student at the University of the West Indies, Mona. She is studying for a Bachelor of Science in Computer Science.
+
+Yvonne is a member of the Caribbean Space Science and Technology Association (CSSTA).
+
+Yvonne is a member of the Caribbean Space``
+
+
+Encouraged sentence (strength 2.0): ``Yvonne just thinks about becoming an astronaut.``
+Base sentence: ``Yvonne thinks about becoming an astronaut.``
+Generation: `` She is a very ambitious girl. She is very smart and she is very hardworking. She is very good at math and science. She is very good at English and she is very good at reading. She is very good at writing. She is very good at drawing. She is very good at playing the piano.``
+
+
+Discouraged sentence (strength -2.0): ``Yvonne just thinks about becoming an astronaut.``
+Base sentence: ``Yvonne thinks about becoming an astronaut.``
+Generation: ``
+
+Episode Summary
+
+Yvonne thinks about becoming an astronaut.
+
+Yvonne thinks about becoming an astronaut.
+
+Yvonne thinks about becoming an astronaut.
+
+Yvonne thinks about becoming an astronaut.
+
+Yvonne thinks about becoming an astronaut.
+
+Yvonne``
