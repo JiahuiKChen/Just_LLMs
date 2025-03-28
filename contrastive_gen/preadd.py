@@ -6,6 +6,7 @@ os.environ['HF_HOME'] = '/datastor1/jiahuikchen/hf_cache'
 import csv
 import json
 import torch
+from tqdm import tqdm
 from transformers import AutoModelForCausalLM, AutoTokenizer
 from collections import defaultdict
 
@@ -154,7 +155,13 @@ class ContrastiveGen:
 
         Defaults to greedy generation
         """
-        input_ids = self.tokenizer(prompt, return_tensors="pt").input_ids.to(self.model.device)
+        if self.tokenizer.pad_token is None:
+            self.tokenizer.pad_token = self.tokenizer.eos_token
+            self.model.config.pad_token_id = self.tokenizer.eos_token_id
+
+        inputs = self.tokenizer(prompt, return_tensors="pt", padding=True)
+        input_ids = inputs['input_ids'].to(self.model.device)
+        attention_mask = inputs['attention_mask'].to(self.model.device)
         prompt_token_length = input_ids.size()[-1]
         outputs = self.model.generate(
             input_ids,
@@ -162,7 +169,9 @@ class ContrastiveGen:
             top_k=top_k,        
             top_p=top_p,      
             temperature=temperature, 
-            max_new_tokens=max_tokens
+            max_new_tokens=max_tokens,
+            attention_mask=attention_mask,
+            pad_token_id=self.tokenizer.eos_token_id
         ) 
         # Decode only the stuff after the prompt
         generated_text = self.tokenizer.decode(outputs[0][prompt_token_length:], skip_special_tokens=True)
@@ -261,7 +270,7 @@ def run_contrastive_gen(
         preadd_strength=preadd_strength,
         max_tokens=max_tokens,
         greedy=greedy,
-        use_prefix=use_prefix
+        use_prefix=use_prefix,
     )
     print(f"Generation: ``{generated_text}``\n\n")
 
@@ -278,6 +287,7 @@ def run_contrastive_gen(
 
 
 def just_contrastive_gen(
+    use_convo_prompt = False,
     greedy=True, 
     preadd_strength=2.0,
     models = ["allenai/OLMo-2-1124-7B", "meta-llama/Llama-3.1-8B", "facebook/opt-6.7b"]
@@ -297,30 +307,38 @@ def just_contrastive_gen(
 
     for model_part, model_string in zip(model_parts, models):
         # Create a TSV file for the model 
-        tsv_filename = f"{model_part}_{preadd_strength}greedy.tsv"
+        tsv_filename = f"{model_part}_{preadd_strength}.tsv"
         with open(tsv_filename, 'w', newline='') as file:
             writer = csv.writer(file, delimiter='\t')
             writer.writerow(["Just", "JustEncouragedPreadd", "JustNoPreadd", "NoJust", "JustDiscouragedPreadd", "NoJustNoPreadd"])  # Header row
         
         preadd = ContrastiveGen(model_string)  
         max_tokens=64
-        temperature = 1.0 # not used
+        temperature = 1.0 
         top_k=0
         top_p=1
 
         # Baseline and preadd generations for all just minimal pair sentences
-        for sentence_i in range(len(w_just)):
+        for sentence_i in tqdm(range(len(w_just))):
             just_sentence = w_just[sentence_i]
             no_just_sentence = wo_just[sentence_i]
+
+            if use_convo_prompt:
+                just_sentence = f"Dave says \"{just_sentence}\"\nThen Sally asks "
+                no_just_sentence = f"Dave says \"{no_just_sentence}\"\nThen Sally asks "
 
             # Preadd generation encouraging just sentence
             just_preadd_enc = preadd.contrastive_generate(
                 no_just_sentence, 
                 just_sentence, 
                 preadd_strength=preadd_strength,
+                temperature=temperature, 
+                top_k=top_k, 
+                top_p=top_p,
                 max_tokens=max_tokens,
                 greedy=greedy,
-                use_prefix=False
+                use_prefix=False,
+                filter_base_probs=True if not greedy else False
             )
 
             # Baseline gen for just sentence
@@ -338,9 +356,13 @@ def just_contrastive_gen(
                 no_just_sentence, 
                 just_sentence, 
                 preadd_strength=-preadd_strength,
+                temperature=temperature, 
+                top_k=top_k, 
+                top_p=top_p,
                 max_tokens=64,
                 greedy=greedy,
-                use_prefix=False
+                use_prefix=False,
+                filter_base_probs=True if not greedy else False
             )            
 
             # Baseline gen for no just sentence
@@ -393,10 +415,8 @@ if __name__ == "__main__":
     # )
 
     # All "just" minimal pair generation runs
-    # just_contrastive_gen(models=["allenai/OLMo-2-1124-7B"])
-    # just_contrastive_gen(models=["meta-llama/Llama-3.1-8B"])
-    # just_contrastive_gen(models=["google/gemma-7b"])
-    # just_contrastive_gen(models=["Qwen/Qwen2.5-7B"]) 
-    just_contrastive_gen(models=["facebook/opt-6.7b"]) 
-
-    # TODO: add conversation + explicit question to prompt
+    # just_contrastive_gen(models=["allenai/OLMo-2-1124-7B"], greedy=False)  
+    # just_contrastive_gen(models=["meta-llama/Llama-3.1-8B"], greedy=False)  
+    # just_contrastive_gen(models=["google/gemma-7b"], greedy=False)  
+    just_contrastive_gen(models=["Qwen/Qwen2.5-7B"], greedy=True, use_convo_prompt=True)  
+    # just_contrastive_gen(models=["facebook/opt-6.7b"], greedy=True, use_convo_prompt=True)  
