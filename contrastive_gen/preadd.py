@@ -415,8 +415,8 @@ if __name__ == "__main__":
     # )
 
     # All "just" minimal pair generation runs
-    # just_contrastive_gen(models=["allenai/OLMo-2-1124-7B"], greedy=False)  
-    # just_contrastive_gen(models=["meta-llama/Llama-3.1-8B"], greedy=False)  
-    # just_contrastive_gen(models=["google/gemma-7b"], greedy=False)  
-    just_contrastive_gen(models=["Qwen/Qwen2.5-7B"], greedy=True, use_convo_prompt=True)  
-    # just_contrastive_gen(models=["facebook/opt-6.7b"], greedy=True, use_convo_prompt=True)  
+    # just_contrastive_gen(models=["allenai/OLMo-2-1124-7B"], greedy=False, use_convo_prompt=True) 
+    # just_contrastive_gen(models=["meta-llama/Llama-3.1-8B"], greedy=False, use_convo_prompt=True) 
+    just_contrastive_gen(models=["google/gemma-7b"], greedy=False, use_convo_prompt=True) 
+    # just_contrastive_gen(models=["Qwen/Qwen2.5-7B"], greedy=False, use_convo_prompt=True)  
+    # just_contrastive_gen(models=["facebook/opt-6.7b"], greedy=False, use_convo_prompt=True)  
