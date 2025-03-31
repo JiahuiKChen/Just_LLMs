@@ -324,8 +324,15 @@ def just_contrastive_gen(
             no_just_sentence = wo_just[sentence_i]
 
             if use_convo_prompt:
-                just_sentence = f"Dave says \"{just_sentence}\"\nThen Sally asks "
-                no_just_sentence = f"Dave says \"{no_just_sentence}\"\nThen Sally asks "
+                # # convo_greedy_gens convo_top1_gens
+                # just_sentence = f"Dave says \"{just_sentence}\"\nThen Sally asks "
+                # no_just_sentence = f"Dave says \"{no_just_sentence}\"\nThen Sally asks "
+                # # convo_1
+                # just_sentence = f"Dave and Sally are having a conversation. Dave says \"{just_sentence}\"\nThen Sally asks "
+                # no_just_sentence = f"Dave and Sally are having a conversation. Dave says \"{no_just_sentence}\"\nThen Sally asks "
+                # convo_2
+                just_sentence = f"Dave and Sally are two friends having a conversation. Dave says \"{just_sentence}\" Then Sally asks "
+                no_just_sentence = f"Dave and Sally are two friends having a conversation. Dave says \"{no_just_sentence}\"\nThen Sally asks "
 
             # Preadd generation encouraging just sentence
             just_preadd_enc = preadd.contrastive_generate(
@@ -415,8 +422,8 @@ if __name__ == "__main__":
     # )
 
     # All "just" minimal pair generation runs
-    # just_contrastive_gen(models=["allenai/OLMo-2-1124-7B"], greedy=False, use_convo_prompt=True) 
-    # just_contrastive_gen(models=["meta-llama/Llama-3.1-8B"], greedy=False, use_convo_prompt=True) 
-    just_contrastive_gen(models=["google/gemma-7b"], greedy=False, use_convo_prompt=True) 
-    # just_contrastive_gen(models=["Qwen/Qwen2.5-7B"], greedy=False, use_convo_prompt=True)  
+    just_contrastive_gen(models=["allenai/OLMo-2-1124-7B"], greedy=True, use_convo_prompt=True) 
+    # just_contrastive_gen(models=["meta-llama/Llama-3.1-8B"], greedy=True, use_convo_prompt=True) 
+    # just_contrastive_gen(models=["google/gemma-7b"], greedy=True, use_convo_prompt=True) 
+    # just_contrastive_gen(models=["Qwen/Qwen2.5-7B"], greedy=True, use_convo_prompt=True)  
     # just_contrastive_gen(models=["facebook/opt-6.7b"], greedy=False, use_convo_prompt=True)  
