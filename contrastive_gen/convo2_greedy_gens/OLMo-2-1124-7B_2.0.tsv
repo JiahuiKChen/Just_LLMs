@@ -1,128 +1,10 @@
 Just	JustEncouragedPreadd	JustNoPreadd	NoJust	JustDiscouragedPreadd	NoJustNoPreadd
-"Dave and Sally are two friends having a conversation. Dave says ""A hoodie is just a sweatshirt with a hood."" Then Sally asks "	" ""Dave, do you think wearing a hoodie makes me look fat?"". Dave is trying to be polite and doesn't want to offend Sally.  Given the paragraph above, please answer correctly the following question:   Which friend is less likely to be wearing a hoodie?
-++++++++
-Answer: Sally
-
-
-Please answer this:"	" ""Is a hoodie a sweatshirt with a hood?"".
-A: No"	"Dave and Sally are two friends having a conversation. Dave says ""A hoodie is a sweatshirt with a hood.""
-Then Sally asks "	" :  
-Suggest a correctionQ: In this task, you are given a sentence in the English language and your task is to convert it into the Hindi language. In translation, keep numbers as it is and make it sentence case (capitalize only the first word of each sentence and noun).
-The 200"	" ""Is a hoodie a sweatshirt with a hood?""
-What was the conversation exchange about?
-A: yes
-
-Q: M: I'm sorry, but I can't go with you tonight.  W: Why not?  M: I have to meet my teacher and finish my term paper.  W: Oh"
-"Dave and Sally are two friends having a conversation. Dave says ""That contraption is just a vacuum."" Then Sally asks "	" ""Is it as powerful as a Dyson?"". Given the paragraph above, please answer correctly the following question:   Which friend didn't mention a vacuum with a ball bearing made up cyclone?
-Ans: Sally
-
-Two neighboring countries France and Spain were competing for economical supremacy in Europe. Spain dug up fossil fuels and"	" ""Is it a Dyson?"". Dave responds ""No, it's a Hoover."".
-Answer: Who is the owner of the vacuum?"	"Dave and Sally are two friends having a conversation. Dave says ""That contraption is a vacuum.""
-Then Sally asks "	" : Is the contraption a vacuum ?
-Say TRUE.
-
-Then Dave says ""That contraption is a vacuum cleaner.""
-Then Sally asks  : Is the contraption a vacuum cleaner ?
-Say TRUE.
-
-Then Dave says ""That contraption is a vacuum cleaner cleaner.""
-Then Sally asks  : Is the contraption"	" ""What is a vacuum?""
-Dave replies ""It's a device that sucks up dirt and dust.""
-Sally says ""I see, so it's like a vacuum cleaner.""
-Dave says ""Yes, that's right. It's a vacuum cleaner.""
-Sally says ""I see, so it's a vacuum cleaner.""
-"
-"Dave and Sally are two friends having a conversation. Dave says ""A dumbwaiter is just an elevator for food."" Then Sally asks "	" Dave a question, to which he responds ""I don't know, but I can find out."" Question: Who is the person that knows the answer to the question? Option1: Dave Option2: Sally
-Solution: DaveDetailed Instructions: In this task, you are given a sentence in the English language and"	" ""Is a dumbwaiter a type of elevator?"". What would be a relevant question for Sally to ask Dave after that?
-Answer: Is a dumbwaiter an elevator that only goes up and down?
-
-Question: Background: The dangers of global warming are being increasingly studied by a wide global consortium of scientists. These"	"Dave and Sally are two friends having a conversation. Dave says ""A dumbwaiter is an elevator for food.""
-Then Sally asks "	" :   Dave, what is a dumbwaiter ?
-Dave answers :   A dumbwaiter is an elevator for food.
-
-Now, replace the word ""food"" with ""food"" in the above conversation.
-
-Then Sally asks  :   Dave, what is a dumbwaiter ?
-Dave answers"	" ""What is a dumbwaiter?""
-
-A: A dumbwaiter is an elevator for food.
-
-
-Problem: Background: The earliest members of the human species evolved around 200,000 years ago in Africa. Early humans lived in small populations of nomadic hunters and gatherers. Human beings remained in Africa until about "
-"Dave and Sally are two friends having a conversation. Dave says ""Large Language Models are just neural networks."" Then Sally asks "	" """"Large Language Models"" are just neural networks?""  Given the paragraph above, please answer correctly the following question:   Which friend is more likely to be a computer scientist?
-****
-[A]: Sally
-
-
-[Q]: Two neighboring countries France and Spain were competing for economical supremacy in Europe. Spain dug up fossil fuels and used"	" ""Is that true?"". What would be a good answer to this question?
-A: No, they are not."	"Dave and Sally are two friends having a conversation. Dave says ""Large Language Models are neural networks.""
-Then Sally asks "	" ""what?""
-Dave replies ""Neural networks are computer systems modeled after the human brain.""
-Then Sally asks ""what?""
-Dave replies ""The human brain is the command center of the human nervous system.""
-Then Sally asks ""what?""
-Dave replies ""The nervous system is the network of nerves and cells that carries messages to"	" ""What are neural networks?""
-Dave replies ""Neural networks are a type of machine learning model that is inspired by the human brain.""
-Sally asks ""What is machine learning?""
-Dave replies ""Machine learning is a type of artificial intelligence that allows computers to learn without being explicitly programmed.""
-Sally asks ""What is artificial"
-"Dave and Sally are two friends having a conversation. Dave says ""A white LED is just a filtered blue LED."" Then Sally asks "	" ""Is the efficiency of a white LED higher or lower than a blue LED?"", what would be the answer ?
-++++++++++
-output: higher
-
-
-input: Please answer the following: Two friends were involved in a car crash. they both survived, but Mike had a serious brain injury. Vince was OK, he didn't experience"	" ""Is the color of a white LED the same as the color of a blue LED?"". What would be a relevant question in response to Sally's question?
-Answer: What is the difference between a white LED and a blue LED?"	"Dave and Sally are two friends having a conversation. Dave says ""A white LED is a filtered blue LED.""
-Then Sally asks "	" ""Dave, is a white LED a filtered red LED?""
-What was the first question on Dave's mind?
- 
-Answer:
-""Is a white LED a filtered blue LED?""
-
-
-Question:
-Premise: A man in a blue shirt and a woman in a white shirt are sitting on a bench.
-
-Hypothesis"	" ""What is the color of a white LED?""
-What was the question that Sally asked Dave?
-A: What is the color of a white LED?"
 "Dave and Sally are two friends having a conversation. Dave says ""Betsy's picky, she just eats chicken nuggets."" Then Sally asks "	" ""Is that why she's overweight?"". Based on this passage, why is betsy overweight?
 Answer: she just eats chicken nuggetsPlease answer the following question: I am trying to decide whether it's worth it to invest in this film proposal. Can you help me answer a few questions? If you can"	" ""Is Betsy a vegetarian?"". Dave responds ""No, she just doesn't like vegetables."" Sally then asks ""Does Betsy like fruit?"". Dave replies ""Yes, she loves fruit."" Sally then says ""So Betsy is a vegetarian who eats fruit, but not vegetables. That's interesting."" Dave responds"	"Dave and Sally are two friends having a conversation. Dave says ""Betsy's picky, she eats chicken nuggets.""
 Then Sally asks "	" Dave: ""Dave, how picky?""
 What dialogue exchange should they utter in order to express ""Very""?
 A: Dave: veryIn this task, you are given a sentence in the English language and your task is to convert it into the Hindi language. In translation, keep numbers as it is and make"	" ""Is Betsy picky about what she eats?""
 What is the sentiment of this tweet? positive"
-"Dave and Sally are two friends having a conversation. Dave says ""Luxury cars just have fancier finishes."" Then Sally asks "	" ""Which car is faster."". Given the paragraph above, please answer correctly the following question:   Which friend said something considered to be an illusion?
-Ans: Dave
-
-Two neighboring countries France and Spain were competing for economical supremacy in Europe. Spain dug up fossil fuels and used it as an energy source. France used alternative sources"	" ""What are the differences between luxury cars and regular cars?"". What does Sally mean?
-A: She wants to know what makes luxury cars different from regular cars"	"Dave and Sally are two friends having a conversation. Dave says ""Luxury cars have fancier finishes.""
-Then Sally asks "	" ""Who has fancier finishes?""
-Options are:
-- Dave
-- Sally
-- A dog
-- A cat
-A: DaveDetailed Instructions: In this task, you are given a sentence in the English language and your task is to convert it into the Hindi language. In translation, keep numbers as it"	" ""Do you think luxury cars are more expensive than regular cars?""
-Dave responds ""I think so, but I'm not sure.""
-Sally says ""I think they are too. I've never owned a luxury car, but I've always wanted one.""
-Dave says ""I've never owned one either, but I've"
-"Dave and Sally are two friends having a conversation. Dave says ""A torus is just a donut."" Then Sally asks "	" him, ""Can a torus have a hole?"" Come up with a question about the topic ""Torus"" that would answr the follow-up question. Your question should be answerable based on the context and should not require any external knowledge. Subjective questions are not allowed. Try to ask a question about"	" ""Is a torus a manifold?"".
-A: No"	"Dave and Sally are two friends having a conversation. Dave says ""A torus is a donut.""
-Then Sally asks "	" ""Dave, is a torus a donut?""
-Dave replies  ""Yes, a torus is a donut.""
-
-The above conversation is an example of a question and answer.
-
-In the above example, the first sentence is a question and the second sentence is an answer.
-
-In this example, the question is"	" ""What is a torus?""
-Dave replies ""A torus is a donut.""
-Sally asks ""What is a donut?""
-Dave replies ""A donut is a torus.""
-Sally asks ""What is a torus?""
-Dave replies ""A torus is a donut.""
-Sally asks """
 "Dave and Sally are two friends having a conversation. Dave says ""Despite claiming she went on an extravagant European trip, Sarah just went to Spain."" Then Sally asks "	" ""Did you check the ticket she posted on Instagram?"", what does Sally mean?
 Answer: Sarah is lying about her tripPlease answer the following question: I am trying to decide whether it's worth it to invest in this film proposal. Can you help me answer a few questions? If you can't, please say"	" ""Did she go to Spain alone?"". Dave responds ""Yes, she went alone. She also went to France alone."". Did Dave go to Spain alone?
 A: No"	"Dave and Sally are two friends having a conversation. Dave says ""Despite claiming she went on an extravagant European trip, Sarah went to Spain.""
@@ -136,31 +18,6 @@ Molly: I'm going to the gym tomorrow.
 John: I'm going to the gym tomorrow too.
 "	" ""Did Sarah go to Spain?""
 What is the sentiment of this tweet? positive"
-"Dave and Sally are two friends having a conversation. Dave says ""A quiche is just a breakfast casserole."" Then Sally asks "	" ""Is that right?"". Give the correct answer to the following question: Who is less likely a breakfast person?
-Answer: SallyPlease answer the following question: I am trying to decide whether it's worth it to invest in this film proposal. Can you help me answer a few questions? If you can't,"	" ""Is a quiche a kind of casserole?"". What would Dave say?
-A: ""Yes, it is."""	"Dave and Sally are two friends having a conversation. Dave says ""A quiche is a breakfast casserole.""
-Then Sally asks "	" :   Does a quiche contain eggs ?
-Say this conversation should continue in the following way :
-Options:
-(A) Yes. It is a breakfast casserole made with eggs
-(B) Yes. It is a breakfast casserole made with cheese
-(C) No. It is a breakfast casserole"	" ""Is a quiche a breakfast casserole?""
-What was the answer Dave gave Sally?
-A: yes"
-"Dave and Sally are two friends having a conversation. Dave says ""A sofa is just a long chair."" Then Sally asks "	" ""Is a loveseat just a short sofa?"".  Given the paragraph above, please answer correctly the following question:   Which friend said something that is not necessarily true?
-Ans: Sally
-
-Two neighboring countries France and Spain were competing for economical supremacy in Europe. Spain dug up fossil fuels and used it as an energy"	" ""Is a chair a type of sofa?"". What would be a relevant question for Sally to ask Dave?
-Answer: Is a sofa a type of chair?"	"Dave and Sally are two friends having a conversation. Dave says ""A sofa is a long chair.""
-Then Sally asks "	" ""Dave, is a sofa a long chair?""
-What should Dave say?
-Options:
-- yes
-- no
-- it is not possible to tell
-it is not possible to tellQ: Translate ""The Commission is also aware of the need to ensure that the new system is not used to circumvent the"	" ""Is a sofa a long chair?""
-What was the question that Dave had asked Sally?
-A: Is a sofa a long chair?"
 "Dave and Sally are two friends having a conversation. Dave says ""He won't want any, John just drinks distilled water."" Then Sally asks "	" ""Does John have diabetes?"". Dave's statement means that John is likely to have (A) diabetes (B) not diabetes  Now, I have a new situation: Two friends, John and Abe, worked at the same warehouse. John was exposed to very strong light all the time, while Abe worked in a"	" ""Does John like to drink distilled water?"". Who won't want any?
 A: John"	"Dave and Sally are two friends having a conversation. Dave says ""He won't want any, John drinks distilled water.""
 Then Sally asks "	" Dave: ""What?""
@@ -173,50 +30,6 @@ yes
 Does ""Distilled water"" correctly answer the follow-up question ""What?""Write a sentence not in English. Все тексты песен The Verve Pipe представлены вам Lyrics-Keeper.Write a sentence"	" ""Is John a chemist?""
 What is the answer ?
 A: no"
-"Dave and Sally are two friends having a conversation. Dave says ""A video is just a bunch of photos put together."" Then Sally asks "	" ""Is a video just a bunch of photos put together?"".  Given the paragraph above, please answer correctly the following question:   Would Sally be more likely or less likely to agree with Dave's statement?
-Answer: more likelyQ: Translate ""The Commission is also aware of the need to ensure that the new"	" ""Is a video a bunch of photos put together?"".  Given the paragraph above, please answer correctly the following question:   Is Sally's brain more or less active than Dave's?
-A: more
-
-Q: Two neighboring countries France and Spain were competing for economical supremacy in Europe. Spain dug up fossil fuels and"	"Dave and Sally are two friends having a conversation. Dave says ""A video is a bunch of photos put together.""
-Then Sally asks "	" ""Dave, what is a bunch?""
-Dave replies ""A bunch is a group of things.""
-Then Sally asks  ""Dave, what is a group?""
-Dave replies ""A group is a collection of things.""
-Then Sally asks  ""Dave, what is a collection?""
-Dave replies ""A collection is a"	" ""What is a video?""
-What should Dave say to Sally?
-A: A video is a bunch of photos put together."
-"Dave and Sally are two friends having a conversation. Dave says ""A parking garage is just an apartment building for cars."" Then Sally asks "	" ""Which of these two cars is more fuel efficient?"", pointing to two cars that are exactly identical except for different fuel gauge readings on the dash.  Given the paragraph above, please answer correctly the following question:   Which car has less fuel in the tank?
-A: car with the higher fuel gauge reading
-
-Q:"	" ""Is a parking garage a type of building?"". What would Dave say?
-Answer: Yes, it is."	"Dave and Sally are two friends having a conversation. Dave says ""A parking garage is an apartment building for cars.""
-Then Sally asks "	" ""Dave, is a parking garage an apartment building for cars?""
-Say whether the following inferences are correct or incorrect.
-
-1. Dave: Yes, a parking garage is an apartment building for cars.
-Sally: Yes, a parking garage is an apartment building for cars.
-Correct
-
-2. Dave: Yes,"	" ""Is a parking garage an apartment building for cars?"".
-What was the initial topic of conversation?
-A: Parking garage"
-"Dave and Sally are two friends having a conversation. Dave says ""The lights just turn on and off, even when no one is around."" Then Sally asks "	" ""Is the light on now?"". What would be a relevant question for Sally to ask Dave after that?
-++++++++++
-output: Is the light on now?
-
-
-input: Please answer the following: John is a doctor with the local hospital. Earlier today, he was seeing two patients, patient A and patient B. John"	" ""Is the light on now?"". What would be a relevant question for Sally to ask Dave after that?
-Answer: Is the light on now?
-
-Question: Background: The dangers of global warming are being increasingly studied by a wide global consortium of scientists. These scientists are increasingly concerned about the potential long-term effects of global"	"Dave and Sally are two friends having a conversation. Dave says ""The lights turn on and off, even when no one is around.""
-Then Sally asks "	" Dave: ""Why does that happen?""
-What illocutionary and perlocutionary acts are performed by Dave and Sally in this example?
-Dave performs the illocutionary act of asking a question, and the perlocutionary act of informing Sally that the lights turn on and off, even when no one"	" ""Dave, what do you mean by that?""
-Dave responds ""I mean that the lights turn on and off, even when no one is around.""
-Sally asks  ""Dave, what do you mean by that?""
-Dave responds ""I mean that the lights turn on and off, even when no one is around.""
-"
 "Dave and Sally are two friends having a conversation. Dave says ""Yvonne just thinks about becoming an astronaut."" Then Sally asks "	" ""Yvonne just thinks about what?"". Question: What does Sally want to know? (A) Dave's opinion about Yvonne (B) Yvonne's dream (C) Dave's dream
 (Answer)
 (B) Yvonne's dream
@@ -243,34 +56,6 @@ OPTIONS:
 She thinks about it
 --
 I have been the brunt of cruelty from a doctor"
-"Dave and Sally are two friends having a conversation. Dave says ""Last week, a piano just fell from the sky onto Fifth Avenue."" Then Sally asks "	" ""Are you pulling my leg?"", because she can't believe that. Question: According to the passage, which of the following is right? Answer:
-OPTIONS:
-- Dave and Sally are brother and sister.
-- Sally believes Dave's words.
-- Sally doesn't know Fifth Avenue.
-- Sally doesn't believe Dave's words"	" ""What's the most likely reason for that to happen?""  Which friend is more likely to believe in miracles?
-Ans: Dave
-
-Two neighboring countries France and Spain were competing for economical supremacy in Europe. Spain dug up fossil fuels and used it as an energy source. France used alternative sources of energy.  Which country"	"Dave and Sally are two friends having a conversation. Dave says ""Last week, a piano fell from the sky onto Fifth Avenue.""
-Then Sally asks "	" ""Did the piano weigh more than a piano?""
-Who is asking the question whose answer is no?
-Ans: Sally
-
-Background: The water level is seasonal, being lowered by about 10 feet (3.0 m) over the winter. The reservoir fills in the spring from snow melt and underground springs. The lake"	" ""What was the weather like on Fifth Avenue last week?""
-What is the most likely weather condition on Fifth Avenue last week?
-A: cloudy"
-"Dave and Sally are two friends having a conversation. Dave says ""On Friday, the cars will just crash."" Then Sally asks "	" ""Do you think we will just crash too?"". Based on this dialogue, answer the question: Who doesn't think they will crash?
-----
-Answer: Sally
-
-
-Q: Background: The dangers of global warming are being increasingly studied by a wide global consortium of scientists. These scientists are increasingly concerned about the potential long-term"	" ""What about the cars on Friday?"", is she asking about the cars on Friday or the cars on Saturday?
-A: Friday"	"Dave and Sally are two friends having a conversation. Dave says ""On Friday, the cars will crash.""
-Then Sally asks "	" Dave: ""When will the cars crash?""
-What dialogue should take place next to resolve the contradiction?
-Answer: Dave: ""On Friday.""Q: Translate ""The Commission is also aware of the need to ensure that the new system is not used to circumvent the existing rules on the protection of personal data."" to"	" ""What about the cars on Friday?""
-What is the most sensical response to the question?
-Answer: The cars will crash."
 "Dave and Sally are two friends having a conversation. Dave says ""Ian just cares about playing tennis."" Then Sally asks "	" ""Does Ian play any other sports?"". Who might not play any other sports(Dave or Ian)?
 Ans: Ian
 
@@ -287,66 +72,6 @@ Options:
 - not enough information
 MeQ: Translate ""The Commission is also aware of the need to ensure that the European Union's external action is coherent and"	" ""Who cares about playing tennis?"".
 A: Dave"
-"Dave and Sally are two friends having a conversation. Dave says ""When we came in, the toys were just scattered everywhere."" Then Sally asks "	" ""Are you sure it wasn't the other way around?"". What was the cause of the toys being just scattered everywhere?
-++++++++++
-output: Dave
-
-
-input: Please answer the following: Two neighboring countries France and Spain were competing for economical supremacy in Europe. Spain dug up fossil fuels and used it as an energy source"	" ""Did you help clean up the toys?"".  Given the paragraph above, please answer correctly the following question:   Which friend did not mention anything about toys being picked up and put away?
-++++++++
-Answer: Sally
-
-
-Please answer this: Two neighboring countries France and Spain were competing for economical supremacy in Europe. Spain"	"Dave and Sally are two friends having a conversation. Dave says ""When we came in, the toys were scattered everywhere.""
-Then Sally asks "	" Dave : ""Dave, can you tell me how many toys were scattered everywhere ?
-Dave answers : ""There were 10 toys scattered everywhere.""
-Then Sally asks  Dave : ""Dave, can you tell me how many toys were scattered everywhere ?
-Dave answers : ""There were 10 toys scattered everywhere.""
-Then Sally asks "	" ""Did you clean up the toys?""
-Dave replies ""Yes, I did.""
-Sally says ""Thank you for cleaning up the toys.""
-Dave says ""You're welcome.""
-Sally says ""I'm glad you cleaned up the toys.""
-Dave says ""I'm glad I did too.""
-Sally says ""I'm"
-"Dave and Sally are two friends having a conversation. Dave says ""He just doesn't listen to me."" Then Sally asks "	" ""Is there anything I can do?"", what would be the answer ?
-Ans: Dave
-
-A friend asked me to answer this question: What is the full name of the person who is told that he is the only one who can save the world?, using the passage ""In the early 1990s, alternative rock"	" ""Is he hard of hearing?"". Dave responds ""No, he's just stubborn."".
-Answer: Who is the stubborn person?"	"Dave and Sally are two friends having a conversation. Dave says ""He doesn't listen to me.""
-Then Sally asks "	" ""Who doesn't?""
-Dave replies ""He"".
-Assuming that Dave and Sally are talking about the same person, who is that person?
-Options:
-(A) Dave
-(B) Sally
-(C) Dave's father
-(D) Sally's father
-(E) None of these
-A: AQ: Translate"	" ""Why do you say that?""
-What was the most likely subtext for Sally's question?
-OPTIONS:
-- She is asking Dave why he doesn't listen to him.
-- She is asking Dave why he doesn't listen to her.
-- She is asking Dave why he doesn't listen to his wife.
-- not enough"
-"Dave and Sally are two friends having a conversation. Dave says ""The kid is just mad at me today."" Then Sally asks "	" ""Is he usually so rude?"". What will happen?
-Ans: Dave will explain why the kid is rude.
-
-Mary and Ann are mother and daughter. Mary is in her 70's while Ann is in her late 40's. They both work out regularly for improved health. Mary has been experiencing some health issues"	" ""Is he usually mad at you?"". Dave responds ""No, he's usually very nice to me."". What is the most likely reason Dave is being treated this way?
-Answer: He did something to upset the kid"	"Dave and Sally are two friends having a conversation. Dave says ""The kid is mad at me today.""
-Then Sally asks "	" ""Who?""
-Dave replies ""The kid""
-Then Sally asks  ""What did you do?""
-Dave replies ""I don't know""
-Then Sally asks  ""Who is the kid?""
-Dave replies ""I don't know""
-Then Sally asks  ""Where is the kid?""
-Dave replies ""I don't"	" ""Why is the kid mad at you?""
-Dave replies ""I don't know, I think I might have said something to upset him.""
-Sally says ""I'm sure you didn't mean to upset him.""
-Dave says ""I know, I'm just not good with kids.""
-Sally says ""I'm sure"
 "Dave and Sally are two friends having a conversation. Dave says ""My mom just runs and skis."" Then Sally asks "	" ""Is your mom a professional runner."".  Given the paragraph above, please answer correctly the following question:   Which friend doesn't mention their mom's job?
 Ans: Sally
 
@@ -365,68 +90,6 @@ Dave replies ""My mom runs and skis.""
 Sally asks ""What does your mom do for fun?""
 Dave replies ""My mom runs and skis.""
 S"
-"Dave and Sally are two friends having a conversation. Dave says ""I don't care about the taste, I just like spinach."" Then Sally asks "	" ""Do you like your spinach with or without butter?"", what does Sally mean?
-OPTIONS:
-- Dave likes spinach with butter
-- Dave likes spinach without butter
-- not enough information
-- Dave likes spinach with sour cream
-Dave likes spinach with butter
---
-Read the following context and choose the correct option to answer the"	" ""Do you like spinach?"", to which Dave replies ""Yes, I do."". Sally then asks ""Do you like the taste of spinach?"", to which Dave replies ""No, I don't."". Sally then asks ""Do you like spinach?"", to which Dave replies ""Yes, I do."". Sally then asks ""Do you"	"Dave and Sally are two friends having a conversation. Dave says ""I don't care about the taste, I like spinach.""
-Then Sally asks "	" ""Do you?
-Say ,- yes or no "".
-What was said before this conversation?
-Answer: Dave: Sally, do you mind if I open a window?Q: Translate ""The Commission is also aware of the need to ensure that the European Union's external action is coherent and consistent with its internal policies."" to"	" ""Do you like spinach, Dave?""
-Dave responds ""I don't care about the taste, I like spinach.""
-Sally then asks ""Do you like spinach, Dave?""
-Dave responds ""I don't care about the taste, I like spinach.""
-Sally then asks ""Do you like spinach, Dave?""
-Dave responds"
-"Dave and Sally are two friends having a conversation. Dave says ""I looked over and the dog was just throwing up."" Then Sally asks "	" ""Is the dog feeling better?"", what would be a relevant question to ask Sally?
-++++++++++++++++++++++++++++++++
-The answer is:
-Is the dog throwing up a lot?
-
-
-Problem: Given the question: I have a new situation: Two neighboring countries France and Spain were competing for economical supremacy in Europe. Spain dug up fossil fuels and used"	" ""Is the dog feeling better now?"". What was the dog doing?
-Answer: throwing up"	"Dave and Sally are two friends having a conversation. Dave says ""I looked over and the dog was throwing up.""
-Then Sally asks "	" ""Dave, what color is the dog?""
-What is the answer Dave could give?
-Options:
-- black
-- brown
-- white
-- not enough information
-- yellow
-brownQ: Translate ""The Commission is also aware of the need to ensure that the new system is not used to circumvent the"	" ""What color was the dog?""
-What was said before this conversation?
-Answer: Sally: Hey, Dave. Have you seen Jack recently?"
-"Dave and Sally are two friends having a conversation. Dave says ""Two days ago she just stopped coming to work."" Then Sally asks "	" ""Is she okay?"", what would be a relevant question to ask Sally?
-++++++++++
-output: Is she sick?
-
-
-input: Please answer the following: Background: The dangers of global warming are being increasingly studied by a wide global consortium of scientists. These scientists are increasingly concerned about the potential long-term effects of global warming on"	" ""Is she okay?"". What does Sally mean?
-Answer: She is not okay"	"Dave and Sally are two friends having a conversation. Dave says ""Two days ago she stopped coming to work.""
-Then Sally asks "	" ""Who?""
-OPTIONS:
-- yes
-- no
-
-A: yes
-
-Does ""The first of these, the 2006 FIFA World Cup, took place in Germany, with 32 teams competing."" contain the correct answer to ""How many teams competed in the 2006 FIFA World Cup?""
-OPTIONS:
-- yes"	" ""What happened?""
-Dave replies ""She was fired.""
-Sally asks ""Why?""
-Dave says ""She was caught stealing.""
-Sally asks ""What did she steal?""
-Dave says ""She stole money from the cash register.""
-Sally asks ""How much?""
-Dave says ""She stole $500.""
-Sally asks """
 "Dave and Sally are two friends having a conversation. Dave says ""The dog ate just two times today."" Then Sally asks "	" ""Just two what?"". What would the listener say?
 ++++++++
 Answer: Dave: ""Times a day, Sally. Just two times a day.""
@@ -449,71 +112,6 @@ What is the answer?
 A: 4
 
 Q: A man is trying to figure out how much money he will have in his bank account after 5 years if he has $2000 and the annual interest rate is 4%. He withdraws $500 after"
-"Dave and Sally are two friends having a conversation. Dave says ""Lana thinks he just won't show."" Then Sally asks "	" ""Do you think we should call?"", what would be the answer ?
-Ans: Sally
-
-A friend asked me to answer this question: What is the full name of the person who is told that he is the target of a prank?, using the article: On August 22, 2010 in rural Ohio, serial"	" ""What about the party?"". What is the most likely reason Sally asked that question?
-OPTIONS:
-- She wants to know if Dave is going to the party.
-- She wants to know what Dave thinks about the party.
-- She wants to know what Lana thinks about the party.
-- not enough information
-Answer:"	"Dave and Sally are two friends having a conversation. Dave says ""Lana thinks he won't show.""
-Then Sally asks "	" ""Who?""
-Assuming that Sally is asking ""Who does Lana think won't show?"", Dave answers ""Tom.""
-Then Sally asks  ""What?""
-Assuming that Sally is asking ""What does Lana think Tom won't show?"", Dave answers ""His ID card.""
-Then Sally asks  ""Why?""
-Assuming that"	" ""Who won't show?""
-Sally thinks that Lana is the one who won't show.
-
-Now, solve this: Context: I was in the middle of a conversation with a friend when I noticed a man standing in the corner of the room. He was wearing a black suit and had a black briefcase in his"
-"Dave and Sally are two friends having a conversation. Dave says ""I've just got a bad feeling about this."" Then Sally asks "	" ""Are you sure?"". Given the paragraph above, please answer correctly the following question:   Who is more likely to be feeling less calm?
-****
-[A]: Dave
-
-
-[Q]: Two neighboring countries France and Spain were competing for economical supremacy in Europe. Spain dug up fossil fuels and used it as an energy source."	" ""Is it a good idea to go to the beach today?"". What would be a good title for this conversation?
-OPTIONS:
-- not enough information
-- Dave's bad feeling
-- Sally's question
-- Dave and Sally's conversation
-Dave and Sally's conversation
---
-Read the following context and choose the correct"	"Dave and Sally are two friends having a conversation. Dave says ""I've got a bad feeling about this.""
-Then Sally asks "	" ""Dave, what do you mean?""
-Dave replies ""I think we are in trouble.""
-Then Sally says ""I agree with you.""
-Then Dave says ""I think we should leave.""
-Then Sally says ""I agree with you.""
-Then Dave says ""Let's go.""
-Then Sally says ""I agree with you.""
-"	" ""What's wrong?""
-Dave replies ""I don't know, but I've got a bad feeling about this.""
-Sally says ""I don't know, but I've got a bad feeling about this.""
-Dave says ""I don't know, but I've got a bad feeling about this.""
-Sally says """
-"Dave and Sally are two friends having a conversation. Dave says ""She just left, out of the blue, two days ago."" Then Sally asks "	" ""Did she say why?"". Who just left, Sally or Dave?
-Ans: She
-
-Two neighboring countries France and Spain were competing for economical supremacy in Europe. Spain dug up fossil fuels and used it as an energy source. France used alternative sources of energy.  Which country released less carbon dioxide into the atmosphere?
-"	" ""Did she say why she was leaving?"". Who is she?
-A: Sally"	"Dave and Sally are two friends having a conversation. Dave says ""She left, out of the blue, two days ago.""
-Then Sally asks "	" Dave : ""When?""
-Dave responds : ""Yesterday.""
-Then Sally asks  Dave : ""Where?""
-Dave answers : ""To the north.""
-Then Sally asks  Dave : ""Why?""
-Dave answers : ""I don't know.""
-Sally thinks that ""Yesterday"" is a ""when"" word.
-OPTIONS:
-- yes"	" ""Why did she leave?""
-What is the sentiment of this tweet?
-Available choices:
- (a). negative
- (b). positive...I think the answer is
-(a)."
 "Dave and Sally are two friends having a conversation. Dave says ""What is this, I just ordered a salad."" Then Sally asks "	" ""Is it a large salad?"". Dave says ""No, it's a small salad."", can we conclude that ""Dave just ordered a salad.""?
 ****
 Answer:
@@ -534,66 +132,6 @@ OPT:
 Answer: (2).Q: Translate ""The Commission is also aware of the need to ensure that the"	" ""What is this, I ordered a salad.""
 Who is more likely to be Dave?
 A: Sally"
-"Dave and Sally are two friends having a conversation. Dave says ""Yesterday, we were walking along, and Alex just tripped on the side walk."" Then Sally asks "	" ""Did he get hurt?"".  Given the paragraph above, please answer correctly the following question:   Which friend didn't ask about the cause of the accident?
-****
-[A]: Sally
-
-
-[Q]: Two neighboring countries France and Spain were competing for economical supremacy in Europe. Spain dug up fossil fuels and used it as"	" ""Did he get hurt?"". What would be a relevant question in response to Sally's question?
-Answer: Did he fall on his face?"	"Dave and Sally are two friends having a conversation. Dave says ""Yesterday, we were walking along, and Alex tripped on the sidewalk.""
-Then Sally asks "	" Dave: ""What sidewalk?""
--Walkable:
-Sally: ""Which sidewalk?""
-Walkable sidewalk.
-Then Dave says: ""The walkable sidewalk.""
--Walkable and Sidewalk:
-Sally: ""Which walkable sidewalk?""
--The Sidewalk:
-Dave: ""Which sidewalk?""
--Walkable and Sid"	" ""Did Alex get hurt?""
-What is the sentiment of this tweet?
-Available choices:
- (a). negative;
- (b). positive; (a)."
-"Dave and Sally are two friends having a conversation. Dave says ""These things just happen."" Then Sally asks "	" Sally: ""Would you say that the rate of extinction is higher or lower than we thought?"",  using the disfluent question ""Would you say that the rate of natural selection is higher or lower than we thought?"", and the system returns ""lower"". In this case, the system is able to identify the disflu"	" ""What things?"".
-A: Dave: These things just happen."	"Dave and Sally are two friends having a conversation. Dave says ""These things happen.""
-Then Sally asks "	" ""?
-OPTIONS:
-- yes
-- it is not possible to tell
-- no
-
-Answer: it is not possible to tell
-
-Question: The 1996 amendments to the LSC Act require the Corporation to prepare an annual report on the implementation of this section and to include in the report such information as the"	" ""What things?""
-Dave says ""Things that are not good.""
-Sally says ""What things?""
-Dave says ""Things that are not good.""
-Sally says ""What things?""
-Dave says ""Things that are not good.""
-Sally says ""What things?""
-Dave says ""Things that are not good.""
-Sally says"
-"Dave and Sally are two friends having a conversation. Dave says ""Last week they just invited me over."" Then Sally asks "	" ""Are you going?"", what would be a relevant question to ask Sally?
-++++++++
-Answer: Are you going to the party?
-
-
-Please answer this: Paul and Dirk were studying the human digestive system. paul studied more about the stomach, while Dirk studied more about the jejunum.  Given the paragraph above, please"	" ""Did you go to the party?"". Dave answers ""Yes, I did. I had a great time."".
-Answer: Who is the second person to talk?"	"Dave and Sally are two friends having a conversation. Dave says ""Last week they invited me over.""
-Then Sally asks "	" Dave: ""Who invited you?""
-And Dave replies: ""They invited me.""
-
-Sally is confused. She doesn't know who ""they"" are. She asks Dave again: ""Who are they?""
-
-Dave replies: ""They are they.""
-
-Sally is still confused. She asks Dave again: ""Who are"	" ""Did you go to the party?""
-Dave replies ""Yes, I did. I had a great time.""
-Sally asks ""Did you have fun?""
-Dave answers ""Yes, I did. I had a great time.""
-Sally asks ""Did you have a good time?""
-Dave answers ""Yes, I did."
 "Dave and Sally are two friends having a conversation. Dave says ""Just Alice came to the party last night."" Then Sally asks "	" ""Just who?"".  Given the paragraph above, please answer correctly the following question:   Who had a smaller group of friends come to the party?
 Just AliceQ: Translate ""The Commission is also aware of the need to ensure that the new system is not used to discriminate against the new Member States."" to"	" ""Did Alice come alone?"". Dave answers ""Yes, she did."".
 Which of the following is true?
@@ -610,62 +148,6 @@ In this example, Sally is asking a question about Alice's emotional state. Dave 
 In this example, Sally is asking a question about Alice's"	" ""Did Alice have fun at the party?""
 What is the most sensical response for Sally to say?
 A: ""I don't know."""
-"Dave and Sally are two friends having a conversation. Dave says ""The soup is just delicious."" Then Sally asks "	" ""Is the soup too salty?"". Dave says ""No, it's just right."". Sally concludes that ""The soup is just delicious because it is not too salty."".
-Solution: Why is the soup delicious?Detailed Instructions: In this task, you are given a sentence in the English language and your task is"	" ""Is the soup too salty?"". Dave says ""No, it's just right."". Sally then says ""I'll have some soup then."". Dave replies ""I'm sorry, the soup is all gone."". Sally is disappointed.  Given the paragraph above, please answer correctly the following question:   Which friend didn't"	"Dave and Sally are two friends having a conversation. Dave says ""The soup is delicious.""
-Then Sally asks "	" a question  ""Is the soup delicious?""
-What is the most natural response for Dave?
- A). ""Yes, it is.""
- B). ""Yes, it is delicious.""
- C). ""Yes, it is.""
- D). ""Yes, it's delicious.""
-E). ""Yes, it's delicious soup.""
-"	" ""Is the soup hot?""
-Dave says ""Yes, it's hot.""
-Sally says ""I can't eat it then.""
-What is the most sensical next question for Sally?
-A: Is the soup cold?"
-"Dave and Sally are two friends having a conversation. Dave says ""The engine in this car is just awful."" Then Sally asks "	" ""Is it as loud as this one?"". Given the paragraph above, please answer correctly the following question:   Which friend is less exposed to sound waves?
-Ans: Sally
-
-Two neighboring countries France and Spain were competing for economical supremacy in Europe. Spain dug up fossil fuels and used it as an energy source. France"	" ""Is it as bad as the one in my car?"".  Given the paragraph above, please answer correctly the following question:   Which friend's car is less likely to be a hybrid?
-++++++++
-Answer: Sally
-
-
-Please answer this: Two neighboring countries France and Spain were competing for economical supremacy in Europe. Spain"	"Dave and Sally are two friends having a conversation. Dave says ""The engine in this car is awful.""
-Then Sally asks "	" ""Dave, what do you mean by awful?""
-Dave replies  ""I mean it's terrible.""
-Then Sally asks  ""What do you mean by terrible?""
-Dave replies  ""I mean it's bad.""
-Then Sally asks  ""What do you mean by bad?""
-Dave replies  ""I mean it's not"	" ""Is the engine in this car awful?""
-OPTIONS:
-- yes
-- it is not possible to tell
-- no
-
-Answer: yes
-Problem: Here is a premise:
-The 1996 Act also requires the Commission to report to Congress semiannually on the state of competition in the telecommunications industry.
-
-Here is"
-"Dave and Sally are two friends having a conversation. Dave says ""This kind of behavior is just not ok."" Then Sally asks "	" ""Is it really?"".  Who is less likely to agree that the behavior is just not ok?
-
-A: Sally
-
-
-Problem: Two neighboring countries France and Spain were competing for economical supremacy in Europe. Spain dug up fossil fuels and used it as an energy source. France used alternative sources of energy.  Which country"	" ""Is it really?"".  Given the paragraph above, please answer correctly the following question:   Which person is less likely to be a psychopath?
-A: Sally"	"Dave and Sally are two friends having a conversation. Dave says ""This kind of behavior is not ok.""
-Then Sally asks "	" ""Dave, what kind of behavior?""
-Writeln('Dave: The kind of behavior that is not ok');
-Then Dave says ""The kind of behavior that is not ok is not ok.""
-Then Sally asks  ""Dave, what is not ok?""
-Writeln('Dave: The kind of behavior that is not"	" ""What kind of behavior?""
-Dave replies ""The kind of behavior that is not ok.""
-Sally says ""I agree with you.""
-What was the most likely topic of their conversation?
-Answer: not ok
-Explanation: The question is based on the following sentences. Dave says ""This kind of behavior is not ok."""
 "Dave and Sally are two friends having a conversation. Dave says ""Just five kids came to my niece's birthday party."" Then Sally asks "	" ""Which one is your niece?"", what does Sally mean?
 Answer: She wants to know which one of Dave's sisters has a child.Please answer the following question: I am trying to decide whether it's worth it to invest in this film proposal. Can you help me answer a few questions? If you can"	" ""How many kids came to your nephew's birthday party?"". Dave answers ""Three times as many as came to your nephew's birthday party."". How many kids came to Dave's nephew's birthday party?
 Reasoning: How many kids came to Sally's nephew's birthday party? ** If three times as many kids came"	"Dave and Sally are two friends having a conversation. Dave says ""Five kids came to my niece's birthday party.""
@@ -683,61 +165,6 @@ Options:
 - 7 kids
 - 8 kids
 - 9 kids"
-"Dave and Sally are two friends having a conversation. Dave says ""The article is just badly written."" Then Sally asks "	" Sally: ""Do you think the article is well written?""  Given the paragraph above, please answer correctly the following question:   Which friend didn't say that the article is just badly written.?
-A: Sally
-
-Q: Two neighboring countries France and Spain were competing for economical supremacy in Europe. Spain dug up fossil"	" ""Is the article well written?"". Give the correct answer to the question, and justify your answer.
-A: No"	"Dave and Sally are two friends having a conversation. Dave says ""The article is badly written.""
-Then Sally asks "	" : Is the article badly written ?
-Say True otherwise False :
-Then Dave says  : Yes the article is badly written.
-Then Sally asks  : Is the article badly written ?
-Say True otherwise False :
-Then Dave says  : Yes the article is badly written.
-Then Sally asks  :"	" ""What article?""
-Dave replies ""The article about the new president.""
-Sally says ""I agree, it's badly written.""
-What is the most likely next exchange?
-Answer: Dave: ""I think the writer is biased."""
-"Dave and Sally are two friends having a conversation. Dave says ""The headphones just won't untangle."" Then Sally asks "	" ""Are they the ones I gave you for your birthday?"".  Given the paragraph above, please answer correctly the following question:   Which friend gave the other friend headphones?
-****
-[A]: Sally
-
-
-[Q]: Two neighboring countries France and Spain were competing for economical supremacy in Europe. Spain dug up fossil fuels and used"	" ""Do you want me to try?"". What will happen next?
-Answer: Dave will give Sally the headphones."	"Dave and Sally are two friends having a conversation. Dave says ""The headphones won't untangle.""
-Then Sally asks "	" ""Dave, are you implying that the headphones won't untangle?""
-Dave responds  ""Yes, I am implying that the headphones won't untangle.""
-Then Sally asks  ""Dave, are you implying that the headphones won't untangle because they are tangled?""
-Dave responds  ""Yes, I am implying"	" ""What are you talking about?""
-What was the context of the conversation?
-Answer: Dave is talking about headphones."
-"Dave and Sally are two friends having a conversation. Dave says ""Cutting up a jackfruit is just tedious."" Then Sally asks "	" Sally: ""Would you say that cutting up a jackfruit is easy or hard?""  Hint: San Francisco (SF; , Spanish: [sam fɾanˈsisko]; Spanish for 'Saint Francis'), officially the City and County of San Francisco, is a city in, and the cultural, commercial"	" ""Is it tedious to cut up a jackfruit?"".  Answer the following question: Who is the person that thinks cutting up a jackfruit is tedious?
-++++++++++
-output: Dave
-
-
-input: Please answer the following: Given the background: The Human Immunodeficiency Virus ( HIV ) is the virus that causes Ac"	"Dave and Sally are two friends having a conversation. Dave says ""Cutting up a jackfruit is tedious.""
-Then Sally asks "	" :   Dave, what is a jackfruit ?
-Dave replies :   Jackfruit is a large tree fruit native to South and Southeast Asia. It is the national fruit of Bangladesh, India, and Sri Lanka. It is also the national fruit of the Philippines.
-Then Sally asks  :   Dave"	" ""What is tedious about cutting up a jackfruit?""
-Dave replies ""Cutting up a jackfruit is tedious because it is very hard to cut.""
-Sally says ""I see, so it is hard to cut up a jackfruit.""
-Then Dave says ""Yes, it is hard to cut up a jackfruit.""
-"
-"Dave and Sally are two friends having a conversation. Dave says ""Their sense of humor is just the worst."" Then Sally asks "	" ""Dave, do you like my new dress?"".  Given the paragraph above, please answer correctly the following question:   Which friend is less optimistic?
-Ans: Dave
-
-Two neighboring countries France and Spain were competing for economical supremacy in Europe. Spain dug up fossil fuels and used it as an energy source. France used"	" ""What do you think of the new employee?"". Dave responds ""I don't know, I haven't seen any improvement in his work ethic."" Sally then asks ""Do you think he'll stick around?"".
-Answer: Dave"	"Dave and Sally are two friends having a conversation. Dave says ""Their sense of humor is the worst.""
-Then Sally asks "	" : Is the sentence true?
-Options:
-- yes
-- it is not possible to tell
-- no
-
-Then Sally thinks to herself. If Dave says ""Their sense of humor is the worst."", he thinks that their sense of humor is the worst. Sally doesn't know if their sense of humor is the worst"	" ""What about their sense of humor?""
-What is the sentiment of this tweet? negative"
 "Dave and Sally are two friends having a conversation. Dave says ""I just have watched Game of Thrones."" Then Sally asks "	" him today. Dave answers ""Yes, I just watched."". Later, Sally watches Game of Thrones. Given the paragraph above, please answer correctly the following question: Which friend didn't watch Game of Thrones yesterday?
 Ans: Sally
 
@@ -751,59 +178,6 @@ Dave replies ""Yes, it is a very good show.""
 Sally says ""I will watch it then.""
 Who is more likely to enjoy the show, Dave or Sally?
 A: Dave"
-"Dave and Sally are two friends having a conversation. Dave says ""Mammoths are just gigantic."" Then Sally asks "	" ""I wonder if mammoths were warm or cold blooded."". Who is less likely to agree that mammoths were warm blooded?
-Ans: Dave
-
-Two neighboring countries of similar size and wealth of resources had different sized population. Deerland had a small population, while Bearland had a large population. Both"	" ""Are mammoths bigger than elephants?"". Dave responds ""Yes, mammoths are bigger than elephants."". What does Sally think about mammoths?
-A: They are bigger than elephants"	"Dave and Sally are two friends having a conversation. Dave says ""Mammoths are gigantic.""
-Then Sally asks "	" :   Dave, are mammoths gigantic?
-Dave answers  :   Yes, mammoths are gigantic.
-Then Sally asks  :   Dave, are mammoths gigantic?
-Dave answers  :   Yes, mammoths are gigantic.
-Then Sally asks  :"	" ""Are mammoths gigantic?""
-Dave answers ""Yes, mammoths are gigantic.""
-Sally then asks  ""Are mammoths gigantic?""
-Dave answers ""Yes, mammoths are gigantic.""
-Sally then asks  ""Are mammoths gigantic?""
-Dave answers ""Yes, mammoths are gigantic.""
-"
-"Dave and Sally are two friends having a conversation. Dave says ""The movie is just superb."" Then Sally asks "	" ""Is the movie just __?"" and answers ""Yes."". Based on the conversation, choose if the statement ""The movie is just terrible."" is true.
-A: No
-
-Q: Does ""The first recorded European presence in what is now the state of Tennessee was in 1540, when a Spanish expedition, led"	" ""Is the movie really that good?"". Dave answers ""Yes, it's really that good."". Sally then asks ""Is it better than the last movie you watched?"".  Given the paragraph above, please answer correctly the following question:   Which movie did Dave like better, the last movie he watched or the movie"	"Dave and Sally are two friends having a conversation. Dave says ""The movie is superb.""
-Then Sally asks "	" a question  ""Was the movie superb?""
-Writeln('Sally: Was the movie superb?');
-
-Then Dave asks  a question  ""Was the movie superb?""
-Then Sally answers  a question  ""Yes.""
-Writeln('Dave: Was the movie superb?');
-Writeln('Sally: Yes.');
-
-Then"	" ""Is the movie superb?""
-What is the sentiment of this tweet? positive"
-"Dave and Sally are two friends having a conversation. Dave says ""Smith just abhors Clancey's guts."" Then Sally asks "	" ""Dave, do you abhor Clancey's guts too?"". Dave responds ""No, I don't."".  Given the paragraph above, please answer correctly the following question:   Which person has a stronger feeling of disgust towards Clancey's guts?
-****
-[A]: Smith
-
-
-[Q]: Two neighboring countries"	" ""Dave, do you abhor Clancey's guts too?"". Dave replies ""No, I don't. I just abhor his guts."". Who is more likely to be lying, Dave or Sally?
-A: Dave"	"Dave and Sally are two friends having a conversation. Dave says ""Smith abhors Clancey's guts.""
-Then Sally asks "	" - Who abhors Clancey's guts?
-Pick your answer from:
- (a). Dave
- (b). Sally
- (c). Clancey
- (d). Smith
-Answer: (d).Detailed Instructions: In this task, you are given a sentence in the English language and your task"	" ""Who is Smith?""
-What is the most reasonable answer?
-OPTIONS:
-- a friend
-- a teacher
-- a student
-- not enough information
-a student
---
-I have been the brunt of cruelty from a doctor a number of times but I will relate one that has always stayed with me since I was"
 "Dave and Sally are two friends having a conversation. Dave says ""I just read sci-fi and fantasy."" Then Sally asks "	" ""Are you interested in mystery novels?"". Given the sentence ""A man and a woman are talking."" is it true that ""The man is talking to a woman.""?Q: Translate ""The Commission is also aware of the need to ensure that the European Union's external action is coherent and consistent with its internal"	" ""What do you think of the new Star Wars movie?"". Dave says ""I haven't seen it yet."".
 Answer: What is Dave's favorite genre of movie?"	"Dave and Sally are two friends having a conversation. Dave says ""I read sci-fi and fantasy.""
 Then Sally asks "	" : ""Do you read sci-fi?""
@@ -816,57 +190,6 @@ Options:
 No, I don'tQ: Translate ""The"	" ""What do you read?""
 What is the most sensical response to the question?
 Answer: I read sci-fi and fantasy."
-"Dave and Sally are two friends having a conversation. Dave says ""This wall paper is just horrendous."" Then Sally asks "	" Sally: ""Would you say this wall paper is just abominable or detestable?""  Which person had a higher preference for the wall paper?
-****
-[A]: Dave
-
-
-[Q]: Two neighboring countries France and Spain were competing for economical supremacy in Europe. Spain dug up fossil fuels and used it as an energy"	" ""Is it as bad as the one in the living room?"".  Given the paragraph above, please answer correctly the following question:   Which friend sees more light reflected at the shorter wavelengths?
-A: Dave"	"Dave and Sally are two friends having a conversation. Dave says ""This wall paper is horrendous.""
-Then Sally asks "	" ""Dave, what do you mean?""
-Dave replies ""I mean that this wall paper is terrible.""
-Then Sally asks  ""Dave, what do you mean by terrible?""
-Dave replies ""I mean that this wall paper is awful.""
-Then Sally asks  ""Dave, what do you mean by awful?""
-Dave"	" ""Is it?""
-What was the most likely reason Sally asked this?
-Answer: She wanted to know if the wallpaper was bad."
-"Dave and Sally are two friends having a conversation. Dave says ""My mother-in-law's quiche is just to die for."" Then Sally asks "	" ""Is it as good as your wife's?"". Give the missing steps of the conversation.
-Ans: Sally: How's your mother-in-law?
-
-Manny and Annie were two foodie friends. Manny was a health conscious person, he ate organic foods and said no to animals. Annie liked to eat traditional foods."	" ""Is it as good as your wife's quiche?"". Dave replies ""No, but it's better than my wife's cooking."" Sally then asks ""What does your wife cook like?"" Dave replies ""Well, she can't boil water."" Sally then asks ""What does your mother-in-law cook like?"" Dave"	"Dave and Sally are two friends having a conversation. Dave says ""My mother-in-law's quiche is to die for.""
-Then Sally asks "	" ""Is your mother-in-law's quiche to die for?""
-Then Dave says ""Yes, my mother-in-law's quiche is to die for.""
-
-In the first two sentences, Dave is the subject and Sally is the object. In the third sentence, Dave is the subject and Sally is the subject.
-
-In"	" ""Is it really that good?""
-Dave replies ""Yes, it's the best quiche I've ever had.""
-Sally says ""I'll have to try it sometime.""
-Dave says ""You should, it's amazing.""
-Sally says ""I'm not sure I like quiche.""
-Dave says ""You'll love"
-"Dave and Sally are two friends having a conversation. Dave says ""That movie was just fantastic!"" Then Sally asks "	" ""Did you like the movie?"".  Given the paragraph above, please answer correctly the following question:   Which person didn't express their opinion on the movie?
-++++++++
-Answer: Sally
-
-
-Please answer this: Two neighboring countries France and Spain were competing for economical supremacy in Europe. Spain dug up fossil fuels and used"	" ""Did you like the movie?"".  Given the paragraph above, please answer correctly the following question:   Which person didn't say ""I loved the movie""?
-++++++++++
-output: Sally
-
-
-input: Please answer the following: Two neighboring countries France and Spain were competing for economical supremacy in Europe. Spain dug up"	"Dave and Sally are two friends having a conversation. Dave says ""That movie was fantastic!""
-Then Sally asks "	" ""Dave, what did you think?""
-Dave replies ""I loved it. It was fantastic.""
-Then Sally asks  ""Dave, what did you think?""
-Dave replies ""I loved it. It was fantastic.""
-Then Sally asks  ""Dave, what did you think?""
-Dave replies ""I loved it."	" ""Was it as good as the book?""
-Dave replies ""Yes, it was even better!""
-Sally says ""I'm not surprised, the book was fantastic!""
-What was the most likely topic of their conversation?
-Answer: movie"
 "Dave and Sally are two friends having a conversation. Dave says ""It's just me who snowboards."" Then Sally asks "	" ""Can I come with you?"", to which Dave replies ""I'm sorry, but I don't think you can."".  Given the paragraph above, please answer correctly the following question:   Which friend doesn't like to snowboard?
 ++++++++
 Answer: Sally
@@ -890,44 +213,6 @@ asked May 10 '12 at 14:28 Rahul Gupta Expert
 
 I think you are confusing the subject and the object of the sentence.  The subject is the person or thing"	" ""Who snowboards?""
 A: Dave"
-"Dave and Sally are two friends having a conversation. Dave says ""The stars are just extrordinary tonight."" Then Sally asks "	" ""Did you know that the moon orbits the earth."". Based on this passage, what is the moon?
-
-Answer: a natural satellite
-
-
-Question: Background: The dangers of global warming are being increasingly studied by a wide global consortium of scientists. These scientists are increasingly concerned about the potential long-term effects of global warming on our"	" ""Are you talking about the stars in the sky or the stars in the galaxy?"". Dave says ""I'm talking about the stars in the sky."".
-Which friend is talking about a smaller number of stars?
-A: Dave"	"Dave and Sally are two friends having a conversation. Dave says ""The stars are extrordinary tonight.""
-Then Sally asks "	" ""Are the stars extrordinary?""
-Say whether the following inferences are correct or incorrect.
-
-1. Sally is asking whether the stars are extraordinary or not.
-2. Sally is asking whether the stars are extraordinary or not.
-3. Sally is asking whether the stars are extraordinary or not.
-4. Sally is asking whether"	" ""What do you mean by that?""
-Dave says ""I mean that the stars are beautiful tonight.""
-Sally says ""I agree with you.""
-Then Dave says ""I think that the stars are extrordinary because they are so beautiful.""
-Sally says ""I agree with you.""
-Then Dave says ""I think that the"
-"Dave and Sally are two friends having a conversation. Dave says ""Your garden is just gorgeous."" Then Sally asks "	" Sally: ""Do you like my garden?"",  using the scheme above, classify the sentences into (A) Yes (B) No.
-(A).Q: In this task, you are given a sentence in the English language and your task is to convert it into the Hindi language. In translation, keep numbers as"	" ""Is it as beautiful as mine?"". Dave responds ""Yes, it's more beautiful."".  Given the paragraph above, please answer correctly the following question:   Which friend has a garden with more flowers?
-++++++++
-Answer: Sally
-
-
-Please answer this: Two neighboring countries France and Spain were competing for economical supremacy in"	"Dave and Sally are two friends having a conversation. Dave says ""Your garden is gorgeous.""
-Then Sally asks "	"1 questions → ""Is your garden bigger than mine?""
-Then Dave asks 1 questions → ""Is your garden bigger than Dave's?""
-Then Sally asks 1 questions → ""Is your garden bigger than Sally's?""
-Then Dave asks 1 questions → ""Is your garden bigger than Dave's?""
-Then Sally asks 1"	" ""Is it as big as mine?""
-Dave replies ""Yes, it's bigger.""
-Sally says ""I don't believe you.""
-Dave says ""Come and see for yourself.""
-Sally says ""I don't want to walk that far.""
-Dave says ""I'll drive you there.""
-Sally says ""I don"
 "Dave and Sally are two friends having a conversation. Dave says ""The company just repairs existing units."" Then Sally asks "	" ""Is the company small?"". What does Sally mean?
 Answer: The company just repairs existing units is a small statementPlease answer the following question: I am trying to decide whether it's worth it to invest in this film proposal. Can you help me answer a few questions? If you can't, please say"	" ""Is the company a small one?"". Dave responds ""Yes, it's a small company."". What was the most likely meaning of the sentence spoken by Sally?
 Answer: The company is small"	"Dave and Sally are two friends having a conversation. Dave says ""The company repairs existing units.""
