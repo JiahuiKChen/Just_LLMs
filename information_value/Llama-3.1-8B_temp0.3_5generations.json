@@ -1,0 +1,1142 @@
+{
+    "pair_0": {
+        "excluded_question": "Does she eat other things?",
+        "just_sentence": "Betsy's picky, she just eats chicken nuggets.",
+        "no_just_sentence": "Betsy's picky, she eats chicken nuggets.",
+        "just_questions": [
+            "\"What about you?",
+            "\"Is Betsy a picky eater?",
+            "\"What does she eat?",
+            "\"What about you, do you eat chicken nuggets?",
+            "\"What does she eat for breakfast?"
+        ],
+        "no_just_questions": [
+            "\"Why is Betsy picky?",
+            "3 questions. What is Betsy's favorite food?",
+            "\"What's Betsy's favorite food?",
+            "2 questions. One is \"How many chicken nuggets does Betsy eat?",
+            "\"What's Betsy's favorite food?"
+        ]
+    },
+    "pair_1": {
+        "excluded_question": "Did she go anywhere else?",
+        "just_sentence": "Despite claiming she went on an extravagant European trip, Sarah just went to Spain.",
+        "no_just_sentence": "Despite claiming she went on an extravagant European trip, Sarah went to Spain.",
+        "just_questions": [
+            "\"How do you know that?",
+            "\"What do you mean by 'despite'?",
+            "\"Did Sarah go to Spain?",
+            "\"Why do you think she went to Spain?",
+            "\"What does extravagant mean?"
+        ],
+        "no_just_questions": [
+            "\"Did Sarah go to Spain?",
+            "\"What's the meaning of extravagant?",
+            "\"Did Sarah go to Spain?",
+            "2 questions. The first is \"Is Sarah lying?",
+            "\"What is the name of the country Sarah claimed to have gone to?"
+        ]
+    },
+    "pair_2": {
+        "excluded_question": "Does he drink anything else?",
+        "just_sentence": "He won't want any, John just drinks distilled water.",
+        "no_just_sentence": "He won't want any, John drinks distilled water.",
+        "just_questions": [
+            "\"What is distilled water?",
+            "\"What's distilled water?",
+            "\"How do you know that?",
+            "\"What do you drink?",
+            "\"What's the point of drinking distilled water?"
+        ],
+        "no_just_questions": [
+            "\"What's that?",
+            "\"What is distilled water?",
+            "\"What is distilled water?",
+            "\"Why does he drink distilled water?",
+            "\"What do you mean by distilled water?"
+        ]
+    },
+    "pair_3": {
+        "excluded_question": "Will she try to become an astronaut?",
+        "just_sentence": "Yvonne just thinks about becoming an astronaut.",
+        "no_just_sentence": "Yvonne thinks about becoming an astronaut.",
+        "just_questions": [
+            "2 questions:\n1. Is Yvonne thinking about becoming an astronaut?\n2. Is Yvonne thinking about becoming",
+            "3 questions. What is Dave's first name?",
+            "3 questions. Which of the following is the correct order of the questions?",
+            "\"Who is Yvonne?",
+            "\"Who is Yvonne?"
+        ],
+        "no_just_questions": [
+            "\"What does Yvonne think about becoming an astronaut?",
+            "2 questions. What does Dave say?",
+            "2 questions.\n1. Who does Dave think about becoming an astronaut?\n2. Who does Yvonne think about becoming an",
+            "\"Does Yvonne think about becoming an astronaut?",
+            "2 questions.\n1. What does Dave say about Yvonne?\n2. What does Sally ask Dave?\nSally asks"
+        ]
+    },
+    "pair_4": {
+        "excluded_question": "Does he care about other things?",
+        "just_sentence": "Ian just cares about playing tennis.",
+        "no_just_sentence": "Ian cares about playing tennis.",
+        "just_questions": [
+            "\"Who cares about playing tennis?",
+            "\"What if Ian just cares about playing tennis?",
+            "\"Does Ian care about playing tennis?",
+            "\"Does Ian care about playing tennis?",
+            "\"Does Ian care about playing tennis?"
+        ],
+        "no_just_questions": [
+            "2 questions. The first question is \"Does Ian like playing tennis?",
+            "\"Does Ian care about playing tennis?",
+            "\"Does Ian care about playing tennis?",
+            "\"Does Ian care about playing tennis?",
+            "3 questions. Dave answers each question.\n1. Does Ian like to play tennis?\n2. Does Ian like to play tennis?\n3."
+        ]
+    },
+    "pair_5": {
+        "excluded_question": "Does she do other sports?",
+        "just_sentence": "My mom just runs and skis.",
+        "no_just_sentence": "My mom runs and skis.",
+        "just_questions": [
+            "\"Does your mom ski?",
+            "\"What is your mom's name?",
+            "\"What is your mom doing?",
+            "\"What does your mom do?",
+            "\"Does your mom run and ski?"
+        ],
+        "no_just_questions": [
+            "\"What does your mom do?",
+            "\"What does your mom do?",
+            "\"Does your mom run and ski?",
+            "\"Does your mom run and ski?",
+            "3 questions.\n1. What does your mom do?\n2. What does your mom like to do?\n3. What does your mom"
+        ]
+    },
+    "pair_6": {
+        "excluded_question": "Did it eat more?",
+        "just_sentence": "The dog ate just two times today.",
+        "no_just_sentence": "The dog ate two times today.",
+        "just_questions": [
+            "\"Did the dog eat just two times today?",
+            "2 questions. What is the dog's name?",
+            "2 questions. The first question is \"How many times did the dog eat today?",
+            "2 questions.\n1. What did the dog eat?\n2. How many times did the dog eat?\nDave answers both questions.",
+            "2 questions.\n1. How many times did the dog eat?\n2. How many times did the dog not eat?\nDave's"
+        ],
+        "no_just_questions": [
+            "2 times how many times did the dog eat?",
+            "2 times what?",
+            "2 times how many times the dog ate.\nDave says \"Two times two is four.\"\nSally says \"That's right, Dave",
+            "2 times what?",
+            "2 questions. Sally asks \"How many times did the dog eat today?"
+        ]
+    },
+    "pair_7": {
+        "excluded_question": "Did you order anything else?",
+        "just_sentence": "What is this, I just ordered a salad.",
+        "no_just_sentence": "What is this, I ordered a salad.",
+        "just_questions": [
+            "\"What is this, I just ordered a salad.\"\nDave says \"What is this, I just ordered a salad.\"",
+            "\"What is this, I just ordered a salad.\"\nThen Dave says \"What is this, I just ordered a salad",
+            "\"What is this, I just ordered a salad.\"\nDave asks \"What is this, I just ordered a salad.\"",
+            "\"What is this, I just ordered a salad.\"\nDave says \"I just ordered a salad.\"\nSally says \"",
+            "\"What is this, I just ordered a salad.\""
+        ],
+        "no_just_questions": [
+            "\"What is this, I ordered a salad.\"\nThen Dave says \"What is this, I ordered a salad.\"\nThen Sally",
+            "\"What is this, I ordered a salad.\"\nDave replies \"I'm sorry, I didn't get that. Could you",
+            "\"What is this, I ordered a salad.\"\nDave says \"What is this, I ordered a salad.\"\nThen Sally asks",
+            "\"What is this, I ordered a salad.\"\nDave says \"What is this, I ordered a salad.\"\nSally says",
+            "\"what is this, I ordered a salad.\"\nDave: \"I ordered a salad, and I got a salad.\""
+        ]
+    },
+    "pair_8": {
+        "excluded_question": "Did anyone else come?",
+        "just_sentence": "Just Alice came to the party last night.",
+        "no_just_sentence": "Alice came to the party last night.",
+        "just_questions": [
+            "\"Who came to the party last night?",
+            "\"Who is Alice?",
+            "\"What about the party?",
+            "\"Who else came to the party last night?",
+            "\"Who was the other person who came to the party last night?"
+        ],
+        "no_just_questions": [
+            "3 questions.\n1. Who came to the party last night?\n2. Who did Alice come to the party with?\n3.",
+            "\"Who is Alice?",
+            "\"Did Alice come to the party last night?",
+            "\"Who is Alice?",
+            "\"Who is Alice?"
+        ]
+    },
+    "pair_9": {
+        "excluded_question": "Were more expected to come?",
+        "just_sentence": "Just five kids came to my niece's birthday party.",
+        "no_just_sentence": "Five kids came to my niece's birthday party.",
+        "just_questions": [
+            "5 kids came to your niece's birthday party?",
+            "1 question. What is the question?",
+            "\"How many kids came to your niece's birthday party?",
+            "6 questions.\n1. How many kids came to your niece's birthday party?\n2. How many kids did you",
+            "5 + 5 =?"
+        ],
+        "no_just_questions": [
+            "\"How many kids came to your niece's birthday party?",
+            "5 questions, and Dave answers them.\nThe questions are:\n1. How many boys came to the party?\n2.",
+            "5 questions. What are they?",
+            "5 kids came to your niece's birthday party, how many kids came to your nephew's birthday party?",
+            "5 kids came to your niece's birthday party?"
+        ]
+    },
+    "pair_10": {
+        "excluded_question": "Did you read it too?",
+        "just_sentence": "I just have watched Game of Thrones.",
+        "no_just_sentence": "I have watched Game of Thrones.",
+        "just_questions": [
+            "\"What is Game of Thrones?",
+            "\"What is Game of Thrones?",
+            "\"What's your favorite character?",
+            "\"What is Game of Thrones?",
+            "\"What is Game of Thrones?"
+        ],
+        "no_just_questions": [
+            "\"How many episodes have you watched?",
+            "\"Have you watched Game of Thrones?",
+            "\"What is Game of Thrones?",
+            "3 questions.\n1. What is Game of Thrones?\n2. Who is Jon Snow?\n3. Who is Daenerys Targ",
+            "\"How many seasons have you watched?"
+        ]
+    },
+    "pair_11": {
+        "excluded_question": "Do you read other genres too?",
+        "just_sentence": "I just read sci-fi and fantasy.",
+        "no_just_sentence": "I read sci-fi and fantasy.",
+        "just_questions": [
+            "2 questions. The first is \"What's your favorite sci-fi book?",
+            "2 questions.\n1. What is the name of the author of the book you just read?\n2. What is the name of",
+            "2 questions.\n1. What is your favorite sci-fi book?\n2. What is your favorite fantasy book?\nDave answers both questions",
+            "2 questions:\n1) Do you like sci-fi and fantasy?\n2) Do you like to read?\nDave answers \"yes\"",
+            "\"What's the difference between sci-fi and fantasy?"
+        ],
+        "no_just_questions": [
+            "2 questions. The first question is \"Do you read sci-fi or fantasy?",
+            "2 questions.\n1) What is the difference between sci-fi and fantasy?\n2) What is your favorite sci-fi book?\nDave and",
+            "\"What do you read?",
+            "2 questions.\n1. Do you read sci-fi and fantasy?\n2. Do you read sci-fi and fantasy?\nWhat are the answers",
+            "2 questions.\n1. How many books have you read?\n2. How many of those books are sci-fi and fantasy?\nDave can"
+        ]
+    },
+    "pair_12": {
+        "excluded_question": "Does anyone else snowboard?",
+        "just_sentence": "It's just me who snowboards.",
+        "no_just_sentence": "It's me who snowboards.",
+        "just_questions": [
+            "\"Does your brother snowboard?",
+            "\"Is it just you who snowboards?",
+            "\"Is it just you who snowboards?",
+            "\"Why do you snowboard?",
+            "4 questions about the conversation.\n1. Who is Dave talking to?\n2. What is Dave doing?\n3. What is Sally"
+        ],
+        "no_just_questions": [
+            "\"Who snowboards?",
+            "\"Who snowboards?",
+            "\"Is it me who snowboards?",
+            "\"Who is it who snowboards?",
+            "\"Who snowboards?"
+        ]
+    },
+    "pair_13": {
+        "excluded_question": "Can they also replace them?",
+        "just_sentence": "The company just repairs existing units.",
+        "no_just_sentence": "The company repairs existing units.",
+        "just_questions": [
+            "\"What about new units?",
+            "\"Does the company repair existing units?",
+            "\"What do you mean by existing units?",
+            "\"How do you know that?",
+            "\"What about new units?"
+        ],
+        "no_just_questions": [
+            "\"What is the company's name?",
+            "\"Are you saying that the company repairs existing units?",
+            "\"What does that mean?",
+            "\"What does the company do?",
+            "\"What is the company's main business?"
+        ]
+    },
+    "pair_14": {
+        "excluded_question": "Will anyone else visit Janet on the 8th?",
+        "just_sentence": "Just Rocky will visit Janet on the 8th.",
+        "no_just_sentence": "Rocky will visit Janet on the 8th.",
+        "just_questions": [
+            "\"Who will visit Janet on the 8th?",
+            "\"What about the 9th?",
+            "3 questions.\n1. What day of the week is the 8th?\n2. What is the name of",
+            "\"What is the date of the visit?",
+            "8 questions about the conversation.\n1. What is the name of the person who will visit Janet?\n2. What"
+        ],
+        "no_just_questions": [
+            "8 days from now, what day will it be?",
+            "\"Will Rocky visit Janet on the 8th?",
+            "\"What day will Rocky visit Janet?",
+            "8 questions. Dave answers each question with a single word.\nThe first question is \"What day of the week is",
+            "8 questions in a row. Each question is answered by Dave with a \"yes\" or a \"no\".\nAfter"
+        ]
+    },
+    "pair_15": {
+        "excluded_question": "What kind of dog is Fido?",
+        "just_sentence": "Fido is just a dog.",
+        "no_just_sentence": "Fido is a dog.",
+        "just_questions": [
+            "\"What is a dog?",
+            "2 questions: \"Is Fido a dog?",
+            "\"What is Fido?",
+            "\"Is Fido just a dog?",
+            "2 questions:\n1. What is Fido?\n2. What is a dog?\nDave answers:\n1. Fido is a dog"
+        ],
+        "no_just_questions": [
+            "2 questions:\n1. Is Fido a dog?\n2. Does Fido have a tail?\nDave answers \"Yes\" to both questions",
+            "3 questions:\n1. Is Fido a dog?\n2. Is Fido a cat?\n3. Is Fido a horse?\nDave",
+            "3 questions:\n1) What is a dog?\n2) What is Fido?\n3) What is Fido a dog?\nDave's",
+            "3 questions:\n1. \"Is Fido a dog?\"\n2. \"Is Fido a cat?\"\n3. \"Is Fido a",
+            "3 questions. What is the probability that Sally will get the answer correct?"
+        ]
+    },
+    "pair_16": {
+        "excluded_question": "Is that all there is to a proton?",
+        "just_sentence": "A proton is just a hydrogen atom without an electron.",
+        "no_just_sentence": "A proton is a hydrogen atom without an electron.",
+        "just_questions": [
+            "2 questions:\n1. What is the mass of a proton?\n2. What is the mass of a hydrogen atom",
+            "3 questions.\n1. Is a proton a hydrogen atom without an electron?\n2. Is a proton a hydrogen atom",
+            "2 questions\n1. Is a hydrogen atom a proton?\n2. Is a proton a hydrogen atom?\nWhat are",
+            "2 questions:\n1) Is a hydrogen atom a proton?\n2) Is a proton a hydrogen atom?\nDave answers",
+            "2 questions:\n1) Is a neutron a hydrogen atom without a proton?\n2) Is a neutron a hydrogen atom"
+        ],
+        "no_just_questions": [
+            "\"What is a hydrogen atom without an electron?",
+            "2 questions:\n1) Is a proton a hydrogen atom without an electron?\n2) Is a hydrogen atom without an electron",
+            "2 questions.\n1) Is a proton a hydrogen atom without an electron?\n2) Is a hydrogen atom without an electron",
+            "2 questions.\n1. Is a proton a hydrogen atom without an electron?\n2. Is a hydrogen atom without an electron",
+            "2 questions:\n1. Is a proton a hydrogen atom?\n2. Is a hydrogen atom a proton?\nDave says \""
+        ]
+    },
+    "pair_17": {
+        "excluded_question": "What else does she do?",
+        "just_sentence": "Sue is just a language teacher.",
+        "no_just_sentence": "Sue is a language teacher.",
+        "just_questions": [
+            "\"Who is Sue?",
+            "\"What is Sue?",
+            "\"What is Sue's job?",
+            "\"Is Sue just a language teacher?",
+            "\"What is Sue?"
+        ],
+        "no_just_questions": [
+            "\"Is Sue a language teacher?",
+            "\"Is Sue a language teacher?",
+            "\"Is Sue a language teacher?",
+            "\"What is Sue's job?",
+            "\"Is Sue a language teacher?"
+        ]
+    },
+    "pair_18": {
+        "excluded_question": "Does Josh have other duties?",
+        "just_sentence": "Josh is just an intern.",
+        "no_just_sentence": "Josh is an intern.",
+        "just_questions": [
+            "\"How did you know I was talking about Josh?",
+            "3 questions.\n1. What is the relationship between Dave and Josh?\n2. What is the relationship between Sally and Dave?\n3. What",
+            "\"What's an intern?",
+            "\"Is Josh an intern?",
+            "\"What is an intern?"
+        ],
+        "no_just_questions": [
+            "3 questions.\n1. What is Josh's job?\n2. What kind of job is Josh doing?\n3. What kind of person is Josh",
+            "\"Who is Josh?",
+            "\"Who is Josh?",
+            "\"Who is an intern?",
+            "\"Who is Josh?"
+        ]
+    },
+    "pair_19": {
+        "excluded_question": "Is there more to what makes a hoodie?",
+        "just_sentence": "A hoodie is just a sweatshirt with a hood.",
+        "no_just_sentence": "A hoodie is a sweatshirt with a hood.",
+        "just_questions": [
+            "\"Is a hoodie a sweatshirt?",
+            "\"What is a sweatshirt with a hood called?",
+            "\"Is a sweatshirt just a hoodie without a hood?",
+            "2 questions:\n1. Is a hoodie a sweatshirt?\n2. Is a hoodie a hood?\nDave answers \"",
+            "2 questions. What is a hoodie?"
+        ],
+        "no_just_questions": [
+            "5 questions. Each question is a multiple choice question with 4 possible answers.\nThe first question is \"What is a",
+            "\"What is a sweatshirt?",
+            "2 questions:\n1. \"Is a hoodie a sweatshirt?\"\n2. \"Is a sweatshirt a hoodie?\"\nDave",
+            "3 questions.\n1. What is a sweatshirt?\n2. What is a hood?\n3. What is a hoodie",
+            "\"What is a sweatshirt?"
+        ]
+    },
+    "pair_20": {
+        "excluded_question": "Is that all it is?",
+        "just_sentence": "That contraption is just a vacuum.",
+        "no_just_sentence": "That contraption is a vacuum.",
+        "just_questions": [
+            "\"What's a vacuum?",
+            "\"What is a vacuum?",
+            "\"Dave, what is a vacuum?",
+            "\"What is a vacuum?",
+            "\"What is a vacuum?"
+        ],
+        "no_just_questions": [
+            "\"What is a vacuum?",
+            "\"What is a vacuum?",
+            "\"What is a vacuum?",
+            "\"What is a vacuum?",
+            "2 questions.\n1. What is a vacuum?\n2. What is a contraption?\nDave's answer to Sally's first question is"
+        ]
+    },
+    "pair_21": {
+        "excluded_question": "Is there more to a dumbwaiter?",
+        "just_sentence": "A dumbwaiter is just an elevator for food.",
+        "no_just_sentence": "A dumbwaiter is an elevator for food.",
+        "just_questions": [
+            "\"What's the difference between a dumbwaiter and an elevator?",
+            "\"What is a dumbwaiter?",
+            "\"Is it a dumbwaiter if it's not dumb?",
+            "\"Is a dumbwaiter just an elevator for food?",
+            "2 questions. What is a dumbwaiter?"
+        ],
+        "no_just_questions": [
+            "2 questions. Which one is correct?",
+            "\"What is a dumbwaiter?",
+            "\"What is an elevator for food?",
+            "\"What's the difference between a dumbwaiter and an elevator?",
+            "\"What is a dumbwaiter?"
+        ]
+    },
+    "pair_22": {
+        "excluded_question": "Is that all there is to LLMs?",
+        "just_sentence": "Large Language Models are just neural networks.",
+        "no_just_sentence": "Large Language Models are neural networks.",
+        "just_questions": [
+            "3 questions:\n1. What is a neural network?\n2. What is a large language model?\n3. What is a large",
+            "\"Are they really just neural networks?",
+            "\"Are they just neural networks?",
+            "\"Is that true?",
+            "\"Are you sure?"
+        ],
+        "no_just_questions": [
+            "3 questions to Dave:\n  1. What is a neural network?\n  2. What is a large language model?",
+            "3 questions:\n1. What is a neural network?\n2. What is a large language model?\n3. What is a neural network",
+            "\"Are Large Language Models neural networks?",
+            "3 questions about the topic.\nThe first question is \"What is a neural network?\"\nThe second question is \"What is a large language",
+            "2 questions:\n1. What is a neural network?\n2. What is a large language model?\nDave says: \"A neural network"
+        ]
+    },
+    "pair_23": {
+        "excluded_question": "Is that true for all white LEDs?",
+        "just_sentence": "A white LED is just a filtered blue LED.",
+        "no_just_sentence": "A white LED is a filtered blue LED.",
+        "just_questions": [
+            "\"Is a white LED a blue LED?",
+            "\"Is a blue LED just a filtered white LED?",
+            "\"Is a blue LED just a filtered white LED?",
+            "\"Is it possible to have a filtered red LED?",
+            "\"Is a blue LED a filtered white LED?"
+        ],
+        "no_just_questions": [
+            "\"Is a blue LED a filtered white LED?",
+            "\"What is a filtered blue LED?",
+            "\"Can you give me an example of a white light that is not a filtered blue light?",
+            "\"Is a filtered blue LED a white LED?",
+            "\"What is the color of a red LED?"
+        ]
+    },
+    "pair_24": {
+        "excluded_question": "What else is different about luxury cars?",
+        "just_sentence": "Luxury cars just have fancier finishes.",
+        "no_just_sentence": "Luxury cars have fancier finishes.",
+        "just_questions": [
+            "\"What do you mean by luxury cars?",
+            "\"What do you mean by finishes?",
+            "5 questions. Each question is worth 1 point.\n1. What is the name of the company that makes the most expensive",
+            "\"Is it true that luxury cars are more expensive than regular cars?",
+            "\"What do you mean by finishes?"
+        ],
+        "no_just_questions": [
+            "\"What are some luxury cars?",
+            "\"What about the paint job?",
+            "\"Is it true that luxury cars have a fancier finish?",
+            "\"Is it true that luxury cars have fancier finishes?",
+            "\"Does that mean that the car is more expensive?"
+        ]
+    },
+    "pair_25": {
+        "excluded_question": "Is there something more complex about a torus?",
+        "just_sentence": "A torus is just a donut.",
+        "no_just_sentence": "A torus is a donut.",
+        "just_questions": [
+            "3 questions:\n1. What is a torus?\n2. What is a donut?\n3. What is a don",
+            "3 questions:\n1. What is a torus?\n2. What is a donut?\n3. Is a torus",
+            "3 questions:\n1) Is a torus the same as a donut?\n2) Is a donut a torus",
+            "2 questions:\n1. What is a donut?\n2. What is a torus?\nWhat is the answer to Sally",
+            "\"Is a torus a donut?"
+        ],
+        "no_just_questions": [
+            "\"What is a torus?",
+            "3 questions, one at a time.\n1. What is the volume of a torus?\n2. What is the surface area",
+            "3 questions. What is a torus?",
+            "3 questions:\n1. What is a torus?\n2. What is a donut?\n3. What is the difference between",
+            "2 questions. What is a torus?"
+        ]
+    },
+    "pair_26": {
+        "excluded_question": "What else is different about a quiche?",
+        "just_sentence": "A quiche is just a breakfast casserole.",
+        "no_just_sentence": "A quiche is a breakfast casserole.",
+        "just_questions": [
+            "\"What is a breakfast casserole?",
+            "\"What is a breakfast casserole?",
+            "\"Is a breakfast casserole just a quiche?",
+            "\"What's the difference between a casserole and a quiche?",
+            "\"What is a breakfast casserole?"
+        ],
+        "no_just_questions": [
+            "\"What is a breakfast casserole?",
+            "\"What is a casserole?",
+            "\"What is a casserole?",
+            "\"What is a breakfast casserole?",
+            "2 questions.\n1. What is a casserole?\n2. What is a quiche?\nDave answers Sally's"
+        ]
+    },
+    "pair_27": {
+        "excluded_question": "What else makes a sofa different?",
+        "just_sentence": "A sofa is just a long chair.",
+        "no_just_sentence": "A sofa is a long chair.",
+        "just_questions": [
+            "2 questions.\n1. What is a sofa?\n2. What is a chair?\nDave says \"A sofa is a long chair",
+            "\"Is a chair just a short sofa?",
+            "\"Is a chair just a short sofa?",
+            "3 questions. What is a sofa?",
+            "\"Is a chair just a short sofa?"
+        ],
+        "no_just_questions": [
+            "\"Is a chair a sofa?",
+            "\"What is a long chair?",
+            "2 questions:\n1. Is a sofa a chair?\n2. Is a chair a sofa?\nDave answers \"No\" to both questions",
+            "\"Is a chair a long sofa?",
+            "\"Is a chair a sofa?"
+        ]
+    },
+    "pair_28": {
+        "excluded_question": "Isn't there more to a video?",
+        "just_sentence": "A video is just a bunch of photos put together.",
+        "no_just_sentence": "A video is a bunch of photos put together.",
+        "just_questions": [
+            "3 questions. Can you help her answer them?",
+            "\"Is a video a bunch of photos put together?",
+            "2 questions:\n1. What is the difference between a video and a photo?\n2. What is the difference between",
+            "3 questions. Can you answer them?",
+            "\"Is a video a bunch of photos put together?"
+        ],
+        "no_just_questions": [
+            "\"How many photos are in a video?",
+            "\"Is a photo a bunch of videos put together?",
+            "\"Is a video a bunch of photos put together?",
+            "\"What is a photo?",
+            "2 questions.\n1. How many photos are in a video?\n2. How many photos are in a video that is"
+        ]
+    },
+    "pair_29": {
+        "excluded_question": "What more is a parking garage?",
+        "just_sentence": "A parking garage is just an apartment building for cars.",
+        "no_just_sentence": "A parking garage is an apartment building for cars.",
+        "just_questions": [
+            "2 questions:\n1) How many parking spaces are there in the garage?\n2) How many apartments are there in",
+            "3 questions.\n1. What is the average height of a parking garage?\n2. What is the average width of",
+            "\"What is a parking garage?",
+            "3 questions:\n1. What is a parking garage?\n2. What is an apartment building?\n3. What is",
+            "\"How many floors does the parking garage have?"
+        ],
+        "no_just_questions": [
+            "\"Is a parking garage an apartment building for cars?",
+            "2 questions:\n1. Is a parking garage an apartment building?\n2. Is a parking garage for cars?\nDave answers",
+            "2 questions.\n1. What is the parking garage?\n2. What is the apartment building?\nDave answers \"The parking",
+            "\"Is a parking garage an apartment building for cars?",
+            "2 questions:\n1. What is the difference between a parking garage and an apartment building?\n2. What is the difference"
+        ]
+    },
+    "pair_30": {
+        "excluded_question": "Why?",
+        "just_sentence": "The lights just turn on and off, even when no one is around.",
+        "no_just_sentence": "The lights turn on and off, even when no one is around.",
+        "just_questions": [
+            "\"What do you mean by that?",
+            "\"What do you think is going on?",
+            "\"What is the most likely cause?",
+            "2 questions. \"Do you think the lights are on a timer?",
+            "\"What do you mean?"
+        ],
+        "no_just_questions": [
+            "\"Can you explain that?",
+            "3 questions.\n1. What is the problem?\n2. What is the cause?\n3. What",
+            "\"Dave, what do you mean when you say that the lights turn on and off?",
+            "\"What do you mean?",
+            "\"How do you know that?"
+        ]
+    },
+    "pair_31": {
+        "excluded_question": "Does anyone know why?",
+        "just_sentence": "Last week, a piano just fell from the sky onto Fifth Avenue.",
+        "no_just_sentence": "Last week, a piano fell from the sky onto Fifth Avenue.",
+        "just_questions": [
+            "\"Did it land on its back or its front?",
+            "2 questions:\n1. Did the piano fall from the sky onto Fifth Avenue last week?\n2.",
+            "\"What's a piano doing on Fifth Avenue?",
+            "\"What do you mean by 'just'?",
+            "\"What's a piano?"
+        ],
+        "no_just_questions": [
+            "\"What's the probability that a piano will fall from the sky onto Fifth Avenue?",
+            "3 questions. Dave answers \"yes\" to the first 2, and \"no\" to the third",
+            "\"What is the probability that a piano will fall from the sky onto Fifth Avenue?",
+            "\"Where did it come from?",
+            "4 questions. What is the first question Sally asks?"
+        ]
+    },
+    "pair_32": {
+        "excluded_question": "Why?",
+        "just_sentence": "On Friday, the cars will just crash.",
+        "no_just_sentence": "On Friday, the cars will crash.",
+        "just_questions": [
+            "\"What is the probability that the cars will crash?",
+            "2 questions. The first question is \"What will happen on Friday?",
+            "3 questions. Dave answers them all. What are the questions and answers?",
+            "2 questions. First, \"What day is it?",
+            "2 questions.\n1. What is the probability that the cars will crash on Friday?\n2. What is the probability that the"
+        ],
+        "no_just_questions": [
+            "1 question to Dave. She gets the answer \"Yes\" and she knows the day.\nWhat is the day?\nNote: The",
+            "2 questions.\n1) Will the cars crash on Friday?\n2) Is it true that the cars will crash on Friday?\nWhat",
+            "3 questions. Dave answers them all with a \"yes\" or a \"no\".\nSally knows that the cars will crash on",
+            "3 questions. Dave answers the questions.\nDave: \"I don't know if it will rain.\"\nSally: \"I don",
+            "3 questions:\n1. What will happen on Friday?\n2. What will happen before the cars crash?\n3. What will happen"
+        ]
+    },
+    "pair_33": {
+        "excluded_question": "Why?",
+        "just_sentence": "When we came in, the toys were just scattered everywhere.",
+        "no_just_sentence": "When we came in, the toys were scattered everywhere.",
+        "just_questions": [
+            "2 questions:\n\"Did you put them away?\"\n\"Did you put them away in the toy box?\"\nDave",
+            "3 questions. Dave answers each one.\nDave: \"I don't know.\"\nSally: \"I don",
+            "\"What did you say?",
+            "\"When did you come in?",
+            "\"What do you mean by'scattered'?"
+        ],
+        "no_just_questions": [
+            "5 questions, and Dave answers them.\nDave: \"I don't know. I didn't see any.\"\nDave",
+            "\"Who scattered the toys?",
+            "2 questions. Which one is correct?",
+            "\"What was scattered everywhere?",
+            "\"Where were the toys when we came in?"
+        ]
+    },
+    "pair_34": {
+        "excluded_question": "Why doesn't he listen to you?",
+        "just_sentence": "He just doesn't listen to me.",
+        "no_just_sentence": "He doesn't listen to me.",
+        "just_questions": [
+            "\"What do you want him to do?",
+            "\"Have you tried talking to him?",
+            "3 questions. Dave answers them all.\nDave: \"He's 3 years old.\"\nSally: \"What's his name",
+            "2 questions. \"How do you know he doesn't listen to you?",
+            "\"Did you ask him to listen?"
+        ],
+        "no_just_questions": [
+            "3 questions.\nDave answers \"Yes\" to all 3 questions.\nDave and Sally are having a conversation. Dave says \"He doesn",
+            "2 questions. What are they?",
+            "\"What do you mean?",
+            "3 questions. What are they?",
+            "\"Did you say anything to him?"
+        ]
+    },
+    "pair_35": {
+        "excluded_question": "Why is the kid mad at you?",
+        "just_sentence": "The kid is just mad at me today.",
+        "no_just_sentence": "The kid is mad at me today.",
+        "just_questions": [
+            "\"Why do you think that is?",
+            "\"Why do you think he is mad at you?",
+            "\"What kid?",
+            "\"Why do you think he's mad at you?",
+            "\"Why do you think he's mad?"
+        ],
+        "no_just_questions": [
+            "2 questions. The first question is \"Why is the kid mad at you?",
+            "\"Why is the kid mad at you?",
+            "\"Why is he mad at you?",
+            "\"Is he mad at you or is he just mad?",
+            "\"Did you do something to make him mad?"
+        ]
+    },
+    "pair_36": {
+        "excluded_question": "Why do you like spinach?",
+        "just_sentence": "I don't care about the taste, I just like spinach.",
+        "no_just_sentence": "I don't care about the taste, I like spinach.",
+        "just_questions": [
+            "\"Dave, do you like spinach?",
+            "\"What do you mean you don't care about the taste?",
+            "\"Do you like spinach?",
+            "\"What do you like about it?",
+            "\"Did you know that spinach is good for you?"
+        ],
+        "no_just_questions": [
+            "\"Dave, what do you like about spinach?",
+            "\"Do you care about the taste?",
+            "\"What do you like about spinach?",
+            "\"What do you think about the taste?",
+            "\"Why do you like spinach?"
+        ]
+    },
+    "pair_37": {
+        "excluded_question": "Why was the dog throwing up?",
+        "just_sentence": "I looked over and the dog was just throwing up.",
+        "no_just_sentence": "I looked over and the dog was throwing up.",
+        "just_questions": [
+            "\"What was he throwing up?",
+            "\"What kind of dog?",
+            "\"Was the dog throwing up or was the dog just throwing up?",
+            "\"What was the dog throwing up?",
+            "\"Did you see what he was throwing up?"
+        ],
+        "no_just_questions": [
+            "4 questions. Dave answers each question with a single word.\nWhat is the dog's name?\nWhat did the dog throw",
+            "2 questions.\n1. What was the dog throwing up?\n2. What was the dog throwing up on?\nDave answers",
+            "\"What did the dog throw up?",
+            "\"What was the dog throwing up?",
+            "\"What color was the dog?"
+        ]
+    },
+    "pair_38": {
+        "excluded_question": "Why did she stop coming to work?",
+        "just_sentence": "Two days ago she just stopped coming to work.",
+        "no_just_sentence": "Two days ago she stopped coming to work.",
+        "just_questions": [
+            "\"What's wrong with her?",
+            "\"What happened?",
+            "\"What was she like?",
+            "\"What happened?",
+            "\"What's wrong with her?"
+        ],
+        "no_just_questions": [
+            "\"Who stopped coming to work?",
+            "2 questions.\n1. \"Is she still working?\"\n2. \"Is she still coming to work?\"\nWhat is the answer",
+            "\"What did you say?",
+            "\"What do you mean?",
+            "\"Who stopped coming to work?"
+        ]
+    },
+    "pair_39": {
+        "excluded_question": "Why does Lana think he won't show?",
+        "just_sentence": "Lana thinks he just won't show.",
+        "no_just_sentence": "Lana thinks he won't show.",
+        "just_questions": [
+            "\"What does Lana think?",
+            "2 questions. Which one does she ask first?",
+            "\"What does Lana think?",
+            "2 questions. \"Who is Lana?",
+            "\"What is Lana's opinion about Dave?"
+        ],
+        "no_just_questions": [
+            "\"Who is Lana?",
+            "\"What does Lana think?",
+            "\"Who won't show?",
+            "\"What does Lana think?",
+            "\"What does Lana think?"
+        ]
+    },
+    "pair_40": {
+        "excluded_question": "Why?",
+        "just_sentence": "I've just got a bad feeling about this.",
+        "no_just_sentence": "I've got a bad feeling about this.",
+        "just_questions": [
+            "2 questions, one of which is \"What's that got to do with anything?",
+            "\"Have you got a bad feeling about this?",
+            "\"What's wrong?",
+            "\"What's the matter?",
+            "\"Is it the same feeling you had about the last one?"
+        ],
+        "no_just_questions": [
+            "\"What's wrong?",
+            "\"What's the matter?",
+            "2 questions. The first is \"What's your favourite colour?",
+            "2 questions. One is \"What's your favourite colour?",
+            "4 questions. Dave answers each one with a single word.\nDave's answers are as follows:\n1. \"I can't"
+        ]
+    },
+    "pair_41": {
+        "excluded_question": "Why did she leave?",
+        "just_sentence": "She just left, out of the blue, two days ago.",
+        "no_just_sentence": "She left, out of the blue, two days ago.",
+        "just_questions": [
+            "\"Did she leave a note?",
+            "\"Did she leave you?",
+            "\"Who just left?",
+            "2 questions:\n1. Was she in the blue?\n2. Was she out of the blue?\nWhat",
+            "\"Where did she go?"
+        ],
+        "no_just_questions": [
+            "\"Why did she leave?",
+            "\"Why did she leave?",
+            "\"What did she say?",
+            "\"What do you mean by 'out of the blue'?",
+            "\"What do you mean, 'out of the blue'?"
+        ]
+    },
+    "pair_42": {
+        "excluded_question": "What made Alex trip?",
+        "just_sentence": "Yesterday, we were walking along, and Alex just tripped on the side walk.",
+        "no_just_sentence": "Yesterday, we were walking along, and Alex tripped on the sidewalk.",
+        "just_questions": [
+            "\"What was he doing?",
+            "\"Who is Alex?",
+            "\"Alex, what happened?",
+            "\"How did you know it was Alex who tripped?",
+            "\"Who is Alex?"
+        ],
+        "no_just_questions": [
+            "\"What did you say?",
+            "3 questions:\n1. Did Alex fall?\n2. Did Alex walk?\n3. Did Alex",
+            "\"What happened next?",
+            "\"What's the matter with Alex?",
+            "4 questions. Dave answers each question.\n1. What did Alex trip on?\n2. What"
+        ]
+    },
+    "pair_43": {
+        "excluded_question": "Isn't there a way to prevent them?",
+        "just_sentence": "These things just happen.",
+        "no_just_sentence": "These things happen.",
+        "just_questions": [
+            "2 questions. The first question is \"What's the first thing that comes to mind when you hear the word 'happen'?",
+            "\"What do you mean by that?",
+            "3 questions. Dave answers them all correctly. Sally then says \"I'm impressed. I didn't think you'd get them all right.\"\nWhat",
+            "3 questions.\n1. What things?\n2. What just happened?\n3. What is just?\nDave answers the questions.\n1. Things like",
+            "4 questions. What is the probability that she will get 4 correct answers?"
+        ],
+        "no_just_questions": [
+            "\"Are you saying that you are not to blame?",
+            "\"Is that a fact?",
+            "\"What things?",
+            "\"Are you saying that the things that happen are inevitable?",
+            "\"What things?"
+        ]
+    },
+    "pair_44": {
+        "excluded_question": "Any idea why?",
+        "just_sentence": "Last week they just invited me over.",
+        "no_just_sentence": "Last week they invited me over.",
+        "just_questions": [
+            "\"What did you say?",
+            "\"What did you say?",
+            "\"What did you do?",
+            "\"What did you do last week?",
+            "\"Who did they invite you over?"
+        ],
+        "no_just_questions": [
+            "\"What did they invite you over for?",
+            "\"What did you do last week?",
+            "\"What did you do?",
+            "\"Who did they invite you over?",
+            "\"Who did they invite you over?"
+        ]
+    },
+    "pair_45": {
+        "excluded_question": "Is there anything you don't like about the soup?",
+        "just_sentence": "The soup is just delicious.",
+        "no_just_sentence": "The soup is delicious.",
+        "just_questions": [
+            "\"What's the soup made of?",
+            "\"Is it delicious?",
+            "\"What is the soup made of?",
+            "2 questions. She asks \"What is the soup made of?",
+            "\"What's the soup?"
+        ],
+        "no_just_questions": [
+            "\"What's your favorite soup?",
+            "\"Who made the soup?",
+            "\"What is the soup made of?",
+            "\"What is the soup?",
+            "5 questions about the soup. Dave answers each question with a single word.\nWhat is the soup?\nWhat is the soup made of?\nWhat is"
+        ]
+    },
+    "pair_46": {
+        "excluded_question": "How awful is it?",
+        "just_sentence": "The engine in this car is just awful.",
+        "no_just_sentence": "The engine in this car is awful.",
+        "just_questions": [
+            "\"What do you mean?",
+            "\"What's wrong with the engine?",
+            "\"What does that mean?",
+            "\"What's wrong with it?",
+            "\"What's wrong with it?"
+        ],
+        "no_just_questions": [
+            "\"What's the engine like in your car?",
+            "\"What's wrong with it?",
+            "\"Why do you say that?",
+            "\"Why do you say that?",
+            "\"How come you say that?"
+        ]
+    },
+    "pair_47": {
+        "excluded_question": "When would it be ok?",
+        "just_sentence": "This kind of behavior is just not ok.",
+        "no_just_sentence": "This kind of behavior is not ok.",
+        "just_questions": [
+            "\"What kind of behavior is not ok?",
+            "\"What kind of behavior?",
+            "\"What kind of behavior?",
+            "\"What kind of behavior?",
+            "\"What kind of behavior?"
+        ],
+        "no_just_questions": [
+            "\"Is this kind of behavior not ok?",
+            "3 questions. Dave answers each question with a single word.\nWhat is the first word Dave says?\nWhat is the second word Dave",
+            "\"What kind of behavior?",
+            "\"What do you mean by that?",
+            "\"What kind of behavior?"
+        ]
+    },
+    "pair_48": {
+        "excluded_question": "Is there anything one can do to make the article better written?",
+        "just_sentence": "The article is just badly written.",
+        "no_just_sentence": "The article is badly written.",
+        "just_questions": [
+            "\"What do you mean?",
+            "\"What is the article about?",
+            "\"What do you mean?",
+            "\"What do you mean?",
+            "\"Do you mean the article is badly written or the writer is badly written?"
+        ],
+        "no_just_questions": [
+            "3 questions. What is the article?",
+            "\"Is the article badly written?",
+            "2 questions. Which one is correct?",
+            "\"What does badly written mean?",
+            "2 questions. The first is \"Is the article badly written?"
+        ]
+    },
+    "pair_49": {
+        "excluded_question": "Is there anything you can do to separate them?",
+        "just_sentence": "The headphones just won't untangle.",
+        "no_just_sentence": "The headphones won't untangle.",
+        "just_questions": [
+            "\"What is the opposite of tangled?",
+            "\"What do you mean, they won't untangle?",
+            "\"Do you want to untangle them?",
+            "\"What do you mean by untangle?",
+            "\"How many headphones?"
+        ],
+        "no_just_questions": [
+            "\"What did you say?",
+            "\"What do you mean?",
+            "\"What did you say?",
+            "\"Are you saying that the headphones are untangled?",
+            "\"What won't untangle?"
+        ]
+    },
+    "pair_50": {
+        "excluded_question": "Is cutting a jackfruit really that tedious?",
+        "just_sentence": "Cutting up a jackfruit is just tedious.",
+        "no_just_sentence": "Cutting up a jackfruit is tedious.",
+        "just_questions": [
+            "\"What is tedious?",
+            "\"What is a jackfruit?",
+            "\"What is tedious?",
+            "\"How do you cut up a jackfruit?",
+            "\"What is a jackfruit?"
+        ],
+        "no_just_questions": [
+            "\"Have you ever tried to cut up a jackfruit?",
+            "\"What is tedious?",
+            "\"What is tedious?",
+            "\"What is tedious?",
+            "3 questions. What is a jackfruit?"
+        ]
+    },
+    "pair_51": {
+        "excluded_question": "Could their humor be worse?",
+        "just_sentence": "Their sense of humor is just the worst.",
+        "no_just_sentence": "Their sense of humor is the worst.",
+        "just_questions": [
+            "\"What do you mean by that?",
+            "3 questions.\n1. What is the worst sense of humor?\n2. What is the worst thing about their sense of humor",
+            "3 questions:\n1. What is the worst sense of humor?\n2. What is the worst thing about their sense of humor",
+            "5 questions. The first 4 are \"What's the worst?",
+            "3 questions. What does Dave mean?"
+        ],
+        "no_just_questions": [
+            "3 questions. If you want to know the answers, keep reading.\n1. Who is Dave talking about?\n2. What is",
+            "\"What's the worst sense of humor?",
+            "\"What do you mean by 'worst'?",
+            "\"What do you mean by that?",
+            "\"What do you mean by that?"
+        ]
+    },
+    "pair_52": {
+        "excluded_question": "How giant are mammoths?",
+        "just_sentence": "Mammoths are just gigantic.",
+        "no_just_sentence": "Mammoths are gigantic.",
+        "just_questions": [
+            "\"What about the woolly mammoth?",
+            "2 questions.\n1. How do you know that?\n2. What do you mean by \"gigantic\"?\nDave says \"",
+            "\"What is a mammoth?",
+            "\"What is a mammoth?",
+            "\"Are you sure?"
+        ],
+        "no_just_questions": [
+            "2 questions. \"What is a mammoth?",
+            "\"Are mammoths gigantic?",
+            "2 questions:\n1. \"Are mammoths gigantic?\"\n2. \"Are mammoths gigantic?\"\nDave answers \"Yes\" to both",
+            "\"Are they bigger than elephants?",
+            "\"What is a mammoth?"
+        ]
+    },
+    "pair_53": {
+        "excluded_question": "How superb is the movie?",
+        "just_sentence": "The movie is just superb.",
+        "no_just_sentence": "The movie is superb.",
+        "just_questions": [
+            "\"What is the movie about?",
+            "\"What does superb mean?",
+            "\"What is superb?",
+            "\"What is superb?",
+            "\"What's the movie called?"
+        ],
+        "no_just_questions": [
+            "2 questions. Dave answers them.\n1. What is the name of the movie?\n2. Who is the director of the movie?\nDave:",
+            "\"What is superb?",
+            "\"What do you mean by superb?",
+            "2 questions:\n1. What is the movie about?\n2. What is the movie like?\nDave answers the questions:\n1. The movie is",
+            "\"What is superb?"
+        ]
+    },
+    "pair_54": {
+        "excluded_question": "How much does Smith hate Clancey's guts?",
+        "just_sentence": "Smith just abhors Clancey's guts.",
+        "no_just_sentence": "Smith abhors Clancey's guts.",
+        "just_questions": [
+            "\"Who hates Clancey's guts more, Smith or Clancey?",
+            "\"What does Dave mean by that?",
+            "\"What does Dave mean by that?",
+            "3 questions:\n1. What does Dave mean by \"Smith just abhors Clancey's guts\"?",
+            "\"What does Dave mean by 'Smith just abhors Clancey's guts'?"
+        ],
+        "no_just_questions": [
+            "\"What does Smith abhor?",
+            "\"Is Smith's abhorrence of Clancey's guts mutual?",
+            "\"What does Dave mean by 'Smith abhors Clancey's guts'?",
+            "2 questions.\n1. What does Dave mean by \"Smith abhors Clancey's guts\"?\n2.",
+            "\"Who does Smith abhor?"
+        ]
+    },
+    "pair_55": {
+        "excluded_question": "Is the wall paper really that bad?",
+        "just_sentence": "This wall paper is just horrendous.",
+        "no_just_sentence": "This wall paper is horrendous.",
+        "just_questions": [
+            "\"Is it really that bad?",
+            "\"What is horrendous?",
+            "\"What's horrendous?",
+            "\"Why do you think it's horrendous?",
+            "\"What's horrendous?"
+        ],
+        "no_just_questions": [
+            "\"What's horrendous?",
+            "\"What's the matter with it?",
+            "\"What is horrendous?",
+            "\"What is horrendous?",
+            "\"What is horrendous?"
+        ]
+    },
+    "pair_56": {
+        "excluded_question": "Is your mother-in-law's quiche really that amazing?",
+        "just_sentence": "My mother-in-law's quiche is just to die for.",
+        "no_just_sentence": "My mother-in-law's quiche is to die for.",
+        "just_questions": [
+            "\"What's a quiche?",
+            "\"What does that mean?",
+            "\"What is your mother-in-law's quiche?",
+            "\"What does your mother-in-law do to the quiche?",
+            "\"What's a quiche?"
+        ],
+        "no_just_questions": [
+            "\"What's a quiche?",
+            "\"What's a quiche?",
+            "\"What's a quiche?",
+            "\"What is a quiche?",
+            "\"How many quiches does your mother-in-law make?"
+        ]
+    },
+    "pair_57": {
+        "excluded_question": "What could have made it better?",
+        "just_sentence": "That movie was just fantastic!",
+        "no_just_sentence": "That movie was fantastic!",
+        "just_questions": [
+            "\"What movie was that?",
+            "\"What movie was that?",
+            "\"What was the name of the movie?",
+            "\"What movie was that?",
+            "\"Was it really that good?"
+        ],
+        "no_just_questions": [
+            "2 questions. What was the movie about?",
+            "3 questions.\n1. What movie did Dave just see?\n2. What did Dave think of the movie?\n3. What did Dave say about",
+            "\"Did you see the movie?",
+            "\"What movie was that?",
+            "\"What movie was that?"
+        ]
+    },
+    "pair_58": {
+        "excluded_question": "What would make them better?",
+        "just_sentence": "The stars are just extrordinary tonight.",
+        "no_just_sentence": "The stars are extrordinary tonight.",
+        "just_questions": [
+            "\"What are you talking about?",
+            "\"What are you talking about?",
+            "\"Dave, what is the name of the star that is the brightest in the sky?",
+            "\"What's the plural of'star'?",
+            "2 questions.\n1. What is the word Dave used in his sentence?\n2. What is the word Dave used in his question"
+        ],
+        "no_just_questions": [
+            "\"What do you think of the stars?",
+            "\"Did you know that the stars are extrordinary every night?",
+            "\"What do you mean by that?",
+            "4 questions. Dave answers each question with a simple yes or no.\nAfter Sally asks each question, she says \"I know the answer",
+            "\"Are they?"
+        ]
+    },
+    "pair_59": {
+        "excluded_question": "What could make the garden better?",
+        "just_sentence": "Your garden is just gorgeous.",
+        "no_just_sentence": "Your garden is gorgeous.",
+        "just_questions": [
+            "\"Did you mean it when you said my garden was gorgeous?",
+            "\"What do you mean by gorgeous?",
+            "\"Is it better than yours?",
+            "\"How do you know my garden is gorgeous?",
+            "\"Is it?"
+        ],
+        "no_just_questions": [
+            "3 questions.\n1. What is the name of the plant?\n2. What is the name of the flower?\n3. What is the name",
+            "\"What's your garden like?",
+            "3 questions. Sally asks \"What is your favorite color?",
+            "\"Where did you get the idea for your garden?",
+            "2 questions. What is the first question?"
+        ]
+    }
+}

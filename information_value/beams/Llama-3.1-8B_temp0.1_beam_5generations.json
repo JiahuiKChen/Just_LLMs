@@ -67,7 +67,13 @@
             "\"Does Yvonne want to become an astronaut?",
             "\"What does Yvonne think about becoming an astronaut?"
         ],
-        "no_just_questions": []
+        "no_just_questions": [
+            "2 questions.\n1. Does Yvonne think about becoming an astronaut?\n2. Does Yvonne think about becoming an",
+            "2 questions.\n1. Does Yvonne think about becoming an astronaut?\n2. Does Yvonne want to become an",
+            "2 questions.\n1. Does Yvonne think about becoming an astronaut?\n2. Does Dave think about becoming an astronaut?",
+            "2 questions.\n1. Does Yvonne want to become an astronaut?\n2. Does Yvonne think about becoming an",
+            "2 questions.\n1. Does Yvonne think about becoming an astronaut?\n2. Does Yvonne think about becoming a"
+        ]
     },
     "pair_4": {
         "excluded_question": "Does he care about other things?",
@@ -111,7 +117,13 @@
         "excluded_question": "Did it eat more?",
         "just_sentence": "The dog ate just two times today.",
         "no_just_sentence": "The dog ate two times today.",
-        "just_questions": [],
+        "just_questions": [
+            "2 questions.\n1. How many times did the dog eat today?\n2. How many times did the dog not eat today?",
+            "2 questions.\n1. How many times did the dog eat today?\n2. How many times did the dog not eat today?",
+            "2 questions.\n1. How many times did the dog eat?\n2. How many times did the dog not eat?",
+            "2 questions.\n1. How many times did the dog eat today?\n2. How many times did the dog eat yesterday?\nDave",
+            "2 questions.\n1. How many times did the dog eat?\n2. How many times did the dog not eat?\nWhat are"
+        ],
         "no_just_questions": [
             "2 times how many times did the dog eat?",
             "2 times how many times did the dog eat?",
@@ -124,8 +136,20 @@
         "excluded_question": "Did you order anything else?",
         "just_sentence": "What is this, I just ordered a salad.",
         "no_just_sentence": "What is this, I ordered a salad.",
-        "just_questions": [],
-        "no_just_questions": []
+        "just_questions": [
+            "\"What is this, I just ordered a salad.\"\nThen Dave says \"What is this, I just ordered a salad",
+            "\"What is this, I just ordered a salad.\"\nThen Dave says  \"What is this, I just ordered a",
+            "\"What is this, I just ordered a salad.\"\nThen Dave asks \"What is this, I just ordered a salad",
+            "\"What is this, I just ordered a salad.\"\nThen Dave says \"What is this, I just ordered a salad",
+            "\"What is this, I just ordered a salad.\"\nDave says \"What is this, I just ordered a salad.\""
+        ],
+        "no_just_questions": [
+            "\"What is this, I ordered a salad.\"\nThen Dave says \"What is this, I ordered a salad.\"\nThen Sally",
+            "\"What is this, I ordered a salad.\"\nThen Dave says  \"What is this, I ordered a salad.\"\nThen",
+            "\"What is this, I ordered a salad.\"\nThen Dave says \"What is this, I ordered a salad.\"\nThen Sally",
+            "\"What is this, I ordered a salad.\"\nThen Dave asks \"What is this, I ordered a salad.\"\nThen Sally",
+            "\"What is this, I ordered a salad.\"\nDave says \"What is this, I ordered a salad.\"\nSally says"
+        ]
     },
     "pair_8": {
         "excluded_question": "Did anyone else come?",
@@ -158,6 +182,7 @@
             "\"How many kids came to your niece's birthday party?"
         ],
         "no_just_questions": [
+            "5 + 5 + 5 + 5 + 5 + 5 + 5 + 5 +",
             "5 + 5 + 5 + 5 + 5 + 5 + 5 + 5 =?",
             "5 + 5 + 5 + 5 + 5 + 5 + 5 + 5 =?",
             "5 + 5 + 5 + 5 + 5 + 5 + 5 =?",
@@ -187,9 +212,19 @@
         "excluded_question": "Do you read other genres too?",
         "just_sentence": "I just read sci-fi and fantasy.",
         "no_just_sentence": "I read sci-fi and fantasy.",
-        "just_questions": [],
+        "just_questions": [
+            "2 questions:\n1. What is your favorite sci-fi/fantasy book?\n2. What is your favorite sci-fi/fantasy movie",
+            "2 questions.\n1. What is your favorite sci-fi/fantasy book?\n2. What is your favorite sci-fi/fantasy movie",
+            "2 questions:\n1. What is your favorite sci-fi/fantasy book?\n2. What is your favorite sci-fi/fantasy book",
+            "2 questions:\n1. What is your favorite sci-fi book?\n2. What is your favorite fantasy book?\nDave answers:\n1",
+            "2 questions:\n1. What is your favorite sci-fi book?\n2. What is your favorite fantasy book?\nDave answers the questions"
+        ],
         "no_just_questions": [
-            "\"What do you read?"
+            "2 questions:\n1. What is your favorite sci-fi/fantasy book?\n2. What is your favorite sci-fi/fantasy movie?",
+            "\"What do you read?",
+            "2 questions:\n1. \"Do you like sci-fi and fantasy?\"\n2. \"Do you read sci-fi and fantasy?\"\nDave answers",
+            "2 questions:\n1. \"Do you like sci-fi and fantasy?\"\n2. \"Do you read sci-fi and fantasy?\"\nWhat is",
+            "2 questions:\n1. \"Do you like sci-fi and fantasy?\"\n2. \"Do you read sci-fi and fantasy?\"\nWhat are"
         ]
     },
     "pair_12": {
@@ -243,7 +278,10 @@
         ],
         "no_just_questions": [
             "\"Will Rocky visit Janet on the 8th?",
-            "\"Will Rocky visit Janet on the 9th?"
+            "\"Will Rocky visit Janet on the 9th?",
+            "2 questions.\n1. When will Rocky visit Janet?\n2. When will Rocky not visit Janet?",
+            "2 questions.\n1. When will Rocky visit Janet?\n2. When will Rocky not visit Janet?\nDave and Sally",
+            "2 questions.\n1. When will Rocky visit Janet?\n2. When will Rocky not visit Janet?\nDave says \""
         ]
     },
     "pair_15": {
@@ -269,8 +307,20 @@
         "excluded_question": "Is that all there is to a proton?",
         "just_sentence": "A proton is just a hydrogen atom without an electron.",
         "no_just_sentence": "A proton is a hydrogen atom without an electron.",
-        "just_questions": [],
-        "no_just_questions": []
+        "just_questions": [
+            "3 questions:\n  1. What is a proton?\n  2. What is a hydrogen atom?",
+            "3 questions:\n  1. What is a hydrogen atom?\n  2. What is a proton?",
+            "3 questions:\n  1. What is a hydrogen atom?\n  2. What is an electron?",
+            "3 questions:\n  1. Is a proton a hydrogen atom without an electron?\n  2. Is a",
+            "3 questions:\n  1. Is a hydrogen atom a proton?\n  2. Is a proton a hydrogen"
+        ],
+        "no_just_questions": [
+            "2 questions:\n1. Is a proton a hydrogen atom without an electron?\n2. Is a hydrogen atom without an electron",
+            "2 questions:\n1. Is a hydrogen atom without an electron a proton?\n2. Is a proton a hydrogen atom without",
+            "2 questions:\n1. Is a proton a hydrogen atom without an electron?\n2. Is a proton a hydrogen atom without",
+            "2 questions:\n1. Is a proton a hydrogen atom without an electron?\n2. Is a hydrogen atom a proton without",
+            "2 questions:\n1. Is a proton a hydrogen atom without an electron?\n2. Is a hydrogen atom a proton with"
+        ]
     },
     "pair_17": {
         "excluded_question": "What else does she do?",
@@ -316,13 +366,17 @@
         "no_just_sentence": "A hoodie is a sweatshirt with a hood.",
         "just_questions": [
             "\"What is a sweatshirt?",
-            "\"What is a sweatshirt?"
+            "\"What is a sweatshirt?",
+            "2 questions.\n1. What is a hoodie?\n2. What is a sweatshirt with a hood?",
+            "2 questions:\n1. What is a hoodie?\n2. What is a sweatshirt with a hood?\nWhat is",
+            "2 questions:\n1. What is a hoodie?\n2. What is a sweatshirt with a hood?\nDave's"
         ],
         "no_just_questions": [
             "\"What is a sweatshirt?",
             "\"What is a sweatshirt?",
             "\"What is a sweatshirt?",
-            "\"What is a sweatshirt?"
+            "\"What is a sweatshirt?",
+            "2 questions.\n1. What is a hoodie?\n2. What is a sweatshirt with a hood?"
         ]
     },
     "pair_20": {
@@ -367,8 +421,20 @@
         "excluded_question": "Is that all there is to LLMs?",
         "just_sentence": "Large Language Models are just neural networks.",
         "no_just_sentence": "Large Language Models are neural networks.",
-        "just_questions": [],
-        "no_just_questions": []
+        "just_questions": [
+            "3 questions:\n  1. What is a neural network?\n  2. What is a large language model?",
+            "3 questions:\n  1. What is a neural network?\n  2. What is a Large Language Model?",
+            "3 questions:\n  1. What are neural networks?\n  2. What are Large Language Models?\n  3.",
+            "3 questions:\n  1. What is a neural network?\n  2. What is the difference between a neural network and",
+            "3 questions:\n1. What is a neural network?\n2. What is a large language model?\n3. What is a neural"
+        ],
+        "no_just_questions": [
+            "3 questions:\n  1. What is a neural network?\n  2. What is a large language model?\n  3",
+            "3 questions:\n  1. What is a neural network?\n  2. What is a Large Language Model?\n  3",
+            "3 questions:\n  1. What are neural networks?\n  2. What are large language models?\n  3. What",
+            "3 questions:\n  1. What are neural networks?\n  2. What are Large Language Models?\n  3. What",
+            "3 questions:\n  1. What are neural networks?\n  2. What are Large Language Models?\n  3. How"
+        ]
     },
     "pair_23": {
         "excluded_question": "Is that true for all white LEDs?",
@@ -412,10 +478,19 @@
         "excluded_question": "Is there something more complex about a torus?",
         "just_sentence": "A torus is just a donut.",
         "no_just_sentence": "A torus is a donut.",
-        "just_questions": [],
+        "just_questions": [
+            "3 questions:\n1. What is a torus?\n2. What is a donut?\n3. Is a torus",
+            "3 questions:\n1. What is a torus?\n2. What is a donut?\n3. What is a don",
+            "3 questions:\n1. What is a torus?\n2. What is a donut?\n3. What is the difference",
+            "3 questions:\n1. What is a torus?\n2. What is a donut?\n3. What is a tor",
+            "3 questions:\n1. What is a torus?\n2. What is a donut?\n3. Is a donut"
+        ],
         "no_just_questions": [
             "\"What is a torus?",
-            "\"What is a torus?"
+            "\"What is a torus?",
+            "2 questions:\n1. Is a donut a torus?\n2. Is a torus a donut?\nWhat is the",
+            "2 questions:\n1. Is a donut a torus?\n2. Is a torus a donut?\nWhat are Dave",
+            "2 questions:\n1. Is a donut a torus?\n2. Is a torus a donut?\nDave answers \""
         ]
     },
     "pair_26": {
@@ -441,20 +516,32 @@
         "excluded_question": "What else makes a sofa different?",
         "just_sentence": "A sofa is just a long chair.",
         "no_just_sentence": "A sofa is a long chair.",
-        "just_questions": [],
+        "just_questions": [
+            "2 questions:\n1. Is a sofa a chair?\n2. Is a chair a sofa?\nDave says \"Yes\" to both",
+            "2 questions:\n1. Is a sofa a chair?\n2. Is a chair a sofa?\nWhat do you think the answers are",
+            "2 questions:\n1. Is a sofa a chair?\n2. Is a chair a sofa?\nWhat do you think Dave's answers",
+            "2 questions:\n1. Is a sofa a chair?\n2. Is a chair a sofa?\nWhat is Dave's answer to each",
+            "2 questions:\n1. Is a sofa a chair?\n2. Is a chair a sofa?\nWhat do you think the answers to"
+        ],
         "no_just_questions": [
             "\"Is a chair a long sofa?",
             "\"Is a chair a sofa?",
             "\"Is a chair a long sofa?",
             "\"Is a chair a long sofa?",
-            "\"Is a chair a long sofa?"
+            "\"Is a chair a sofa?"
         ]
     },
     "pair_28": {
         "excluded_question": "Isn't there more to a video?",
         "just_sentence": "A video is just a bunch of photos put together.",
         "no_just_sentence": "A video is a bunch of photos put together.",
-        "just_questions": [],
+        "just_questions": [
+            "3 questions:\n  1. What is a photo?\n  2. What is a video?",
+            "3 questions:\n  1. What is a video?\n  2. What is a photo?",
+            "3 questions:\n  1. What is a photo?\n  2. What is a bunch?",
+            "3 questions:\n  1. What is a photo?\n  2. What is video?\n  3",
+            "3 questions:\n  1. What is a photo?\n  2. What is a bunch of photos?"
+        ],
         "no_just_questions": [
             "\"What is a photo?",
             "\"What is a photo?",
@@ -467,8 +554,20 @@
         "excluded_question": "What more is a parking garage?",
         "just_sentence": "A parking garage is just an apartment building for cars.",
         "no_just_sentence": "A parking garage is an apartment building for cars.",
-        "just_questions": [],
-        "no_just_questions": []
+        "just_questions": [
+            "2 questions:\n1. Is a parking garage an apartment building for cars?\n2. Is an apartment building for cars",
+            "2 questions:\n1. Is a parking garage an apartment building for cars?\n2. Is a parking garage an apartment",
+            "2 questions:\n1. Is a parking garage an apartment building for cars?\n2. Is an apartment building a parking",
+            "2 questions:\n1. Is a parking garage an apartment building for cars?\n2. Is a parking garage just an",
+            "2 questions:\n1. Is a parking garage an apartment building?\n2. Is a parking garage for cars?\nDave"
+        ],
+        "no_just_questions": [
+            "2 questions:\n1. Is a parking garage an apartment building for cars?\n2. Is an apartment building for cars a",
+            "2 questions:\n1. Is a parking garage an apartment building for cars?\n2. Is a parking garage an apartment building",
+            "2 questions:\n1. Is a parking garage an apartment building for cars?\n2. Is a parking garage a building for",
+            "2 questions:\n1. Is a parking garage an apartment building?\n2. Is a parking garage for cars?\nDave answers",
+            "2 questions:\n1. Is a parking garage an apartment building for cars?\n2. Is a parking garage an apartment?"
+        ]
     },
     "pair_30": {
         "excluded_question": "Why?",
@@ -512,7 +611,13 @@
         "excluded_question": "Why?",
         "just_sentence": "On Friday, the cars will just crash.",
         "no_just_sentence": "On Friday, the cars will crash.",
-        "just_questions": [],
+        "just_questions": [
+            "2 questions. The first question is \"On Friday, the cars will just crash.\" The second question is \"On Friday,",
+            "2 questions. The first question is \"On Friday, the cars will just crash.\"\nThe second question is \"On Friday,",
+            "2 questions. The first question is \"On Friday, the cars will just crash.\" and the second question is \"On Friday",
+            "2 questions. The first question is \"On Friday, the cars will just crash.\"\nThe second question is \"On Saturday,",
+            "2 questions. The first question is \"On Friday, the cars will just crash.\" The second question is \"The cars will"
+        ],
         "no_just_questions": [
             "2 questions. The first question is \"When will the cars crash?",
             "2 questions. The first question is \"When will the cars crash?",
@@ -544,7 +649,13 @@
         "excluded_question": "Why doesn't he listen to you?",
         "just_sentence": "He just doesn't listen to me.",
         "no_just_sentence": "He doesn't listen to me.",
-        "just_questions": [],
+        "just_questions": [
+            "2 questions.\n1. What does Dave mean by \"He just doesn't listen to me?\"\n2. What does Sally mean by",
+            "2 questions.\n1. What does Dave mean by \"He just doesn't listen to me\"?\n2. What does Sally mean",
+            "2 questions.\n1. What does Dave mean by \"He just doesn't listen to me.\"\n2. What does Sally mean by",
+            "2 questions.\n1. What does Dave mean by \"He just doesn't listen to me\"?\n2. What does Dave mean",
+            "2 questions.\n1. What does Dave mean by \"He just doesn't listen to me\"?\n2. What does Sally think"
+        ],
         "no_just_questions": [
             "\"Why do you think he doesn't listen to you?",
             "\"Why do you think he doesn't listen to you?",
@@ -641,6 +752,7 @@
             "\"Who won't show?"
         ],
         "no_just_questions": [
+            "2 questions.\n1. Who is Lana?\n2. Who won't show?\nDave and Sally are having a conversation. Dave says",
             "\"Who won't show?",
             "\"Who won't show?",
             "\"Who won't show?",
@@ -770,7 +882,7 @@
             "\"What do you mean?",
             "\"What's wrong with it?",
             "\"What do you mean?",
-            "\"What do you mean?"
+            "\"What's wrong with it?"
         ],
         "no_just_questions": [
             "\"Why do you say that?",
@@ -853,7 +965,7 @@
             "\"What's a jackfruit?",
             "\"How do you cut up a jackfruit?",
             "\"How do you cut up a jackfruit?",
-            "\"What's a jackfruit?"
+            "\"How do you cut up a jackfruit?"
         ]
     },
     "pair_51": {
@@ -1019,6 +1131,12 @@
             "\"What do you think of my garden?",
             "\"What do you think of my garden?"
         ],
-        "no_just_questions": []
+        "no_just_questions": [
+            "2 questions.\n1. What do you think of my garden?\n2. Do you think my garden is gorgeous?\nWhat do you think Sally's",
+            "2 questions.\n1. What do you think of my garden?\n2. Do you think my garden is gorgeous?\nWhat is the difference between the",
+            "2 questions.\n1. What do you think of my garden?\n2. Do you think my garden is gorgeous?\nWhat do you think the answers",
+            "2 questions.\n1. What do you think of my garden?\n2. Do you think my garden is gorgeous?\nWhat is the difference between these",
+            "2 questions.\n1. What do you think of my garden?\n2. Do you think my garden is gorgeous?\nDave says \"I think your"
+        ]
     }
 }

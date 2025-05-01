@@ -21,19 +21,28 @@ def clean_and_parse_question(generations_list, prompt_token_length, tokenizer):
         new_tokens = output[prompt_token_length:]
         decoded_text = tokenizer.decode(new_tokens, skip_special_tokens=True)
         clean_generations.append(decoded_text.strip())
-    # Parse out questions (will be skipped if no '?' is contained)
+
+    # Parse out questions (take entire generation if no '?' is contained)
     generated_questions = []
-    for s in clean_generations:
-        match = re.match(r'^(.*?\?)', s)
+    q_count = 0
+    for gen in clean_generations:
+        # only match questions
+        match = re.match(r'^(.*?\?)', gen)
+        # Any punctuation aka sentence -- DOESN'T WORK
+        # breakpoint()
+        # match = re.match(r'^.*?[.!?](?=\s|$|["\')])', gen)
         if match:
             generated_questions.append(match.group(1))
+            q_count += 1
+        else:
+            generated_questions.append(gen)
     
-    print(f"Parsed {len(generated_questions)} questions out of {len(generations_list)} generations")
+    print(f"Parsed {q_count} questions out of {len(generations_list)} generations")
 
     return generated_questions
 
 
-def gen_questions(model_string="meta-llama/Llama-3.1-8B", num_questions=5):
+def gen_questions(model_string="meta-llama/Llama-3.1-8B", num_questions=5, temperature=0.2, only_questions=True):
     """
     With the given model, generates num_questions completions for each "just" minimal pair.
     Uses this conversation template to generate questions, then parses out the question:
@@ -84,16 +93,17 @@ def gen_questions(model_string="meta-llama/Llama-3.1-8B", num_questions=5):
             **just_inputs,
             max_length=50,
             do_sample=True,
-            # num_beams=num_questions,   # x most likely completions
+            # num_beams=100,   
             num_return_sequences=num_questions, 
             top_p=1.0,  # most random sampling, lower top_p is more focused              
-            temperature=0.1,
+            temperature=temperature,
             pad_token_id=tokenizer.eos_token_id
         )
         generated_questions = clean_and_parse_question(
             generations_list=outputs,
             prompt_token_length=prompt_token_length,
-            tokenizer=tokenizer 
+            tokenizer=tokenizer,
+            # only_questions=only_questions
         )
         all_generations[pair_id]['just_questions'] = generated_questions
 
@@ -108,22 +118,27 @@ def gen_questions(model_string="meta-llama/Llama-3.1-8B", num_questions=5):
             **no_just_inputs,
             max_length=50,
             do_sample=True,
-            num_beams=num_questions,   # x most likely completions
+            # num_beams=100,   
             num_return_sequences=num_questions, 
-            # top_p=1.0,  # most random sampling, lower top_p is more focused              
-            temperature=0.1,
+            top_p=1.0,  # most random sampling, lower top_p is more focused              
+            temperature=temperature,
             pad_token_id=tokenizer.eos_token_id
         )
         generated_questions = clean_and_parse_question(
             generations_list=outputs,
             prompt_token_length=prompt_token_length,
-            tokenizer=tokenizer 
+            tokenizer=tokenizer,
+            # only_questions=only_questions
         )
         all_generations[pair_id]['no_just_questions'] = generated_questions
 
-        with open(f"{model_string.split('/')[-1]}_{num_questions}generations.json", 'w') as f:
-            json.dump(all_generations, f, indent=4)
+        # if not only_questions:
+        #     with open(f"{model_string.split('/')[-1]}_temp{temperature}_beam_{num_questions}ALLgenerations.json", 'w') as f:
+        #         json.dump(all_generations, f, indent=4)
+        # else:
+        with open(f"{model_string.split('/')[-1]}_temp{temperature}_{num_questions}generations.json", 'w') as f:
+                json.dump(all_generations, f, indent=4)
 
 
 ### Generates 5 questions for each sentence in minimal pair
-gen_questions() 
+gen_questions(temperature=0.7) 

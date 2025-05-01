@@ -1,0 +1,211 @@
+{
+    "pair_0": {
+        "excluded_question": "Does she eat other things?",
+        "just_sentence": "Betsy's picky, she just eats chicken nuggets.",
+        "no_just_sentence": "Betsy's picky, she eats chicken nuggets.",
+        "just_questions": [
+            "\"What's Betsy's favorite food?",
+            "\"What does Betsy eat?",
+            "\"What's Betsy's favorite food?",
+            "\"What does Betsy eat?",
+            "\"What's Betsy's favorite food?"
+        ],
+        "no_just_questions": [
+            "2 questions.\n1. What does Dave mean when he says \"Betsy's picky\"?\n2.",
+            "2 questions.\n1. How many chicken nuggets does Betsy eat?\n2. How many chicken nuggets",
+            "2 questions.\n1. How do you know Betsy eats chicken nuggets?\n2. How do you know",
+            "2 questions.\n1. How many chicken nuggets did Betsy eat?\n2. How many chicken nuggets",
+            "2 questions.\n1. How do you know that Betsy eats chicken nuggets?\n2. How do you"
+        ]
+    },
+    "pair_1": {
+        "excluded_question": "Did she go anywhere else?",
+        "just_sentence": "Despite claiming she went on an extravagant European trip, Sarah just went to Spain.",
+        "no_just_sentence": "Despite claiming she went on an extravagant European trip, Sarah went to Spain.",
+        "just_questions": [
+            "\"What do you mean by 'despite claiming she went on an extravagant European trip,",
+            "\"What do you mean by 'despite claiming she went on an extravagant European trip'",
+            "\"Did Sarah really go on an extravagant European trip?",
+            "\"Did Sarah really go on an extravagant European trip?",
+            "\"Did Sarah go on an extravagant European trip?"
+        ],
+        "no_just_questions": [
+            "\"Did Sarah go on an extravagant European trip?",
+            "\"Did Sarah go on an extravagant European trip?",
+            "\"Did Sarah go on an extravagant European trip?",
+            "\"Did Sarah go on an extravagant European trip?",
+            "\"Did Sarah go on an extravagant European trip?"
+        ]
+    },
+    "pair_2": {
+        "excluded_question": "Does he drink anything else?",
+        "just_sentence": "He won't want any, John just drinks distilled water.",
+        "no_just_sentence": "He won't want any, John drinks distilled water.",
+        "just_questions": [
+            "\"What is distilled water?",
+            "\"What is distilled water?",
+            "\"What is distilled water?",
+            "\"What is distilled water?",
+            "\"What's distilled water?"
+        ],
+        "no_just_questions": [
+            "\"Why does John drink distilled water?",
+            "\"Why does John drink distilled water?",
+            "\"Why does John drink distilled water?",
+            "\"What's distilled water?",
+            "\"What's distilled water?"
+        ]
+    },
+    "pair_3": {
+        "excluded_question": "Will she try to become an astronaut?",
+        "just_sentence": "Yvonne just thinks about becoming an astronaut.",
+        "no_just_sentence": "Yvonne thinks about becoming an astronaut.",
+        "just_questions": [
+            "2 questions.\n1. What does Dave mean when he says \"Yvonne just thinks about becoming an astronaut\"?",
+            "2 questions.\n1. What does Dave mean by \"Yvonne just thinks about becoming an astronaut\"?\n2.",
+            "2 questions. What is the first question?",
+            "2 questions.\n1. Who is Yvonne?\n2. Why does Yvonne want to become an astronaut?",
+            "2 questions.\n1. Who is Yvonne?\n2. Why does Yvonne think about becoming an astronaut?"
+        ],
+        "no_just_questions": [
+            "2 questions.\n1. Does Yvonne think about becoming an astronaut?\n2. Does Yvonne think about becoming an",
+            "2 questions.\n1. Does Yvonne think about becoming an astronaut?\n2. Does Yvonne want to become an",
+            "2 questions.\n1. Does Yvonne think about becoming an astronaut?\n2. Does Dave think about becoming an astronaut?",
+            "2 questions.\n1. Does Yvonne want to become an astronaut?\n2. Does Yvonne think about becoming an",
+            "2 questions.\n1. Does Dave think about becoming an astronaut?\n2. Does Yvonne think about becoming an astronaut?"
+        ]
+    },
+    "pair_4": {
+        "excluded_question": "Does he care about other things?",
+        "just_sentence": "Ian just cares about playing tennis.",
+        "no_just_sentence": "Ian cares about playing tennis.",
+        "just_questions": [
+            "\"What does Ian care about?",
+            "\"Does Ian just care about playing tennis?",
+            "\"Does Ian just care about playing tennis?",
+            "\"What does Ian care about?",
+            "\"Does Ian care about playing tennis?"
+        ],
+        "no_just_questions": [
+            "\"Who cares about playing tennis?",
+            "\"Who cares about playing tennis?",
+            "\"Who cares about playing tennis?",
+            "2 questions. The first question is \"Does Ian care about playing tennis?",
+            "2 questions.\n1. Does Dave know that Ian cares about playing tennis?\n2. Does Ian know that Dave knows that Ian cares about playing"
+        ]
+    },
+    "pair_5": {
+        "excluded_question": "Does she do other sports?",
+        "just_sentence": "My mom just runs and skis.",
+        "no_just_sentence": "My mom runs and skis.",
+        "just_questions": [
+            "\"What does your mom do?",
+            "\"What does your mom do?",
+            "\"What does your mom do?",
+            "\"What does your mom do?",
+            "\"What does your mom do?"
+        ],
+        "no_just_questions": [
+            "2 questions.\n1. What does Dave's mom do in the winter?\n2. What does Dave's mom do in the summer?",
+            "2 questions.\n1. What does Dave's mom like to do?\n2. How many things does Dave's mom like to do?",
+            "2 questions.\n1. What does Dave's mom do in the winter?\n2. What does Dave's mom do in the summer?",
+            "\"What does your mom do?",
+            "2 questions.\n1. What does Dave's mom like to do?\n2. What does Dave's mom not like to do?\nDave"
+        ]
+    },
+    "pair_6": {
+        "excluded_question": "Did it eat more?",
+        "just_sentence": "The dog ate just two times today.",
+        "no_just_sentence": "The dog ate two times today.",
+        "just_questions": [
+            "2 questions.\n1. How many times did the dog eat today?\n2. How many times did the dog not eat today?",
+            "2 questions.\n1) How many times did the dog eat today?\n2) How many times did the dog not eat today?",
+            "2 questions. The first question is \"How many times did the dog eat?",
+            "2 questions. The first question is \"How many times did the dog eat today?",
+            "2 questions.\n1. How many times did the dog eat today?\n2. How many times did the dog not eat today?"
+        ],
+        "no_just_questions": [
+            "2 questions. The first question is \"How many times did the dog eat?",
+            "2 questions. The first question is \"How many times did the dog eat today?",
+            "2 questions.\n1. How many times did the dog eat today?\n2. How many times did Dave say the dog ate today?",
+            "2 questions. The first question is \"How many times did the dog eat today?",
+            "2 questions. The first question is \"What did the dog eat?"
+        ]
+    },
+    "pair_7": {
+        "excluded_question": "Did you order anything else?",
+        "just_sentence": "What is this, I just ordered a salad.",
+        "no_just_sentence": "What is this, I ordered a salad.",
+        "just_questions": [
+            "\"What is this, I just ordered a salad.\"\nThen Dave says \"What is this, I just ordered a salad",
+            "\"What is this, I just ordered a salad.\"\nThen Dave says  \"What is this, I just ordered a",
+            "\"What is this, I just ordered a salad.\"\nThen Dave asks \"What is this, I just ordered a salad",
+            "\"What is this, I just ordered a salad.\"\nThen Dave says \"What is this, I just ordered a salad",
+            "\"What is this, I just ordered a salad.\"\nThen Dave asks  \"What is this, I just ordered a"
+        ],
+        "no_just_questions": [
+            "\"What is this, I ordered a salad.\"\nThen Dave says \"What is this, I ordered a salad.\"\nThen Sally",
+            "\"What is this, I ordered a salad.\"\nThen Dave says  \"What is this, I ordered a salad.\"\nThen",
+            "\"What is this, I ordered a salad.\"\nThen Dave asks  \"What is this, I ordered a salad.\"\nThen",
+            "\"What is this, I ordered a salad.\"\nThen Dave says \"What is this, I ordered a salad.\"\nThen Sally",
+            "\"What is this, I ordered a salad.\"\nThen Dave asks \"What is this, I ordered a salad.\"\nThen Sally"
+        ]
+    },
+    "pair_8": {
+        "excluded_question": "Did anyone else come?",
+        "just_sentence": "Just Alice came to the party last night.",
+        "no_just_sentence": "Alice came to the party last night.",
+        "just_questions": [
+            "\"What did you say?",
+            "\"What did you say?",
+            "\"Did Alice come to the party last night?",
+            "\"What did you say?",
+            "\"Did Alice come to the party last night?"
+        ],
+        "no_just_questions": [
+            "2 questions.\n1. Did Alice come to the party last night?\n2. Did Alice not come to the party last night?",
+            "2 questions.\n1. \"Who came to the party last night?\"\n2. \"Did Alice come to the party last night?\"",
+            "2 questions.\n1. \"Did Alice come to the party last night?\"\n2. \"Was Alice at the party last night?\"",
+            "2 questions.\n1) Did Alice come to the party last night?\n2) Did Alice not come to the party last night?",
+            "2 questions.\n1. Did Alice come to the party last night?\n2. Did Dave say that Alice came to the party last"
+        ]
+    },
+    "pair_9": {
+        "excluded_question": "Were more expected to come?",
+        "just_sentence": "Just five kids came to my niece's birthday party.",
+        "no_just_sentence": "Five kids came to my niece's birthday party.",
+        "just_questions": [
+            "5 x 5 =?",
+            "\"How many kids came to your niece's birthday party?",
+            "\"How many kids came to your niece's birthday party?",
+            "\"How many kids came to your niece's birthday party?",
+            "\"How many kids came to your niece's birthday party?"
+        ],
+        "no_just_questions": [
+            "5 + 5 + 5 + 5 + 5 + 5 + 5 + 5 +",
+            "\"How many kids came to your niece's birthday party?",
+            "5 + 5 + 5 + 5 + 5 + 5 + 5 + 5 =?",
+            "5 questions.\n1. How many boys came to the party?\n2. How many girls came to the party?\n3",
+            "\"How many kids came to your niece's birthday party?"
+        ]
+    },
+    "pair_10": {
+        "excluded_question": "Did you read it too?",
+        "just_sentence": "I just have watched Game of Thrones.",
+        "no_just_sentence": "I have watched Game of Thrones.",
+        "just_questions": [
+            "\"What is Game of Thrones?",
+            "\"What is Game of Thrones?",
+            "2 questions.\n1. How many episodes of Game of Thrones have you watched?\n2. How many seasons of Game of Thrones have",
+            "2 questions.\n1. How many seasons of Game of Thrones have you watched?\n2. How many episodes of Game of Thrones have",
+            "2 questions.\n1. How many episodes of Game of Thrones have you watched?\n2. How many episodes of Game of Thrones have"
+        ],
+        "no_just_questions": [
+            "2 questions.\n1. How many episodes of Game of Thrones have you watched?\n2. How many seasons of Game of Thrones have you",
+            "2 questions.\n1. How many seasons of Game of Thrones have you watched?\n2. How many episodes of Game of Thrones have you",
+            "2 questions.\n1) How many episodes of Game of Thrones have you watched?\n2) How many seasons of Game of Thrones have you",
+            "2 questions.\n1. How many episodes of Game of Thrones have you watched?\n2. How many episodes of Game of Thrones have you",
+            "2 questions.\n1) How many seasons of Game of Thrones have you watched?\n2) How many episodes of Game of Thrones have you"
+        ]
+    }
+}
