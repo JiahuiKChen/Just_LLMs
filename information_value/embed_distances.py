@@ -1,7 +1,7 @@
 import json
 import csv
 import numpy as np
-import tqdm as tqdm
+from tqdm import tqdm
 from scipy.spatial.distance import cosine, euclidean
 from sonar.inference_pipelines.text import TextToEmbeddingModelPipeline
 
@@ -11,7 +11,7 @@ t2vec_model = TextToEmbeddingModelPipeline(
 )
 
 # --- Load your JSON data ---
-json_name = "llama3_noInstruct_results/Llama-3.1-8B_temp0.5_5generations.json"
+json_name = "Llama-3.1-8B-Instruct_temp0.5_5generations.json"
 with open(json_name, 'r') as f:
     data = json.load(f)
 
