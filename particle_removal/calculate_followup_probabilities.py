@@ -28,7 +28,7 @@ IMPORTANT PARAMETERS:
     --model_name        HuggingFace model to use (default: Qwen/Qwen2.5-1.5B)
     --include_context   Include conversation history (DEFAULT: True)
     --no_context        Exclude conversation history (overrides --include_context)
-    --data_path         Path to input TSV file (default: ../dd_data/just_dd.tsv)
+    --data_path         Path to input TSV file (default: ../dd_data/filtered_just_dd.tsv)
     --output_path       Where to save results (default: results/<model>_<context/noContext>_<datafile>_removal.csv)
 
 OUTPUT:
@@ -163,6 +163,35 @@ def format_conversation(context, utterance):
     return "\n".join(formatted_turns) + "\n"
 
 
+def format_context_only(context):
+    """
+    Format just the conversation context without any utterance.
+
+    Args:
+        context: Conversation history with __eou__ markers
+
+    Returns:
+        Formatted context string with speaker labels, or empty string if no context
+    """
+    if not context:
+        return ""
+
+    # Parse the context into turns
+    turns = context.split("__eou__")
+    turns = [t.strip() for t in turns if t.strip()]
+
+    if not turns:
+        return ""
+
+    # Format with alternating speaker labels
+    formatted_turns = []
+    for i, turn in enumerate(turns):
+        speaker = "Speaker 1" if i % 2 == 0 else "Speaker 2"
+        formatted_turns.append(f"{speaker}: {turn}")
+
+    return "\n".join(formatted_turns) + "\n"
+
+
 def process_dataset(data_path, model, tokenizer, include_context=True, output_path=None):
     """
     Process the dataset and calculate probabilities.
@@ -206,6 +235,9 @@ def process_dataset(data_path, model, tokenizer, include_context=True, output_pa
             if pd.isna(followup) or not isinstance(followup, str) or followup.strip() == "":
                 print(f"Skipping row {idx}: invalid or empty followup")
                 continue
+            # Capitalize first letter for more accurate logprob calculation
+            # (LLM expects capitalized continuation after context)
+            followup = followup[0].upper() + followup[1:]
             if include_context and (pd.isna(context) or not isinstance(context, str)):
                 # If context is required but invalid, treat as empty string
                 context = ""
@@ -213,16 +245,56 @@ def process_dataset(data_path, model, tokenizer, include_context=True, output_pa
             print(f"Skipping row {idx}: error reading fields - {e}")
             continue
 
-        # Format the prompts
+        # Format the prompts (context + utterance)
         prompt_with = format_conversation(context, w_word)
         prompt_without = format_conversation(context, wo_word)
 
-        # Calculate probabilities
-        log_prob_with = calculate_log_probability(
-            model, tokenizer, prompt_with, followup, device
+        # Format context only (for sentence logprob calculation)
+        context_only = format_context_only(context)
+
+        # Determine speaker indices based on number of context turns
+        if context:
+            context_turns = [t.strip() for t in context.split("__eou__") if t.strip()]
+            num_context_turns = len(context_turns)
+        else:
+            num_context_turns = 0
+
+        # Utterance speaker (w_word/wo_word) comes after context
+        utterance_speaker_idx = num_context_turns
+        utterance_speaker = "Speaker 1" if utterance_speaker_idx % 2 == 0 else "Speaker 2"
+
+        # Followup speaker comes after utterance
+        followup_speaker_idx = num_context_turns + 1
+        followup_speaker = "Speaker 1" if followup_speaker_idx % 2 == 0 else "Speaker 2"
+
+        # Format utterances and followup with speaker labels
+        w_word_with_label = f"{utterance_speaker}: {w_word}\n"
+        wo_word_with_label = f"{utterance_speaker}: {wo_word}\n"
+        followup_with_label = f"{followup_speaker}: {followup}"
+
+        # Calculate logprobs of the sentences (w_word and wo_word given context)
+        log_prob_w_word = calculate_log_probability(
+            model, tokenizer, context_only, w_word_with_label, device
         )
-        log_prob_without = calculate_log_probability(
-            model, tokenizer, prompt_without, followup, device
+        log_prob_wo_word = calculate_log_probability(
+            model, tokenizer, context_only, wo_word_with_label, device
+        )
+
+        # Calculate logprobs of followup given context + sentence
+        log_prob_followup_with = calculate_log_probability(
+            model, tokenizer, prompt_with, followup_with_label, device
+        )
+        log_prob_followup_without = calculate_log_probability(
+            model, tokenizer, prompt_without, followup_with_label, device
+        )
+
+        # Normalize followup logprobs by dividing by sentence logprobs
+        # This accounts for the "difficulty" of the preceding sentence
+        normalized_log_prob_with = (
+            log_prob_followup_with / log_prob_w_word if log_prob_w_word != 0 else 0.0
+        )
+        normalized_log_prob_without = (
+            log_prob_followup_without / log_prob_wo_word if log_prob_wo_word != 0 else 0.0
         )
 
         # Store results
@@ -233,22 +305,36 @@ def process_dataset(data_path, model, tokenizer, include_context=True, output_pa
             'w_word': w_word,
             'wo_word': wo_word,
             'followup': followup,
-            'log_prob_with_particle': log_prob_with,
-            'log_prob_without_particle': log_prob_without,
-            'prob_with_particle': np.exp(log_prob_with),
-            'prob_without_particle': np.exp(log_prob_without),
-            'log_prob_diff': log_prob_with - log_prob_without,
-            'prob_ratio': np.exp(log_prob_with - log_prob_without),
+            # Raw sentence logprobs (w_word and wo_word given context)
+            'log_prob_w_word': log_prob_w_word,
+            'log_prob_wo_word': log_prob_wo_word,
+            # Raw followup logprobs
+            'log_prob_followup_with': log_prob_followup_with,
+            'log_prob_followup_without': log_prob_followup_without,
+            # Normalized followup logprobs (divided by sentence logprobs)
+            'normalized_log_prob_with': normalized_log_prob_with,
+            'normalized_log_prob_without': normalized_log_prob_without,
+            'normalized_log_prob_diff': normalized_log_prob_with - normalized_log_prob_without,
+            # Legacy columns for compatibility
+            'log_prob_with_particle': log_prob_followup_with,
+            'log_prob_without_particle': log_prob_followup_without,
+            'log_prob_diff': log_prob_followup_with - log_prob_followup_without,
+            'prob_ratio': np.exp(log_prob_followup_with - log_prob_followup_without),
             'include_context': include_context
         })
 
     # Create results dataframe
     results_df = pd.DataFrame(results)
 
-    # Count how many times particle increased/decreased probability
+    # Count how many times particle increased/decreased probability (raw)
     increased = (results_df['log_prob_diff'] > 0).sum()
     decreased = (results_df['log_prob_diff'] < 0).sum()
     unchanged = (results_df['log_prob_diff'] == 0).sum()
+
+    # Count how many times particle increased/decreased probability (normalized)
+    norm_increased = (results_df['normalized_log_prob_diff'] > 0).sum()
+    norm_decreased = (results_df['normalized_log_prob_diff'] < 0).sum()
+    norm_unchanged = (results_df['normalized_log_prob_diff'] == 0).sum()
 
     # Build summary statistics string
     summary_lines = [
@@ -258,8 +344,9 @@ def process_dataset(data_path, model, tokenizer, include_context=True, output_pa
         f"Total examples processed: {len(results_df)}",
         f"Include context: {include_context}",
         "",
-        f"Average log probability WITH particle: {results_df['log_prob_with_particle'].mean():.4f}",
-        f"Average log probability WITHOUT particle: {results_df['log_prob_without_particle'].mean():.4f}",
+        "--- RAW FOLLOWUP LOG PROBABILITIES ---",
+        f"Average log probability WITH particle: {results_df['log_prob_followup_with'].mean():.4f}",
+        f"Average log probability WITHOUT particle: {results_df['log_prob_followup_without'].mean():.4f}",
         f"Average log probability difference: {results_df['log_prob_diff'].mean():.4f}",
         f"  (positive = particle increases followup probability)",
         "",
@@ -269,6 +356,18 @@ def process_dataset(data_path, model, tokenizer, include_context=True, output_pa
         f"Particle INCREASED followup probability: {increased} ({increased/len(results_df)*100:.1f}%)",
         f"Particle DECREASED followup probability: {decreased} ({decreased/len(results_df)*100:.1f}%)",
         f"No change: {unchanged}",
+        "",
+        "--- NORMALIZED LOG PROBABILITIES (followup / sentence) ---",
+        f"Average normalized log prob WITH particle: {results_df['normalized_log_prob_with'].mean():.4f}",
+        f"Average normalized log prob WITHOUT particle: {results_df['normalized_log_prob_without'].mean():.4f}",
+        f"Average normalized log prob difference: {results_df['normalized_log_prob_diff'].mean():.4f}",
+        "",
+        f"Median normalized log prob difference: {results_df['normalized_log_prob_diff'].median():.4f}",
+        f"Std dev of normalized log prob difference: {results_df['normalized_log_prob_diff'].std():.4f}",
+        "",
+        f"Particle INCREASED normalized probability: {norm_increased} ({norm_increased/len(results_df)*100:.1f}%)",
+        f"Particle DECREASED normalized probability: {norm_decreased} ({norm_decreased/len(results_df)*100:.1f}%)",
+        f"No change (normalized): {norm_unchanged}",
         "=" * 80,
     ]
     summary = "\n".join(summary_lines)
@@ -297,13 +396,14 @@ def main():
     parser.add_argument(
         '--data_path',
         type=str,
-        default='../dd_data/just_dd.tsv',
+        default='../dd_data/filtered_just_dd.tsv',
         help='Path to the input TSV file'
     )
     parser.add_argument(
         '--model_name',
         type=str,
         default='Qwen/Qwen2.5-1.5B',
+        # meta-llama/Meta-Llama-3-8B
         help='HuggingFace model name (default: Qwen/Qwen2.5-1.5B)'
     )
     parser.add_argument(

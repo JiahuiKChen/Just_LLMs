@@ -4,15 +4,15 @@ SUMMARY STATISTICS
 Total examples processed: 1594
 Include context: True
 
-Average log probability WITH particle: -43.0975
-Average log probability WITHOUT particle: -43.3260
-Average log probability difference: 0.2285
+Average log probability WITH particle: -36.9392
+Average log probability WITHOUT particle: -37.5170
+Average log probability difference: 0.5778
   (positive = particle increases followup probability)
 
-Median log probability difference: 0.0951
-Std dev of log probability difference: 1.1030
+Median log probability difference: 0.2981
+Std dev of log probability difference: 1.2482
 
-Particle INCREASED followup probability: 879 (55.1%)
-Particle DECREASED followup probability: 715 (44.9%)
+Particle INCREASED followup probability: 1100 (69.0%)
+Particle DECREASED followup probability: 494 (31.0%)
 No change: 0
 ================================================================================

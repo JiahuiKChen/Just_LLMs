@@ -4,7 +4,6 @@ SUMMARY STATISTICS
 Total examples processed: 1594
 Include context: False
 
---- RAW FOLLOWUP LOG PROBABILITIES ---
 Average log probability WITH particle: -42.6776
 Average log probability WITHOUT particle: -43.8628
 Average log probability difference: 1.1851
@@ -16,16 +15,4 @@ Std dev of log probability difference: 1.6125
 Particle INCREASED followup probability: 1260 (79.0%)
 Particle DECREASED followup probability: 334 (21.0%)
 No change: 0
-
---- NORMALIZED LOG PROBABILITIES (followup / sentence) ---
-Average normalized log prob WITH particle: 0.6189
-Average normalized log prob WITHOUT particle: 0.6047
-Average normalized log prob difference: 0.0142
-
-Median normalized log prob difference: 0.0088
-Std dev of normalized log prob difference: 0.0632
-
-Particle INCREASED normalized probability: 1037 (65.1%)
-Particle DECREASED normalized probability: 557 (34.9%)
-No change (normalized): 0
 ================================================================================
