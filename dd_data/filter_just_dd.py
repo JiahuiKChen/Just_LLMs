@@ -1,11 +1,11 @@
 ###
 ### just DD data: 
 # Original rows (excluding header): 3232
-# Filtered rows: 1395
+# Filtered rows: 1182
 #
 ### not DD data:
 # Original rows (excluding header): 3543
-# Filtered rows: 1594
+# Filtered rows: 1307
 """
 Filter dialogue TSV rows where the specified word appears in the last sentence
 of the w_word column and the context column contains at most two '__eou__'
@@ -60,6 +60,18 @@ def last_sentence_contains_word(w_word_value: str, word: str) -> bool:
             tokens.append(t)
     return word.lower() in tokens
 
+def last_sentence_is_question(w_word_value: str) -> bool:
+    """
+    Return True iff the last non-empty sentence of w_word is a question
+    (i.e. ends with '?').
+    """
+    if not w_word_value:
+        return False
+    parts = [p.strip() for p in w_word_value.split("__eou__") if p.strip()]
+    if not parts:
+        return False
+    return parts[-1].rstrip().endswith("?")
+
 def context_max_two_eou(context_value: str) -> bool:
     """
     Return True iff context has at most 2 occurrences of '__eou__'.
@@ -94,7 +106,9 @@ def main(input_path: str = "just_dd.tsv", word: str = "just"):
             if not all(is_valid_string(v) for v in [w_word_val, wo_word_val, followup_val, context_val]):
                 continue
 
-            if last_sentence_contains_word(w_word_val, word) and context_max_two_eou(context_val):
+            if (last_sentence_contains_word(w_word_val, word)
+                    and context_max_two_eou(context_val)
+                    and not last_sentence_is_question(w_word_val)):
                 kept_rows.append(row)
 
     # Write filtered TSV, preserving all columns
