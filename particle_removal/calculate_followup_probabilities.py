@@ -6,13 +6,15 @@ of the observed follow-up response in a conversation.
 
 EXPERIMENT:
     Compare P(followup | context + w_word) vs P(followup | context + wo_word)
+    and compare full-sequence likelihoods:
+    P(context + w_word + followup) vs P(context + wo_word + followup)
     where:
         - w_word: sentence WITH discourse particle (e.g., "The train just got here")
         - wo_word: sentence WITHOUT discourse particle (e.g., "The train got here")
         - followup: ground-truth response (e.g., "How do you know?")
 
 BASIC USAGE:
-    # Default: Uses Qwen2.5-1.5B model WITH context
+    # Default: Uses Meta-Llama-3-8B model WITH context
     python calculate_followup_probabilities.py
 
     # Run WITHOUT conversation context
@@ -25,7 +27,7 @@ BASIC USAGE:
     python calculate_followup_probabilities.py --data_path ../dd_data/my_data.tsv --output_path custom_results.csv
 
 IMPORTANT PARAMETERS:
-    --model_name        HuggingFace model to use (default: Qwen/Qwen2.5-1.5B)
+    --model_name        HuggingFace model to use (default: meta-llama/Meta-Llama-3-8B)
     --include_context   Include conversation history (DEFAULT: True)
     --no_context        Exclude conversation history (overrides --include_context)
     --data_path         Path to input TSV file (default: ../dd_data/filtered_just_dd.tsv)
@@ -34,10 +36,18 @@ IMPORTANT PARAMETERS:
 OUTPUT:
     Tab-separated CSV file with columns:
         - Input: id, word, context, w_word, wo_word, followup
-        - Results: log_prob_with_particle, log_prob_without_particle, log_prob_diff, prob_ratio
+        - Results:
+            log_prob_w_word, log_prob_wo_word
+            log_prob_followup_with, log_prob_followup_without
+            log_prob_full_with, log_prob_full_without
 
-    log_prob_diff > 0: particle INCREASES followup probability
-    log_prob_diff < 0: particle DECREASES followup probability
+    The raw followup log prob difference is computed as:
+        log_prob_followup_with - log_prob_followup_without
+    (positive = particle increases followup probability)
+
+    The raw full-sequence log prob difference is computed as:
+        log_prob_full_with - log_prob_full_without
+    (positive = particle increases full-sequence probability)
 
 CONVERSATION FORMAT:
     Conversations are formatted with speaker labels:
@@ -54,10 +64,9 @@ import pandas as pd
 import torch
 from transformers import AutoTokenizer, AutoModelForCausalLM
 from tqdm import tqdm
-import numpy as np
 
 
-def load_model(model_name="Qwen/Qwen2.5-1.5B"):
+def load_model(model_name="meta-llama/Meta-Llama-3-8B"):
     """Load the language model and tokenizer."""
     print(f"Loading model: {model_name}")
     tokenizer = AutoTokenizer.from_pretrained(model_name)
@@ -75,6 +84,16 @@ def load_model(model_name="Qwen/Qwen2.5-1.5B"):
     return model, tokenizer
 
 
+def _capitalize_first_alpha(text: str) -> str:
+    """Capitalize the first alphabetic character, preserving any leading punctuation."""
+    if not text:
+        return text
+    for i, ch in enumerate(text):
+        if ch.isalpha():
+            return text[:i] + ch.upper() + text[i + 1:]
+    return text
+
+
 def calculate_log_probability(model, tokenizer, context_text, target_text, device):
     """
     Calculate the log probability of target_text given context_text.
@@ -87,14 +106,52 @@ def calculate_log_probability(model, tokenizer, context_text, target_text, devic
         device: The device to run on
 
     Returns:
-        Total log probability of the entire target sequence
+        (total_log_prob, target_token_count)
     """
     # Combine context and target
     full_text = context_text + target_text
 
-    # Tokenize
-    context_tokens = tokenizer.encode(context_text, add_special_tokens=True)
-    full_tokens = tokenizer.encode(full_text, add_special_tokens=True)
+    # Tokenize the full text once to avoid boundary-tokenization issues.
+    if tokenizer.is_fast:
+        enc = tokenizer(
+            full_text,
+            add_special_tokens=False,
+            return_offsets_mapping=True
+        )
+        full_tokens = enc["input_ids"]
+        offsets = enc["offset_mapping"]
+        context_char_len = len(context_text)
+        context_token_count = 0
+        straddles_boundary = False
+        for (start, end) in offsets:
+            # Some fast tokenizers may return (0, 0) for special tokens; ignore.
+            if start == end == 0:
+                continue
+            if end <= context_char_len:
+                context_token_count += 1
+            else:
+                if start < context_char_len < end:
+                    straddles_boundary = True
+                break
+        if straddles_boundary:
+            print("Warning: context/target boundary splits a token; scoring may be approximate.")
+    else:
+        # Fallback: tokenize separately (may be slightly imprecise at the boundary).
+        context_tokens = tokenizer.encode(context_text, add_special_tokens=False)
+        target_tokens = tokenizer.encode(target_text, add_special_tokens=False)
+        full_tokens = context_tokens + target_tokens
+        context_token_count = len(context_tokens)
+
+    # Optionally prepend BOS if the tokenizer defines it.
+    if tokenizer.bos_token_id is not None:
+        full_tokens = [tokenizer.bos_token_id] + full_tokens
+        context_len = context_token_count + 1
+    else:
+        context_len = context_token_count
+
+    target_len = len(full_tokens) - context_len
+    if target_len <= 0:
+        return 0.0, 0
 
     # Convert to tensors
     input_ids = torch.tensor([full_tokens]).to(device)
@@ -104,27 +161,26 @@ def calculate_log_probability(model, tokenizer, context_text, target_text, devic
         outputs = model(input_ids)
         logits = outputs.logits
 
-    # Calculate log probabilities for the target tokens
-    # We want P(target | context), so we look at tokens after the context
-    context_len = len(context_tokens)
-    target_len = len(full_tokens) - context_len
-
-    if target_len <= 0:
-        return 0.0
-
     # Get log probabilities
     log_probs = torch.nn.functional.log_softmax(logits, dim=-1)
 
-    # Sum log probabilities for target tokens
+    # Sum log probabilities for target tokens using masked-label scoring.
     total_log_prob = 0.0
-    # logits[i] predicts token[i+1], so we iterate through positions that predict target tokens
-    for i in range(context_len - 1, len(full_tokens) - 1):
-        token_id = full_tokens[i + 1]
-        token_log_prob = log_probs[0, i, token_id].item()
+    # logits[i] predicts token[i+1], so score positions where the NEXT token is in target.
+    start_idx = max(context_len - 1, 0)
+    end_idx = len(full_tokens) - 1
+    for i in range(start_idx, end_idx):
+        next_token_id = full_tokens[i + 1]
+        token_log_prob = log_probs[0, i, next_token_id].item()
         total_log_prob += token_log_prob
 
-    # Return total log probability of the entire sequence
-    return total_log_prob
+    scored_target_len = target_len
+    if tokenizer.bos_token_id is None and context_len == 0 and target_len > 0:
+        # Without a BOS, the model cannot score the very first token.
+        scored_target_len = target_len - 1
+        print("Warning: no BOS token; first target token not scored.")
+
+    return total_log_prob, scored_target_len
 
 
 def format_conversation(context, utterance):
@@ -235,9 +291,10 @@ def process_dataset(data_path, model, tokenizer, include_context=True, output_pa
             if pd.isna(followup) or not isinstance(followup, str) or followup.strip() == "":
                 print(f"Skipping row {idx}: invalid or empty followup")
                 continue
-            # Capitalize first letter for more accurate logprob calculation
-            # (LLM expects capitalized continuation after context)
-            followup = followup[0].upper() + followup[1:]
+            # Capitalize first alphabetic character of the utterance variants.
+            # This avoids lowercased sentence starts after particle removal.
+            w_word = _capitalize_first_alpha(w_word)
+            wo_word = _capitalize_first_alpha(wo_word)
             if include_context and (pd.isna(context) or not isinstance(context, str)):
                 # If context is required but invalid, treat as empty string
                 context = ""
@@ -273,29 +330,36 @@ def process_dataset(data_path, model, tokenizer, include_context=True, output_pa
         followup_with_label = f"{followup_speaker}: {followup}"
 
         # Calculate logprobs of the sentences (w_word and wo_word given context)
-        log_prob_w_word = calculate_log_probability(
+        log_prob_w_word, _ = calculate_log_probability(
             model, tokenizer, context_only, w_word_with_label, device
         )
-        log_prob_wo_word = calculate_log_probability(
+        log_prob_wo_word, _ = calculate_log_probability(
             model, tokenizer, context_only, wo_word_with_label, device
         )
 
         # Calculate logprobs of followup given context + sentence
-        log_prob_followup_with = calculate_log_probability(
+        log_prob_followup_with, followup_tokens_with = calculate_log_probability(
             model, tokenizer, prompt_with, followup_with_label, device
         )
-        log_prob_followup_without = calculate_log_probability(
+        log_prob_followup_without, followup_tokens_without = calculate_log_probability(
             model, tokenizer, prompt_without, followup_with_label, device
         )
+        if followup_tokens_with != followup_tokens_without:
+            print(
+                f"Warning: followup token counts differ at row {idx} "
+                f"({followup_tokens_with} vs {followup_tokens_without})"
+            )
 
-        # Normalize followup logprobs by dividing by sentence logprobs
-        # This accounts for the "difficulty" of the preceding sentence
-        normalized_log_prob_with = (
-            log_prob_followup_with / log_prob_w_word if log_prob_w_word != 0 else 0.0
+        # Calculate logprobs of full sequence (context + sentence + followup)
+        full_with = prompt_with + followup_with_label
+        full_without = prompt_without + followup_with_label
+        log_prob_full_with, full_tokens_with = calculate_log_probability(
+            model, tokenizer, "", full_with, device
         )
-        normalized_log_prob_without = (
-            log_prob_followup_without / log_prob_wo_word if log_prob_wo_word != 0 else 0.0
+        log_prob_full_without, full_tokens_without = calculate_log_probability(
+            model, tokenizer, "", full_without, device
         )
+        # Token counts can differ between w_word and wo_word variants; no warning needed.
 
         # Store results
         results.append({
@@ -311,30 +375,27 @@ def process_dataset(data_path, model, tokenizer, include_context=True, output_pa
             # Raw followup logprobs
             'log_prob_followup_with': log_prob_followup_with,
             'log_prob_followup_without': log_prob_followup_without,
-            # Normalized followup logprobs (divided by sentence logprobs)
-            'normalized_log_prob_with': normalized_log_prob_with,
-            'normalized_log_prob_without': normalized_log_prob_without,
-            'normalized_log_prob_diff': normalized_log_prob_with - normalized_log_prob_without,
-            # Legacy columns for compatibility
-            'log_prob_with_particle': log_prob_followup_with,
-            'log_prob_without_particle': log_prob_followup_without,
-            'log_prob_diff': log_prob_followup_with - log_prob_followup_without,
-            'prob_ratio': np.exp(log_prob_followup_with - log_prob_followup_without),
+            # Raw full-sequence logprobs (context + sentence + followup)
+            'log_prob_full_with': log_prob_full_with,
+            'log_prob_full_without': log_prob_full_without,
             'include_context': include_context
         })
 
     # Create results dataframe
     results_df = pd.DataFrame(results)
 
-    # Count how many times particle increased/decreased probability (raw)
-    increased = (results_df['log_prob_diff'] > 0).sum()
-    decreased = (results_df['log_prob_diff'] < 0).sum()
-    unchanged = (results_df['log_prob_diff'] == 0).sum()
+    # Raw followup log probability difference (WITH - WITHOUT)
+    raw_diff = results_df['log_prob_followup_with'] - results_df['log_prob_followup_without']
+    # Raw full-sequence log probability difference (WITH - WITHOUT)
+    full_diff = results_df['log_prob_full_with'] - results_df['log_prob_full_without']
 
-    # Count how many times particle increased/decreased probability (normalized)
-    norm_increased = (results_df['normalized_log_prob_diff'] > 0).sum()
-    norm_decreased = (results_df['normalized_log_prob_diff'] < 0).sum()
-    norm_unchanged = (results_df['normalized_log_prob_diff'] == 0).sum()
+    # Count how many times particle increased/decreased probability (raw)
+    increased = (raw_diff > 0).sum()
+    decreased = (raw_diff < 0).sum()
+    unchanged = (raw_diff == 0).sum()
+    full_increased = (full_diff > 0).sum()
+    full_decreased = (full_diff < 0).sum()
+    full_unchanged = (full_diff == 0).sum()
 
     # Build summary statistics string
     summary_lines = [
@@ -347,27 +408,28 @@ def process_dataset(data_path, model, tokenizer, include_context=True, output_pa
         "--- RAW FOLLOWUP LOG PROBABILITIES ---",
         f"Average log probability WITH particle: {results_df['log_prob_followup_with'].mean():.4f}",
         f"Average log probability WITHOUT particle: {results_df['log_prob_followup_without'].mean():.4f}",
-        f"Average log probability difference: {results_df['log_prob_diff'].mean():.4f}",
+        f"Average log probability difference: {raw_diff.mean():.4f}",
         f"  (positive = particle increases followup probability)",
         "",
-        f"Median log probability difference: {results_df['log_prob_diff'].median():.4f}",
-        f"Std dev of log probability difference: {results_df['log_prob_diff'].std():.4f}",
+        f"Median log probability difference: {raw_diff.median():.4f}",
+        f"Std dev of log probability difference: {raw_diff.std():.4f}",
         "",
         f"Particle INCREASED followup probability: {increased} ({increased/len(results_df)*100:.1f}%)",
         f"Particle DECREASED followup probability: {decreased} ({decreased/len(results_df)*100:.1f}%)",
         f"No change: {unchanged}",
         "",
-        "--- NORMALIZED LOG PROBABILITIES (followup / sentence) ---",
-        f"Average normalized log prob WITH particle: {results_df['normalized_log_prob_with'].mean():.4f}",
-        f"Average normalized log prob WITHOUT particle: {results_df['normalized_log_prob_without'].mean():.4f}",
-        f"Average normalized log prob difference: {results_df['normalized_log_prob_diff'].mean():.4f}",
+        "--- FULL-SEQUENCE LOG PROBABILITIES ---",
+        f"Average log probability WITH particle: {results_df['log_prob_full_with'].mean():.4f}",
+        f"Average log probability WITHOUT particle: {results_df['log_prob_full_without'].mean():.4f}",
+        f"Average log probability difference: {full_diff.mean():.4f}",
+        f"  (positive = particle increases full-sequence probability)",
         "",
-        f"Median normalized log prob difference: {results_df['normalized_log_prob_diff'].median():.4f}",
-        f"Std dev of normalized log prob difference: {results_df['normalized_log_prob_diff'].std():.4f}",
+        f"Median log probability difference: {full_diff.median():.4f}",
+        f"Std dev of log probability difference: {full_diff.std():.4f}",
         "",
-        f"Particle INCREASED normalized probability: {norm_increased} ({norm_increased/len(results_df)*100:.1f}%)",
-        f"Particle DECREASED normalized probability: {norm_decreased} ({norm_decreased/len(results_df)*100:.1f}%)",
-        f"No change (normalized): {norm_unchanged}",
+        f"Particle INCREASED full-sequence probability: {full_increased} ({full_increased/len(results_df)*100:.1f}%)",
+        f"Particle DECREASED full-sequence probability: {full_decreased} ({full_decreased/len(results_df)*100:.1f}%)",
+        f"No change: {full_unchanged}",
         "=" * 80,
     ]
     summary = "\n".join(summary_lines)
@@ -402,9 +464,8 @@ def main():
     parser.add_argument(
         '--model_name',
         type=str,
-        default='Qwen/Qwen2.5-1.5B',
-        # meta-llama/Meta-Llama-3-8B
-        help='HuggingFace model name (default: Qwen/Qwen2.5-1.5B)'
+        default='meta-llama/Meta-Llama-3-8B',
+        help='HuggingFace model name (default: meta-llama/Meta-Llama-3-8B)'
     )
     parser.add_argument(
         '--include_context',

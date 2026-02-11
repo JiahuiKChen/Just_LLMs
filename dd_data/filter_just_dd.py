@@ -6,6 +6,9 @@
 ### not DD data:
 # Original rows (excluding header): 3543
 # Filtered rows: 1307
+### only DD data: ‼️
+# Original rows (excluding header): 1170
+# Filtered rows: 360
 """
 Filter dialogue TSV rows where the specified word appears in the last sentence
 of the w_word column and the context column contains at most two '__eou__'

@@ -2,17 +2,17 @@
 Plot histogram of log probability differences with and without discourse particles.
 
 Reads a results CSV file and creates a histogram showing:
-- Normalized log probability difference (WITH particle - WITHOUT particle) by default
-- Raw log probability difference when --unnormalized flag is used
+- Full-sequence log probability difference (WITH particle - WITHOUT particle) by default
+- Conditional (followup) log probability difference when --conditional is used
 
 Also displays summary statistics from the corresponding .txt file.
 
 USAGE:
-    # Default: plots NORMALIZED probability differences
+    # Default: plots FULL-SEQUENCE probability differences
     python plot_probabilities.py
 
-    # Plot UNNORMALIZED (raw) probability differences
-    python plot_probabilities.py --unnormalized
+    # Plot CONDITIONAL probability differences
+    python plot_probabilities.py --conditional
 
     # Use different results file
     python plot_probabilities.py --results_path results/my_results.csv
@@ -27,9 +27,33 @@ import pandas as pd
 import matplotlib.pyplot as plt
 
 
+def _abbreviate_model_name(model_name: str) -> str:
+    tokens = model_name.split('-')
+    if len(tokens) <= 2:
+        return model_name
+    size_idx = None
+    for i in range(len(tokens) - 1, -1, -1):
+        tok = tokens[i]
+        if tok.upper().endswith(('B', 'M', 'K')) and any(ch.isdigit() for ch in tok):
+            size_idx = i
+            break
+    if size_idx is None:
+        head = ''.join(t[0] for t in tokens[:-1] if t)
+        return f"{head}{tokens[-1]}" if head else model_name
+    start_tail = size_idx
+    if size_idx - 1 >= 0 and all(ch.isdigit() or ch == '.' for ch in tokens[size_idx - 1]):
+        start_tail = size_idx - 1
+    head_tokens = tokens[:start_tail]
+    tail_tokens = tokens[start_tail:]
+    head_abbrev = ''.join(t[0] for t in head_tokens if t)
+    if head_abbrev:
+        return f"{head_abbrev}-{'-'.join(tail_tokens)}"
+    return '-'.join(tail_tokens)
+
+
 def load_summary_stats(txt_path):
-    """Load summary statistics from the .txt file (both raw and normalized)."""
-    stats = {'raw': {}, 'normalized': {}}
+    """Load summary statistics from the .txt file (raw and full-sequence)."""
+    stats = {'raw': {}, 'full': {}}
     if not os.path.exists(txt_path):
         return None
 
@@ -37,42 +61,42 @@ def load_summary_stats(txt_path):
         content = f.read()
 
     # Track which section we're in
-    in_normalized_section = False
+    in_full_section = False
 
     # Parse the relevant lines
     for line in content.split('\n'):
         # Check for section headers
-        if '--- NORMALIZED LOG PROBABILITIES' in line:
-            in_normalized_section = True
+        if '--- RAW FOLLOWUP LOG PROBABILITIES' in line:
+            in_full_section = False
             continue
-        elif '--- RAW FOLLOWUP LOG PROBABILITIES' in line:
-            in_normalized_section = False
+        elif '--- FULL-SEQUENCE LOG PROBABILITIES' in line:
+            in_full_section = True
             continue
 
         # Parse statistics based on current section
-        if in_normalized_section:
-            if 'Average normalized log prob WITH particle:' in line:
-                stats['normalized']['avg_with'] = float(line.split(':')[1].strip())
-            elif 'Average normalized log prob WITHOUT particle:' in line:
-                stats['normalized']['avg_without'] = float(line.split(':')[1].strip())
-            elif 'Average normalized log prob difference:' in line:
-                stats['normalized']['avg_diff'] = float(line.split(':')[1].strip())
-            elif 'Median normalized log prob difference:' in line:
-                stats['normalized']['median_diff'] = float(line.split(':')[1].strip())
-            elif 'Std dev of normalized log prob difference:' in line:
-                stats['normalized']['std_diff'] = float(line.split(':')[1].strip())
-            elif 'Particle INCREASED normalized probability:' in line:
+        if in_full_section:
+            if 'Average log probability WITH particle:' in line:
+                stats['full']['avg_with'] = float(line.split(':')[1].strip())
+            elif 'Average log probability WITHOUT particle:' in line:
+                stats['full']['avg_without'] = float(line.split(':')[1].strip())
+            elif 'Average log probability difference:' in line:
+                stats['full']['avg_diff'] = float(line.split(':')[1].strip())
+            elif 'Median log probability difference:' in line:
+                stats['full']['median_diff'] = float(line.split(':')[1].strip())
+            elif 'Std dev of log probability difference:' in line:
+                stats['full']['std_diff'] = float(line.split(':')[1].strip())
+            elif 'Particle INCREASED full-sequence probability:' in line:
                 parts = line.split(':')[1].strip()
                 count = int(parts.split('(')[0].strip())
                 pct = float(parts.split('(')[1].replace('%)', '').strip())
-                stats['normalized']['increased_count'] = count
-                stats['normalized']['increased_pct'] = pct
-            elif 'Particle DECREASED normalized probability:' in line:
+                stats['full']['increased_count'] = count
+                stats['full']['increased_pct'] = pct
+            elif 'Particle DECREASED full-sequence probability:' in line:
                 parts = line.split(':')[1].strip()
                 count = int(parts.split('(')[0].strip())
                 pct = float(parts.split('(')[1].replace('%)', '').strip())
-                stats['normalized']['decreased_count'] = count
-                stats['normalized']['decreased_pct'] = pct
+                stats['full']['decreased_count'] = count
+                stats['full']['decreased_pct'] = pct
         else:
             # Raw section
             if 'Average log probability WITH particle:' in line:
@@ -101,14 +125,14 @@ def load_summary_stats(txt_path):
     return stats
 
 
-def plot_probabilities(results_path, output_path=None, use_unnormalized=False):
+def plot_probabilities(results_path, output_path=None, use_conditional=False):
     """
     Create histogram of log probability differences (with particle - without particle).
 
     Args:
         results_path: Path to the results CSV file
         output_path: Path to save the plot (optional, will show if not provided)
-        use_unnormalized: If True, plot raw (unnormalized) differences; if False, plot normalized
+        use_conditional: If True, plot conditional differences; otherwise full-sequence
     """
     # Load results
     df = pd.read_csv(results_path, sep='\t')
@@ -118,103 +142,90 @@ def plot_probabilities(results_path, output_path=None, use_unnormalized=False):
     txt_path = results_path.rsplit('.', 1)[0] + '.txt'
     stats = load_summary_stats(txt_path)
 
-    # Select which difference to plot based on flag
-    if use_unnormalized:
-        # Use raw log probability difference
-        if 'log_prob_diff' in df.columns:
-            diff = df['log_prob_diff']
-        else:
-            diff = df['log_prob_with_particle'] - df['log_prob_without_particle']
-        plot_label = 'Raw Log Probability Difference'
-        stats_section = 'raw' if stats else None
+    # Select which difference to plot based on flags
+    if use_conditional:
+        diff = df['log_prob_followup_with'] - df['log_prob_followup_without']
+        plot_label = 'Conditional Log Probability Difference'
+        stats_section = 'raw' if stats and stats.get('raw') else None
     else:
-        # Use normalized log probability difference (default)
-        if 'normalized_log_prob_diff' in df.columns:
-            diff = df['normalized_log_prob_diff']
-        else:
-            # Fallback to raw if normalized not available
-            print("Warning: normalized_log_prob_diff not found, falling back to raw difference")
-            diff = df['log_prob_diff'] if 'log_prob_diff' in df.columns else df['log_prob_with_particle'] - df['log_prob_without_particle']
-        plot_label = 'Normalized Log Probability Difference'
-        stats_section = 'normalized' if stats else None
+        if 'log_prob_full_with' not in df.columns or 'log_prob_full_without' not in df.columns:
+            raise KeyError("Missing full-sequence columns; regenerate results with calculate_followup_probabilities.py")
+        diff = df['log_prob_full_with'] - df['log_prob_full_without']
+        plot_label = 'Full-Sequence Log Probability Difference'
+        stats_section = 'full' if stats and stats.get('full') else None
 
     mean_diff = diff.mean()
     median_diff = diff.median()
 
     # Create figure with 2 subplots in one row (1 histogram + 1 stats panel)
-    fig, axes = plt.subplots(1, 2, figsize=(14, 5), gridspec_kw={'width_ratios': [1, 0.5], 'wspace': 0.02})
+    fig, axes = plt.subplots(
+        1,
+        2,
+        figsize=(12.5, 5),
+        gridspec_kw={'width_ratios': [1, 0.35], 'wspace': 0.01}
+    )
 
     # Histogram for difference
     axes[0].hist(diff, bins=50, color='steelblue', edgecolor='black', alpha=0.7)
     axes[0].set_xlabel(f'{plot_label} (WITH - WITHOUT)', fontsize=11)
     axes[0].set_ylabel('Frequency', fontsize=11)
-    axes[0].set_title(f'{plot_label} Distribution', fontsize=12)
     axes[0].grid(True, alpha=0.3)
     axes[0].axvline(0, color='black', linestyle='-', linewidth=1.5, alpha=0.5, label='Zero')
     axes[0].axvline(mean_diff, color='red', linestyle='--', linewidth=2, label=f"Mean: {mean_diff:.4f}")
     axes[0].axvline(median_diff, color='green', linestyle=':', linewidth=2, label=f"Median: {median_diff:.4f}")
     axes[0].legend(fontsize=9)
 
-    # Summary statistics panel - show BOTH raw and normalized
+    # Summary statistics panel - show the available section
     axes[1].axis('off')
-    if stats and stats.get('raw') and stats.get('normalized'):
-        raw = stats['raw']
-        norm = stats['normalized']
-        summary_text = (
-            f"{'=' * 40}\n"
-            f"RAW LOG PROBABILITIES\n"
-            f"{'─' * 40}\n"
-            f"Avg log prob WITH:    {raw.get('avg_with', 'N/A'):.4f}\n"
-            f"Avg log prob WITHOUT: {raw.get('avg_without', 'N/A'):.4f}\n"
-            f"Avg difference:       {raw.get('avg_diff', 'N/A'):.4f}\n"
-            f"Median difference:    {raw.get('median_diff', 'N/A'):.4f}\n"
-            f"Std dev:              {raw.get('std_diff', 'N/A'):.4f}\n"
-            f"INCREASED: {raw.get('increased_count', 'N/A')} ({raw.get('increased_pct', 'N/A'):.1f}%)\n"
-            f"DECREASED: {raw.get('decreased_count', 'N/A')} ({raw.get('decreased_pct', 'N/A'):.1f}%)\n"
-            f"\n"
-            f"{'=' * 40}\n"
-            f"NORMALIZED LOG PROBABILITIES\n"
-            f"{'─' * 40}\n"
-            f"Avg norm prob WITH:    {norm.get('avg_with', 'N/A'):.4f}\n"
-            f"Avg norm prob WITHOUT: {norm.get('avg_without', 'N/A'):.4f}\n"
-            f"Avg difference:        {norm.get('avg_diff', 'N/A'):.4f}\n"
-            f"Median difference:     {norm.get('median_diff', 'N/A'):.4f}\n"
-            f"Std dev:               {norm.get('std_diff', 'N/A'):.4f}\n"
-            f"INCREASED: {norm.get('increased_count', 'N/A')} ({norm.get('increased_pct', 'N/A'):.1f}%)\n"
-            f"DECREASED: {norm.get('decreased_count', 'N/A')} ({norm.get('decreased_pct', 'N/A'):.1f}%)"
-        )
-        axes[1].text(0.0, 0.5, summary_text, transform=axes[1].transAxes,
-                     fontsize=9, family='monospace', verticalalignment='center',
-                     bbox=dict(boxstyle='round', facecolor='wheat', alpha=0.5))
-    elif stats and stats_section and stats.get(stats_section):
+    if stats and stats_section and stats.get(stats_section):
         # Fallback to single section if only one available
         s = stats[stats_section]
-        section_name = "RAW" if stats_section == 'raw' else "NORMALIZED"
-        summary_text = (
-            f"Summary Statistics ({section_name})\n"
-            f"{'─' * 32}\n"
-            f"Avg log prob WITH:    {s.get('avg_with', 'N/A'):.4f}\n"
-            f"Avg log prob WITHOUT: {s.get('avg_without', 'N/A'):.4f}\n"
-            f"Avg difference:       {s.get('avg_diff', 'N/A'):.4f}\n"
-            f"  (positive = particle\n"
-            f"   increases probability)\n"
-            f"\n"
-            f"Median difference: {s.get('median_diff', 'N/A'):.4f}\n"
-            f"Std dev:           {s.get('std_diff', 'N/A'):.4f}\n"
-            f"\n"
-            f"INCREASED: {s.get('increased_count', 'N/A')} ({s.get('increased_pct', 'N/A'):.1f}%)\n"
-            f"DECREASED: {s.get('decreased_count', 'N/A')} ({s.get('decreased_pct', 'N/A'):.1f}%)"
-        )
+        if stats_section == 'raw':
+            summary_text = (
+                f"Summary Statistics (RAW)\n"
+                f"{'─' * 26}\n"
+                f"Avg log prob WITH:    {s.get('avg_with', 'N/A'):.4f}\n"
+                f"Avg log prob WITHOUT: {s.get('avg_without', 'N/A'):.4f}\n"
+                f"Avg difference:       {s.get('avg_diff', 'N/A'):.4f}\n"
+                f"  (positive = particle\n"
+                f"   increases probability)\n"
+                f"\n"
+                f"Median difference: {s.get('median_diff', 'N/A'):.4f}\n"
+                f"Std dev:           {s.get('std_diff', 'N/A'):.4f}\n"
+                f"\n"
+                f"INCREASED: {s.get('increased_count', 'N/A')} ({s.get('increased_pct', 'N/A'):.1f}%)\n"
+                f"DECREASED: {s.get('decreased_count', 'N/A')} ({s.get('decreased_pct', 'N/A'):.1f}%)"
+            )
+        elif stats_section == 'full':
+            summary_text = (
+                f"Summary Statistics (FULL-SEQUENCE)\n"
+                f"{'─' * 34}\n"
+                f"Avg log prob WITH:    {s.get('avg_with', 'N/A'):.4f}\n"
+                f"Avg log prob WITHOUT: {s.get('avg_without', 'N/A'):.4f}\n"
+                f"Avg difference:       {s.get('avg_diff', 'N/A'):.4f}\n"
+                f"  (positive = particle\n"
+                f"   increases probability)\n"
+                f"\n"
+                f"Median difference: {s.get('median_diff', 'N/A'):.4f}\n"
+                f"Std dev:           {s.get('std_diff', 'N/A'):.4f}\n"
+                f"\n"
+                f"INCREASED: {s.get('increased_count', 'N/A')} ({s.get('increased_pct', 'N/A'):.1f}%)\n"
+                f"DECREASED: {s.get('decreased_count', 'N/A')} ({s.get('decreased_pct', 'N/A'):.1f}%)"
+            )
         axes[1].text(0.0, 0.5, summary_text, transform=axes[1].transAxes,
                      fontsize=10, family='monospace', verticalalignment='center',
                      bbox=dict(boxstyle='round', facecolor='wheat', alpha=0.5))
 
     # Extract info for title from filename
     basename = os.path.basename(results_path).replace('_removal.csv', '')
-    norm_indicator = "(Raw)" if use_unnormalized else "(Normalized)"
-    fig.suptitle(f'Follow-up Probability Distribution {norm_indicator}: {basename}', fontsize=13, fontweight='bold')
-
-    plt.tight_layout()
+    norm_indicator = "(Conditional)" if use_conditional else "(Full-Sequence)"
+    fig.suptitle(
+        f'Follow-up Probability Distribution {norm_indicator}: {basename}',
+        fontsize=11,
+        fontweight='bold',
+        y=0.995
+    )
+    fig.tight_layout(rect=[0, 0, 1, 0.99])
 
     # Save or show
     if output_path:
@@ -243,19 +254,36 @@ def main():
         help='Path to save the plot (default: same as results file but .png)'
     )
     parser.add_argument(
-        '--unnormalized',
+        '--conditional',
         action='store_true',
         default=False,
-        help='Plot raw (unnormalized) probability differences instead of normalized (default: False)'
+        help='Plot conditional (followup) probability differences'
     )
 
     args = parser.parse_args()
 
     # Auto-generate output path if not specified (replace .csv with .png)
     if args.output_path is None:
-        args.output_path = args.results_path.rsplit('.', 1)[0] + '.png'
+        base_no_ext = args.results_path.rsplit('.', 1)[0]
+        base_dir = os.path.dirname(base_no_ext)
+        base_name = os.path.basename(base_no_ext)
+        if "_" in base_name:
+            model, rest = base_name.split("_", 1)
+            model = _abbreviate_model_name(model)
+            if args.conditional:
+                base_name = f"{model}_{rest}"
+            else:
+                base_name = f"{model}_Uncond_{rest}"
+        else:
+            model = _abbreviate_model_name(base_name)
+            base_name = model if args.conditional else f"{model}_Uncond"
+        args.output_path = os.path.join(base_dir, f"{base_name}.png")
 
-    plot_probabilities(args.results_path, args.output_path, use_unnormalized=args.unnormalized)
+    plot_probabilities(
+        args.results_path,
+        args.output_path,
+        use_conditional=args.conditional
+    )
 
 
 if __name__ == "__main__":
