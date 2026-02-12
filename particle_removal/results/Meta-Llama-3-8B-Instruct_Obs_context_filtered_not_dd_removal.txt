@@ -1,0 +1,59 @@
+================================================================================
+SUMMARY STATISTICS
+================================================================================
+Total examples processed: 1307
+Include context: True
+Observer mode: True
+
+--- RAW FOLLOWUP LOG PROBABILITIES ---
+Average log probability WITH particle: -62.0345
+Average log probability WITHOUT particle: -61.7659
+Average log probability difference: -0.2686
+  (positive = particle increases followup probability)
+
+Median log probability difference: -0.3425
+Std dev of log probability difference: 3.6767
+
+Particle INCREASED followup probability: 550 (42.1%)
+Particle DECREASED followup probability: 757 (57.9%)
+No change: 0
+
+--- RAW FOLLOWUP LOG PROBABILITIES (PER-TOKEN) ---
+Average log probability WITH particle: -2.3889
+Average log probability WITHOUT particle: -2.3801
+Average log probability difference: -0.0088
+  (positive = particle increases followup probability)
+
+Median log probability difference: -0.0148
+Std dev of log probability difference: 0.1874
+
+Particle INCREASED followup probability: 550 (42.1%)
+Particle DECREASED followup probability: 757 (57.9%)
+No change: 0
+
+--- FULL-SEQUENCE LOG PROBABILITIES ---
+Average log probability WITH particle: -451.1226
+Average log probability WITHOUT particle: -457.3726
+Average log probability difference: 6.2499
+  (positive = particle increases full-sequence probability)
+
+Median log probability difference: 6.1166
+Std dev of log probability difference: 7.7799
+
+Particle INCREASED full-sequence probability: 1027 (78.6%)
+Particle DECREASED full-sequence probability: 280 (21.4%)
+No change: 0
+
+--- FULL-SEQUENCE LOG PROBABILITIES (PER-TOKEN) ---
+Average log probability WITH particle: -3.9224
+Average log probability WITHOUT particle: -4.0208
+Average log probability difference: 0.0984
+  (positive = particle increases full-sequence probability)
+
+Median log probability difference: 0.0853
+Std dev of log probability difference: 0.0826
+
+Particle INCREASED full-sequence probability: 1197 (91.6%)
+Particle DECREASED full-sequence probability: 110 (8.4%)
+No change: 0
+================================================================================

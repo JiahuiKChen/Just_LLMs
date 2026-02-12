@@ -5,11 +5,11 @@ Displays context, wo_word, w_word, followup, and the probability difference,
 sorted by most negative difference.
 
 USAGE:
-    # Default: raw differences, top 10
+    # Default: full-sequence (unconditional) differences per-token, top 10
     python find_worst_decreases.py
 
-    # Use full-sequence (unconditional) differences
-    python find_worst_decreases.py --unconditional
+    # Use conditional (followup) differences per-token
+    python find_worst_decreases.py --conditional
 
     # Show more examples
     python find_worst_decreases.py --top_k 25
@@ -48,12 +48,20 @@ def _abbreviate_model_name(model_name: str) -> str:
     return '-'.join(tail_tokens)
 
 
-def _get_diff_series(df, use_unconditional=False):
-    if use_unconditional:
-        if 'log_prob_full_with' not in df.columns or 'log_prob_full_without' not in df.columns:
-            raise KeyError("Missing full-sequence columns; regenerate results with calculate_followup_probabilities.py")
-        return df['log_prob_full_with'] - df['log_prob_full_without'], 'Full-Sequence Log Probability Difference'
-    return df['log_prob_followup_with'] - df['log_prob_followup_without'], 'Raw Log Probability Difference'
+def _get_diff_series(df, use_conditional=False):
+    if not use_conditional:
+        if 'log_prob_full_with_per_token' not in df.columns or 'log_prob_full_without_per_token' not in df.columns:
+            raise KeyError("Missing per-token full-sequence columns; regenerate results with calculate_followup_probabilities.py")
+        return (
+            df['log_prob_full_with_per_token'] - df['log_prob_full_without_per_token'],
+            'Full-Sequence Log Probability Difference (Per-Token)'
+        )
+    if 'log_prob_followup_with_per_token' not in df.columns or 'log_prob_followup_without_per_token' not in df.columns:
+        raise KeyError("Missing per-token conditional columns; regenerate results with calculate_followup_probabilities.py")
+    return (
+        df['log_prob_followup_with_per_token'] - df['log_prob_followup_without_per_token'],
+        'Conditional Log Probability Difference (Per-Token)'
+    )
 
 
 def _format_block(label, text, width=120, indent='    '):
@@ -81,10 +89,10 @@ def main():
         help='Number of examples to display'
     )
     parser.add_argument(
-        '--unconditional',
+        '--conditional',
         action='store_true',
         default=False,
-        help='Use full-sequence (unconditional) differences'
+        help='Use conditional (followup) differences per-token'
     )
     parser.add_argument(
         '--wrap_width',
@@ -104,7 +112,7 @@ def main():
     df = pd.read_csv(args.results_path, sep='\t')
     print(f"Loaded {len(df)} examples from {args.results_path}")
 
-    diff, label = _get_diff_series(df, use_unconditional=args.unconditional)
+    diff, label = _get_diff_series(df, use_conditional=args.conditional)
     df = df.copy()
     df['_diff'] = diff
 
@@ -124,7 +132,13 @@ def main():
             base = f"{model}_{rest}"
         else:
             base = _abbreviate_model_name(base)
-        if args.unconditional:
+        if args.conditional:
+            if "_" in base:
+                model, rest = base.split("_", 1)
+                base = f"{model}_Cond_{rest}"
+            else:
+                base = f"{base}_Cond"
+        else:
             if "_" in base:
                 model, rest = base.split("_", 1)
                 base = f"{model}_Uncond_{rest}"

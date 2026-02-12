@@ -1,0 +1,58 @@
+================================================================================
+SUMMARY STATISTICS
+================================================================================
+Total examples processed: 360
+Include context: True
+
+--- RAW FOLLOWUP LOG PROBABILITIES ---
+Average log probability WITH particle: -36.3075
+Average log probability WITHOUT particle: -36.5557
+Average log probability difference: 0.2482
+  (positive = particle increases followup probability)
+
+Median log probability difference: 0.1062
+Std dev of log probability difference: 0.7068
+
+Particle INCREASED followup probability: 231 (64.2%)
+Particle DECREASED followup probability: 129 (35.8%)
+No change: 0
+
+--- RAW FOLLOWUP LOG PROBABILITIES (PER-TOKEN) ---
+Average log probability WITH particle: -1.6562
+Average log probability WITHOUT particle: -1.6708
+Average log probability difference: 0.0146
+  (positive = particle increases followup probability)
+
+Median log probability difference: 0.0066
+Std dev of log probability difference: 0.0472
+
+Particle INCREASED followup probability: 231 (64.2%)
+Particle DECREASED followup probability: 129 (35.8%)
+No change: 0
+
+--- FULL-SEQUENCE LOG PROBABILITIES ---
+Average log probability WITH particle: -198.1438
+Average log probability WITHOUT particle: -199.1295
+Average log probability difference: 0.9857
+  (positive = particle increases full-sequence probability)
+
+Median log probability difference: 0.7209
+Std dev of log probability difference: 4.2849
+
+Particle INCREASED full-sequence probability: 213 (59.2%)
+Particle DECREASED full-sequence probability: 147 (40.8%)
+No change: 0
+
+--- FULL-SEQUENCE LOG PROBABILITIES (PER-TOKEN) ---
+Average log probability WITH particle: -2.1702
+Average log probability WITHOUT particle: -2.2102
+Average log probability difference: 0.0401
+  (positive = particle increases full-sequence probability)
+
+Median log probability difference: 0.0329
+Std dev of log probability difference: 0.0587
+
+Particle INCREASED full-sequence probability: 282 (78.3%)
+Particle DECREASED full-sequence probability: 78 (21.7%)
+No change: 0
+================================================================================

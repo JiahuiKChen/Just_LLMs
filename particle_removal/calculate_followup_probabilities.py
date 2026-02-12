@@ -40,6 +40,12 @@ OUTPUT:
             log_prob_w_word, log_prob_wo_word
             log_prob_followup_with, log_prob_followup_without
             log_prob_full_with, log_prob_full_without
+            log_prob_w_word_per_token, log_prob_wo_word_per_token
+            log_prob_followup_with_per_token, log_prob_followup_without_per_token
+            log_prob_full_with_per_token, log_prob_full_without_per_token
+            w_word_token_count, wo_word_token_count
+            followup_token_count_with, followup_token_count_without
+            full_token_count_with, full_token_count_without
 
     The raw followup log prob difference is computed as:
         log_prob_followup_with - log_prob_followup_without
@@ -64,6 +70,12 @@ import pandas as pd
 import torch
 from transformers import AutoTokenizer, AutoModelForCausalLM
 from tqdm import tqdm
+
+
+def _safe_div(total_log_prob, token_count):
+    if token_count and token_count > 0:
+        return total_log_prob / token_count
+    return float('nan')
 
 
 def load_model(model_name="meta-llama/Meta-Llama-3-8B"):
@@ -330,10 +342,10 @@ def process_dataset(data_path, model, tokenizer, include_context=True, output_pa
         followup_with_label = f"{followup_speaker}: {followup}"
 
         # Calculate logprobs of the sentences (w_word and wo_word given context)
-        log_prob_w_word, _ = calculate_log_probability(
+        log_prob_w_word, w_word_tokens = calculate_log_probability(
             model, tokenizer, context_only, w_word_with_label, device
         )
-        log_prob_wo_word, _ = calculate_log_probability(
+        log_prob_wo_word, wo_word_tokens = calculate_log_probability(
             model, tokenizer, context_only, wo_word_with_label, device
         )
 
@@ -372,12 +384,24 @@ def process_dataset(data_path, model, tokenizer, include_context=True, output_pa
             # Raw sentence logprobs (w_word and wo_word given context)
             'log_prob_w_word': log_prob_w_word,
             'log_prob_wo_word': log_prob_wo_word,
+            'log_prob_w_word_per_token': _safe_div(log_prob_w_word, w_word_tokens),
+            'log_prob_wo_word_per_token': _safe_div(log_prob_wo_word, wo_word_tokens),
+            'w_word_token_count': w_word_tokens,
+            'wo_word_token_count': wo_word_tokens,
             # Raw followup logprobs
             'log_prob_followup_with': log_prob_followup_with,
             'log_prob_followup_without': log_prob_followup_without,
+            'log_prob_followup_with_per_token': _safe_div(log_prob_followup_with, followup_tokens_with),
+            'log_prob_followup_without_per_token': _safe_div(log_prob_followup_without, followup_tokens_without),
+            'followup_token_count_with': followup_tokens_with,
+            'followup_token_count_without': followup_tokens_without,
             # Raw full-sequence logprobs (context + sentence + followup)
             'log_prob_full_with': log_prob_full_with,
             'log_prob_full_without': log_prob_full_without,
+            'log_prob_full_with_per_token': _safe_div(log_prob_full_with, full_tokens_with),
+            'log_prob_full_without_per_token': _safe_div(log_prob_full_without, full_tokens_without),
+            'full_token_count_with': full_tokens_with,
+            'full_token_count_without': full_tokens_without,
             'include_context': include_context
         })
 
@@ -388,6 +412,15 @@ def process_dataset(data_path, model, tokenizer, include_context=True, output_pa
     raw_diff = results_df['log_prob_followup_with'] - results_df['log_prob_followup_without']
     # Raw full-sequence log probability difference (WITH - WITHOUT)
     full_diff = results_df['log_prob_full_with'] - results_df['log_prob_full_without']
+    # Per-token differences
+    raw_diff_per_token = (
+        results_df['log_prob_followup_with_per_token']
+        - results_df['log_prob_followup_without_per_token']
+    )
+    full_diff_per_token = (
+        results_df['log_prob_full_with_per_token']
+        - results_df['log_prob_full_without_per_token']
+    )
 
     # Count how many times particle increased/decreased probability (raw)
     increased = (raw_diff > 0).sum()
@@ -396,6 +429,13 @@ def process_dataset(data_path, model, tokenizer, include_context=True, output_pa
     full_increased = (full_diff > 0).sum()
     full_decreased = (full_diff < 0).sum()
     full_unchanged = (full_diff == 0).sum()
+    # Per-token counts
+    increased_pt = (raw_diff_per_token > 0).sum()
+    decreased_pt = (raw_diff_per_token < 0).sum()
+    unchanged_pt = (raw_diff_per_token == 0).sum()
+    full_increased_pt = (full_diff_per_token > 0).sum()
+    full_decreased_pt = (full_diff_per_token < 0).sum()
+    full_unchanged_pt = (full_diff_per_token == 0).sum()
 
     # Build summary statistics string
     summary_lines = [
@@ -418,6 +458,19 @@ def process_dataset(data_path, model, tokenizer, include_context=True, output_pa
         f"Particle DECREASED followup probability: {decreased} ({decreased/len(results_df)*100:.1f}%)",
         f"No change: {unchanged}",
         "",
+        "--- RAW FOLLOWUP LOG PROBABILITIES (PER-TOKEN) ---",
+        f"Average log probability WITH particle: {results_df['log_prob_followup_with_per_token'].mean():.4f}",
+        f"Average log probability WITHOUT particle: {results_df['log_prob_followup_without_per_token'].mean():.4f}",
+        f"Average log probability difference: {raw_diff_per_token.mean():.4f}",
+        f"  (positive = particle increases followup probability)",
+        "",
+        f"Median log probability difference: {raw_diff_per_token.median():.4f}",
+        f"Std dev of log probability difference: {raw_diff_per_token.std():.4f}",
+        "",
+        f"Particle INCREASED followup probability: {increased_pt} ({increased_pt/len(results_df)*100:.1f}%)",
+        f"Particle DECREASED followup probability: {decreased_pt} ({decreased_pt/len(results_df)*100:.1f}%)",
+        f"No change: {unchanged_pt}",
+        "",
         "--- FULL-SEQUENCE LOG PROBABILITIES ---",
         f"Average log probability WITH particle: {results_df['log_prob_full_with'].mean():.4f}",
         f"Average log probability WITHOUT particle: {results_df['log_prob_full_without'].mean():.4f}",
@@ -430,6 +483,19 @@ def process_dataset(data_path, model, tokenizer, include_context=True, output_pa
         f"Particle INCREASED full-sequence probability: {full_increased} ({full_increased/len(results_df)*100:.1f}%)",
         f"Particle DECREASED full-sequence probability: {full_decreased} ({full_decreased/len(results_df)*100:.1f}%)",
         f"No change: {full_unchanged}",
+        "",
+        "--- FULL-SEQUENCE LOG PROBABILITIES (PER-TOKEN) ---",
+        f"Average log probability WITH particle: {results_df['log_prob_full_with_per_token'].mean():.4f}",
+        f"Average log probability WITHOUT particle: {results_df['log_prob_full_without_per_token'].mean():.4f}",
+        f"Average log probability difference: {full_diff_per_token.mean():.4f}",
+        f"  (positive = particle increases full-sequence probability)",
+        "",
+        f"Median log probability difference: {full_diff_per_token.median():.4f}",
+        f"Std dev of log probability difference: {full_diff_per_token.std():.4f}",
+        "",
+        f"Particle INCREASED full-sequence probability: {full_increased_pt} ({full_increased_pt/len(results_df)*100:.1f}%)",
+        f"Particle DECREASED full-sequence probability: {full_decreased_pt} ({full_decreased_pt/len(results_df)*100:.1f}%)",
+        f"No change: {full_unchanged_pt}",
         "=" * 80,
     ]
     summary = "\n".join(summary_lines)

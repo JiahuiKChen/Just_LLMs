@@ -2,16 +2,16 @@
 Plot histogram of log probability differences with and without discourse particles.
 
 Reads a results CSV file and creates a histogram showing:
-- Full-sequence log probability difference (WITH particle - WITHOUT particle) by default
-- Conditional (followup) log probability difference when --conditional is used
+- Full-sequence log probability difference (WITH particle - WITHOUT particle) per-token by default
+- Conditional (followup) log probability difference per-token when --conditional is used
 
 Also displays summary statistics from the corresponding .txt file.
 
 USAGE:
-    # Default: plots FULL-SEQUENCE probability differences
+    # Default: plots FULL-SEQUENCE probability differences per-token
     python plot_probabilities.py
 
-    # Plot CONDITIONAL probability differences
+    # Plot CONDITIONAL probability differences per-token
     python plot_probabilities.py --conditional
 
     # Use different results file
@@ -52,75 +52,57 @@ def _abbreviate_model_name(model_name: str) -> str:
 
 
 def load_summary_stats(txt_path):
-    """Load summary statistics from the .txt file (raw and full-sequence)."""
-    stats = {'raw': {}, 'full': {}}
+    """Load summary statistics from the .txt file (raw/full + per-token)."""
+    stats = {'raw': {}, 'full': {}, 'raw_pt': {}, 'full_pt': {}}
     if not os.path.exists(txt_path):
         return None
 
     with open(txt_path, 'r') as f:
         content = f.read()
 
-    # Track which section we're in
-    in_full_section = False
+    current_section = None
 
     # Parse the relevant lines
     for line in content.split('\n'):
-        # Check for section headers
-        if '--- RAW FOLLOWUP LOG PROBABILITIES' in line:
-            in_full_section = False
+        if '--- RAW FOLLOWUP LOG PROBABILITIES (PER-TOKEN)' in line:
+            current_section = 'raw_pt'
             continue
-        elif '--- FULL-SEQUENCE LOG PROBABILITIES' in line:
-            in_full_section = True
+        if '--- FULL-SEQUENCE LOG PROBABILITIES (PER-TOKEN)' in line:
+            current_section = 'full_pt'
+            continue
+        if '--- RAW FOLLOWUP LOG PROBABILITIES' in line:
+            current_section = 'raw'
+            continue
+        if '--- FULL-SEQUENCE LOG PROBABILITIES' in line:
+            current_section = 'full'
             continue
 
-        # Parse statistics based on current section
-        if in_full_section:
-            if 'Average log probability WITH particle:' in line:
-                stats['full']['avg_with'] = float(line.split(':')[1].strip())
-            elif 'Average log probability WITHOUT particle:' in line:
-                stats['full']['avg_without'] = float(line.split(':')[1].strip())
-            elif 'Average log probability difference:' in line:
-                stats['full']['avg_diff'] = float(line.split(':')[1].strip())
-            elif 'Median log probability difference:' in line:
-                stats['full']['median_diff'] = float(line.split(':')[1].strip())
-            elif 'Std dev of log probability difference:' in line:
-                stats['full']['std_diff'] = float(line.split(':')[1].strip())
-            elif 'Particle INCREASED full-sequence probability:' in line:
-                parts = line.split(':')[1].strip()
-                count = int(parts.split('(')[0].strip())
-                pct = float(parts.split('(')[1].replace('%)', '').strip())
-                stats['full']['increased_count'] = count
-                stats['full']['increased_pct'] = pct
-            elif 'Particle DECREASED full-sequence probability:' in line:
-                parts = line.split(':')[1].strip()
-                count = int(parts.split('(')[0].strip())
-                pct = float(parts.split('(')[1].replace('%)', '').strip())
-                stats['full']['decreased_count'] = count
-                stats['full']['decreased_pct'] = pct
-        else:
-            # Raw section
-            if 'Average log probability WITH particle:' in line:
-                stats['raw']['avg_with'] = float(line.split(':')[1].strip())
-            elif 'Average log probability WITHOUT particle:' in line:
-                stats['raw']['avg_without'] = float(line.split(':')[1].strip())
-            elif 'Average log probability difference:' in line:
-                stats['raw']['avg_diff'] = float(line.split(':')[1].strip())
-            elif 'Median log probability difference:' in line:
-                stats['raw']['median_diff'] = float(line.split(':')[1].strip())
-            elif 'Std dev of log probability difference:' in line:
-                stats['raw']['std_diff'] = float(line.split(':')[1].strip())
-            elif 'Particle INCREASED followup probability:' in line:
-                parts = line.split(':')[1].strip()
-                count = int(parts.split('(')[0].strip())
-                pct = float(parts.split('(')[1].replace('%)', '').strip())
-                stats['raw']['increased_count'] = count
-                stats['raw']['increased_pct'] = pct
-            elif 'Particle DECREASED followup probability:' in line:
-                parts = line.split(':')[1].strip()
-                count = int(parts.split('(')[0].strip())
-                pct = float(parts.split('(')[1].replace('%)', '').strip())
-                stats['raw']['decreased_count'] = count
-                stats['raw']['decreased_pct'] = pct
+        if current_section is None:
+            continue
+
+        section_stats = stats[current_section]
+        if 'Average log probability WITH particle:' in line:
+            section_stats['avg_with'] = float(line.split(':')[1].strip())
+        elif 'Average log probability WITHOUT particle:' in line:
+            section_stats['avg_without'] = float(line.split(':')[1].strip())
+        elif 'Average log probability difference:' in line:
+            section_stats['avg_diff'] = float(line.split(':')[1].strip())
+        elif 'Median log probability difference:' in line:
+            section_stats['median_diff'] = float(line.split(':')[1].strip())
+        elif 'Std dev of log probability difference:' in line:
+            section_stats['std_diff'] = float(line.split(':')[1].strip())
+        elif 'Particle INCREASED' in line:
+            parts = line.split(':')[1].strip()
+            count = int(parts.split('(')[0].strip())
+            pct = float(parts.split('(')[1].replace('%)', '').strip())
+            section_stats['increased_count'] = count
+            section_stats['increased_pct'] = pct
+        elif 'Particle DECREASED' in line:
+            parts = line.split(':')[1].strip()
+            count = int(parts.split('(')[0].strip())
+            pct = float(parts.split('(')[1].replace('%)', '').strip())
+            section_stats['decreased_count'] = count
+            section_stats['decreased_pct'] = pct
 
     return stats
 
@@ -132,7 +114,7 @@ def plot_probabilities(results_path, output_path=None, use_conditional=False):
     Args:
         results_path: Path to the results CSV file
         output_path: Path to save the plot (optional, will show if not provided)
-        use_conditional: If True, plot conditional differences; otherwise full-sequence
+        use_conditional: If True, plot conditional differences; otherwise full-sequence (per-token)
     """
     # Load results
     df = pd.read_csv(results_path, sep='\t')
@@ -144,15 +126,17 @@ def plot_probabilities(results_path, output_path=None, use_conditional=False):
 
     # Select which difference to plot based on flags
     if use_conditional:
-        diff = df['log_prob_followup_with'] - df['log_prob_followup_without']
-        plot_label = 'Conditional Log Probability Difference'
-        stats_section = 'raw' if stats and stats.get('raw') else None
+        if 'log_prob_followup_with_per_token' not in df.columns or 'log_prob_followup_without_per_token' not in df.columns:
+            raise KeyError("Missing per-token conditional columns; regenerate results with calculate_followup_probabilities.py")
+        diff = df['log_prob_followup_with_per_token'] - df['log_prob_followup_without_per_token']
+        plot_label = 'Conditional Log Probability Difference (Per-Token)'
+        stats_section = 'raw_pt' if stats and stats.get('raw_pt') else None
     else:
-        if 'log_prob_full_with' not in df.columns or 'log_prob_full_without' not in df.columns:
-            raise KeyError("Missing full-sequence columns; regenerate results with calculate_followup_probabilities.py")
-        diff = df['log_prob_full_with'] - df['log_prob_full_without']
-        plot_label = 'Full-Sequence Log Probability Difference'
-        stats_section = 'full' if stats and stats.get('full') else None
+        if 'log_prob_full_with_per_token' not in df.columns or 'log_prob_full_without_per_token' not in df.columns:
+            raise KeyError("Missing per-token full-sequence columns; regenerate results with calculate_followup_probabilities.py")
+        diff = df['log_prob_full_with_per_token'] - df['log_prob_full_without_per_token']
+        plot_label = 'Full-Sequence Log Probability Difference (Per-Token)'
+        stats_section = 'full_pt' if stats and stats.get('full_pt') else None
 
     mean_diff = diff.mean()
     median_diff = diff.median()
@@ -180,45 +164,41 @@ def plot_probabilities(results_path, output_path=None, use_conditional=False):
     if stats and stats_section and stats.get(stats_section):
         # Fallback to single section if only one available
         s = stats[stats_section]
-        if stats_section == 'raw':
-            summary_text = (
-                f"Summary Statistics (RAW)\n"
-                f"{'─' * 26}\n"
-                f"Avg log prob WITH:    {s.get('avg_with', 'N/A'):.4f}\n"
-                f"Avg log prob WITHOUT: {s.get('avg_without', 'N/A'):.4f}\n"
-                f"Avg difference:       {s.get('avg_diff', 'N/A'):.4f}\n"
-                f"  (positive = particle\n"
-                f"   increases probability)\n"
-                f"\n"
-                f"Median difference: {s.get('median_diff', 'N/A'):.4f}\n"
-                f"Std dev:           {s.get('std_diff', 'N/A'):.4f}\n"
-                f"\n"
-                f"INCREASED: {s.get('increased_count', 'N/A')} ({s.get('increased_pct', 'N/A'):.1f}%)\n"
-                f"DECREASED: {s.get('decreased_count', 'N/A')} ({s.get('decreased_pct', 'N/A'):.1f}%)"
-            )
-        elif stats_section == 'full':
-            summary_text = (
-                f"Summary Statistics (FULL-SEQUENCE)\n"
-                f"{'─' * 34}\n"
-                f"Avg log prob WITH:    {s.get('avg_with', 'N/A'):.4f}\n"
-                f"Avg log prob WITHOUT: {s.get('avg_without', 'N/A'):.4f}\n"
-                f"Avg difference:       {s.get('avg_diff', 'N/A'):.4f}\n"
-                f"  (positive = particle\n"
-                f"   increases probability)\n"
-                f"\n"
-                f"Median difference: {s.get('median_diff', 'N/A'):.4f}\n"
-                f"Std dev:           {s.get('std_diff', 'N/A'):.4f}\n"
-                f"\n"
-                f"INCREASED: {s.get('increased_count', 'N/A')} ({s.get('increased_pct', 'N/A'):.1f}%)\n"
-                f"DECREASED: {s.get('decreased_count', 'N/A')} ({s.get('decreased_pct', 'N/A'):.1f}%)"
-            )
+        if stats_section == 'raw_pt':
+            header = "Summary Statistics (RAW, PER-TOKEN)"
+            underline = "─" * 34
+        elif stats_section == 'full_pt':
+            header = "Summary Statistics (FULL-SEQUENCE, PER-TOKEN)"
+            underline = "─" * 46
+        elif stats_section == 'raw':
+            header = "Summary Statistics (RAW)"
+            underline = "─" * 26
+        else:
+            header = "Summary Statistics (FULL-SEQUENCE)"
+            underline = "─" * 34
+
+        summary_text = (
+            f"{header}\n"
+            f"{underline}\n"
+            f"Avg log prob WITH:    {s.get('avg_with', 'N/A'):.4f}\n"
+            f"Avg log prob WITHOUT: {s.get('avg_without', 'N/A'):.4f}\n"
+            f"Avg difference:       {s.get('avg_diff', 'N/A'):.4f}\n"
+            f"  (positive = particle\n"
+            f"   increases probability)\n"
+            f"\n"
+            f"Median difference: {s.get('median_diff', 'N/A'):.4f}\n"
+            f"Std dev:           {s.get('std_diff', 'N/A'):.4f}\n"
+            f"\n"
+            f"INCREASED: {s.get('increased_count', 'N/A')} ({s.get('increased_pct', 'N/A'):.1f}%)\n"
+            f"DECREASED: {s.get('decreased_count', 'N/A')} ({s.get('decreased_pct', 'N/A'):.1f}%)"
+        )
         axes[1].text(0.0, 0.5, summary_text, transform=axes[1].transAxes,
                      fontsize=10, family='monospace', verticalalignment='center',
                      bbox=dict(boxstyle='round', facecolor='wheat', alpha=0.5))
 
     # Extract info for title from filename
     basename = os.path.basename(results_path).replace('_removal.csv', '')
-    norm_indicator = "(Conditional)" if use_conditional else "(Full-Sequence)"
+    norm_indicator = "(Conditional, Per-Token)" if use_conditional else "(Full-Sequence, Per-Token)"
     fig.suptitle(
         f'Follow-up Probability Distribution {norm_indicator}: {basename}',
         fontsize=11,
@@ -239,7 +219,7 @@ def plot_probabilities(results_path, output_path=None, use_conditional=False):
 
 def main():
     parser = argparse.ArgumentParser(
-        description="Plot histograms of log probabilities with/without discourse particles"
+        description="Plot histograms of per-token log probabilities with/without discourse particles"
     )
     parser.add_argument(
         '--results_path',
@@ -257,7 +237,7 @@ def main():
         '--conditional',
         action='store_true',
         default=False,
-        help='Plot conditional (followup) probability differences'
+        help='Plot conditional (followup) probability differences per-token'
     )
 
     args = parser.parse_args()
@@ -271,12 +251,12 @@ def main():
             model, rest = base_name.split("_", 1)
             model = _abbreviate_model_name(model)
             if args.conditional:
-                base_name = f"{model}_{rest}"
+                base_name = f"{model}_Cond_{rest}"
             else:
                 base_name = f"{model}_Uncond_{rest}"
         else:
             model = _abbreviate_model_name(base_name)
-            base_name = model if args.conditional else f"{model}_Uncond"
+            base_name = f"{model}_Cond" if args.conditional else f"{model}_Uncond"
         args.output_path = os.path.join(base_dir, f"{base_name}.png")
 
     plot_probabilities(

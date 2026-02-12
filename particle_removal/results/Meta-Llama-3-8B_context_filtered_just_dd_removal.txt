@@ -17,6 +17,19 @@ Particle INCREASED followup probability: 686 (58.0%)
 Particle DECREASED followup probability: 496 (42.0%)
 No change: 0
 
+--- RAW FOLLOWUP LOG PROBABILITIES (PER-TOKEN) ---
+Average log probability WITH particle: -1.6663
+Average log probability WITHOUT particle: -1.6725
+Average log probability difference: 0.0062
+  (positive = particle increases followup probability)
+
+Median log probability difference: 0.0038
+Std dev of log probability difference: 0.0371
+
+Particle INCREASED followup probability: 686 (58.0%)
+Particle DECREASED followup probability: 496 (42.0%)
+No change: 0
+
 --- FULL-SEQUENCE LOG PROBABILITIES ---
 Average log probability WITH particle: -172.9500
 Average log probability WITHOUT particle: -172.9297
@@ -28,5 +41,18 @@ Std dev of log probability difference: 3.4090
 
 Particle INCREASED full-sequence probability: 545 (46.1%)
 Particle DECREASED full-sequence probability: 637 (53.9%)
+No change: 0
+
+--- FULL-SEQUENCE LOG PROBABILITIES (PER-TOKEN) ---
+Average log probability WITH particle: -2.1994
+Average log probability WITHOUT particle: -2.2343
+Average log probability difference: 0.0349
+  (positive = particle increases full-sequence probability)
+
+Median log probability difference: 0.0262
+Std dev of log probability difference: 0.0583
+
+Particle INCREASED full-sequence probability: 899 (76.1%)
+Particle DECREASED full-sequence probability: 283 (23.9%)
 No change: 0
 ================================================================================

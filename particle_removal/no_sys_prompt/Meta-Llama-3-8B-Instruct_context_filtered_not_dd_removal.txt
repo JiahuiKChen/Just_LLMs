@@ -1,0 +1,32 @@
+================================================================================
+SUMMARY STATISTICS
+================================================================================
+Total examples processed: 1307
+Include context: True
+
+--- RAW FOLLOWUP LOG PROBABILITIES ---
+Average log probability WITH particle: -59.3401
+Average log probability WITHOUT particle: -58.4694
+Average log probability difference: -0.8707
+  (positive = particle increases followup probability)
+
+Median log probability difference: -0.6712
+Std dev of log probability difference: 3.2778
+
+Particle INCREASED followup probability: 504 (38.6%)
+Particle DECREASED followup probability: 803 (61.4%)
+No change: 0
+
+--- FULL-SEQUENCE LOG PROBABILITIES ---
+Average log probability WITH particle: -349.6997
+Average log probability WITHOUT particle: -356.5967
+Average log probability difference: 6.8969
+  (positive = particle increases full-sequence probability)
+
+Median log probability difference: 6.5874
+Std dev of log probability difference: 7.4200
+
+Particle INCREASED full-sequence probability: 1082 (82.8%)
+Particle DECREASED full-sequence probability: 225 (17.2%)
+No change: 0
+================================================================================
