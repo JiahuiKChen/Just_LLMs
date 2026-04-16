@@ -4,16 +4,42 @@ Calculate probabilities of follow-up utterances for instruction-tuned chat model
 This script mirrors particle_removal/calculate_followup_probabilities.py, but formats
 inputs using the model's chat template (tokenizer.apply_chat_template).
 
-REQUIREMENTS / CONSTRAINTS:
-    - The followup is always produced by the assistant role.
-    - The preceding utterance (w_word / wo_word) is always a user role.
-    - Conversation context (if included) is mapped to alternating user/assistant
-      roles such that the next utterance is a user message.
-    - In observer mode, the conversation is provided as a transcript and the
-      model predicts the next turn as the assistant.
+DEFAULT CLI BEHAVIOR:
+    Running `python calculate_followup_probabilities_instruct.py` uses:
+        --data_path ../dd_data/filtered_just_dd.tsv
+        --model_name meta-llama/Meta-Llama-3-8B-Instruct
+        --include_context True
+        --no_context False
+        --system_prompt None
+        --observer_mode False
+        --observer_system_prompt "You are a conversation observer. Predict the next turn in the conversation."
+        --output_path results/Meta-Llama-3-8B-Instruct_context_filtered_just_dd_removal.csv
+
+    Note: the default `data_path` is a relative path and assumes the current
+    working directory is `particle_removal/`, matching the usage examples below.
+    If you run the script from the repository root instead, `../dd_data/...`
+    will point outside the repo.
+
+ROLE / SPEAKER ASSIGNMENT:
+    Default mode (`observer_mode=False`):
+        - LLM is treated as the conversation participant producing the
+          follow-up: the followup is always scored as an `assistant` message.
+        - The preceding utterance (`w_word` / `wo_word`) is always scored as a
+          `user` message.
+        - Conversation context (if included) is mapped to alternating
+          `user`/`assistant` roles so that the next utterance is a `user`
+          message.
+        - There are no explicit "Speaker 1" / "Speaker 2" labels in this mode;
+          speaker labels are represented through chat roles.
+
+    Observer mode (`--observer_mode`):
+        - The conversation is passed as a plain-text transcript with
+          "Speaker 1" / "Speaker 2" labels inside a single user message.
+        - The model is prompted as an observer and predicts the next turn as the
+          assistant.
 
 BASIC USAGE:
-    python calculate_followup_probabilities_instruct.py
+    python calculate_followup_probabilities_instruct.py --data_path ...
 
     python calculate_followup_probabilities_instruct.py --no_context
 
@@ -24,10 +50,21 @@ BASIC USAGE:
 
 import argparse
 import os
+import matplotlib.pyplot as plt
 import pandas as pd
 import torch
-from transformers import AutoTokenizer, AutoModelForCausalLM
+from transformers import (
+    AutoModelForCausalLM,
+    AutoModelForImageTextToText,
+    AutoTokenizer,
+)
 from tqdm import tqdm
+
+
+_WARNED_NO_BOS = False
+QWEN25_DEFAULT_SYSTEM_PROMPT = (
+    "You are Qwen, created by Alibaba Cloud. You are a helpful assistant."
+)
 
 
 def _safe_div(total_log_prob, token_count):
@@ -36,19 +73,268 @@ def _safe_div(total_log_prob, token_count):
     return float('nan')
 
 
+def removal_outlier_detection(results_df, plot_path=None):
+    """
+    Compute removal-based outlier scores and create a diagnostic plot.
+
+    The primary score is:
+        log P(S | C) - log P(S' | C)
+    where:
+        - S  is the original sentence with the particle
+        - S' is the sentence with the particle removed
+        - C  is the preceding context
+
+    Because S and S' can have different token lengths, this function computes
+    a per-token delta and uses an upper IQR fence for outlier detection.
+
+    Args:
+        results_df: DataFrame containing sentence-level log probabilities
+        plot_path: Optional path to save the diagnostic plot
+
+    Returns:
+        (updated_results_df, summary_lines)
+    """
+    required_columns = {
+        'log_prob_w_word',
+        'log_prob_wo_word',
+        'log_prob_w_word_per_token',
+        'log_prob_wo_word_per_token',
+    }
+    missing = sorted(required_columns - set(results_df.columns))
+    if missing:
+        raise KeyError(
+            "Missing columns for removal outlier detection: "
+            + ", ".join(missing)
+        )
+
+    df = results_df.copy()
+    df['removal_log_prob_delta_per_token'] = (
+        df['log_prob_w_word_per_token'] - df['log_prob_wo_word_per_token']
+    )
+
+    per_token_delta = df['removal_log_prob_delta_per_token']
+    median_pt = per_token_delta.median()
+
+    q1 = per_token_delta.quantile(0.25)
+    q3 = per_token_delta.quantile(0.75)
+    iqr = q3 - q1
+    upper_iqr = q3 + 1.5 * iqr if pd.notna(iqr) else float('nan')
+
+    df['removal_upper_iqr_outlier'] = (
+        per_token_delta > upper_iqr if pd.notna(upper_iqr) else False
+    )
+    mean_pt = per_token_delta.mean()
+    q1_pt = q1
+    q3_pt = q3
+    std_pt = per_token_delta.std()
+
+    summary_lines = [
+        "",
+        "--- REMOVAL OUTLIER DETECTION ---",
+        "Score = log P(S | C) - log P(S' | C)",
+        "  S  = original sentence with particle",
+        "  S' = sentence with particle removed",
+        "  C  = context",
+        "",
+        "Per-token delta statistics:",
+        f"Average per-token delta: {mean_pt:.4f}",
+        f"Median per-token delta: {median_pt:.4f}",
+        f"Std dev per-token delta: {std_pt:.4f}",
+        f"Q1 per-token delta: {q1_pt:.4f}",
+        f"Q3 per-token delta: {q3_pt:.4f}",
+        f"Q3 + 1.5*IQR upper fence: {upper_iqr:.4f}",
+        "",
+        f"Upper-tail IQR outliers: {int(df['removal_upper_iqr_outlier'].sum())}",
+        "",
+        "Threshold guidance:",
+        "Use the per-token delta for filtering, since raw sentence logprobs are length-sensitive.",
+        "Use the IQR upper fence if you want a simple rule that is easy to explain in a paper.",
+        "Best practice is to inspect examples near the proposed cutoff and calibrate the final threshold on a small labeled set.",
+    ]
+
+    fig, axes = plt.subplots(
+        1,
+        2,
+        figsize=(15.5, 4.4),
+        gridspec_kw={'width_ratios': [1.9, 0.72], 'wspace': 0.06}
+    )
+
+    axes[0].hist(per_token_delta.dropna(), bins=50, color='darkorange', edgecolor='black', alpha=0.75)
+    axes[0].axvline(0, color='black', linestyle='-', linewidth=1.2, alpha=0.6, label='Zero')
+    axes[0].axvline(mean_pt, color='red', linestyle='--', linewidth=1.8, label=f"Mean: {mean_pt:.4f}")
+    axes[0].axvline(median_pt, color='green', linestyle=':', linewidth=1.8, label=f"Median: {median_pt:.4f}")
+    if pd.notna(upper_iqr):
+        axes[0].axvline(upper_iqr, color='purple', linestyle='--', linewidth=1.8, label=f"IQR upper: {upper_iqr:.4f}")
+    axes[0].set_title('Removal Delta (Per-Token)')
+    axes[0].set_xlabel("Per-token log P(S | C) - log P(S' | C)")
+    axes[0].set_ylabel('Frequency')
+    axes[0].grid(True, alpha=0.3)
+    axes[0].legend(
+        fontsize=8,
+        loc='upper center',
+        bbox_to_anchor=(0.5, 1.02),
+        ncol=4,
+        frameon=True,
+        borderaxespad=0.2,
+        columnspacing=1.0,
+        handletextpad=0.5
+    )
+
+    axes[1].axis('off')
+    stats_text = (
+        "Outlier Thresholds and Statistics\n"
+        "---------------------------------\n"
+        "\n"
+        f"Q1:              {q1_pt:.4f}\n"
+        f"Q3:              {q3_pt:.4f}\n"
+        f"Per-token median: {median_pt:.4f}\n"
+        f"Per-token std:    {std_pt:.4f}\n"
+        f"IQR upper:        {upper_iqr:.4f}\n"
+        "\n"
+        f"IQR flags: {int(df['removal_upper_iqr_outlier'].sum())}"
+    )
+    axes[1].text(
+        0.02,
+        0.98,
+        stats_text,
+        transform=axes[1].transAxes,
+        fontsize=10,
+        family='monospace',
+        verticalalignment='top',
+        bbox=dict(boxstyle='round,pad=0.35', facecolor='wheat', alpha=0.5)
+    )
+
+    fig.suptitle(
+        "Removal Outlier Detection: log P(S | C) - log P(S' | C)",
+        fontsize=12,
+        fontweight='bold'
+    )
+    fig.tight_layout(rect=[0.01, 0.01, 0.995, 0.94], pad=0.4, w_pad=0.3)
+
+    if plot_path:
+        plt.savefig(plot_path, dpi=150, bbox_inches='tight')
+        print(f"Removal outlier plot saved to: {plot_path}")
+    plt.close(fig)
+
+    return df, summary_lines
+
+
+def _hf_load_kwargs(model_name):
+    """Return model-loading kwargs for checkpoints with custom HF implementations."""
+    if model_name.startswith("allenai/OLMo") or model_name.startswith("Qwen/Qwen3.5"):
+        return {"trust_remote_code": True}
+    return {}
+
+
+def _uses_image_text_loader(model_name):
+    """Return True for multimodal checkpoints that still support text-only scoring."""
+    return model_name.startswith("Qwen/Qwen3.5")
+
+
+def _chat_template_info(model_name, tokenizer):
+    """Describe system-prompt behavior for the tokenizer's chat template."""
+    template = getattr(tokenizer, "chat_template", "") or ""
+    if "System role not supported" in template or "System role not supported" in template:
+        return {
+            "supports_system": False,
+            "implicit_system_prompt": None,
+            "requires_user_message": False,
+            "requires_user_first": True,
+        }
+    if QWEN25_DEFAULT_SYSTEM_PROMPT in template:
+        return {
+            "supports_system": True,
+            "implicit_system_prompt": QWEN25_DEFAULT_SYSTEM_PROMPT,
+            "requires_user_message": False,
+            "requires_user_first": False,
+        }
+    if model_name.startswith("google/gemma-2"):
+        return {
+            "supports_system": False,
+            "implicit_system_prompt": None,
+            "requires_user_message": False,
+            "requires_user_first": True,
+        }
+    if "No user query found in messages." in template:
+        return {
+            "supports_system": True,
+            "implicit_system_prompt": None,
+            "requires_user_message": True,
+            "requires_user_first": False,
+        }
+    return {
+        "supports_system": True,
+        "implicit_system_prompt": None,
+        "requires_user_message": False,
+        "requires_user_first": False,
+    }
+
+
+def _log_chat_template_info(model_name, chat_template_info):
+    """Print the chat-template/system-prompt behavior being used."""
+    if not chat_template_info["supports_system"]:
+        print(f"{model_name}: tokenizer chat template does not support system messages.")
+    elif chat_template_info["implicit_system_prompt"]:
+        print(
+            f"{model_name}: tokenizer chat template injects the default system prompt: "
+            f"{chat_template_info['implicit_system_prompt']}"
+        )
+    else:
+        print(f"{model_name}: tokenizer chat template has no built-in default system prompt.")
+    if chat_template_info["requires_user_first"]:
+        print(f"{model_name}: chat template requires the conversation to start with a user message.")
+    elif chat_template_info["requires_user_message"]:
+        print(f"{model_name}: chat template requires at least one user message in every rendered prompt.")
+
+
+def _normalize_messages_for_chat_template(messages, chat_template_info):
+    """Insert a blank bootstrap user turn when the tokenizer template requires it."""
+    if not messages or not chat_template_info:
+        return messages
+
+    normalized = list(messages)
+    insert_idx = 1 if normalized and normalized[0]["role"] == "system" else 0
+    conversation_messages = normalized[insert_idx:]
+    if not conversation_messages:
+        return normalized
+
+    needs_user_first = chat_template_info.get("requires_user_first", False)
+    needs_any_user = chat_template_info.get("requires_user_message", False)
+
+    if needs_user_first and conversation_messages[0]["role"] != "user":
+        normalized.insert(insert_idx, {"role": "user", "content": ""})
+        return normalized
+
+    if needs_any_user and not any(msg["role"] == "user" for msg in conversation_messages):
+        normalized.insert(insert_idx, {"role": "user", "content": ""})
+
+    return normalized
+
+
 def load_model(model_name="meta-llama/Meta-Llama-3-8B-Instruct"):
     """Load the language model and tokenizer."""
     print(f"Loading model: {model_name}")
-    tokenizer = AutoTokenizer.from_pretrained(model_name)
-    model = AutoModelForCausalLM.from_pretrained(
-        model_name,
-        torch_dtype=torch.float16 if torch.cuda.is_available() else torch.float32,
-        device_map="auto" if torch.cuda.is_available() else None
-    )
+    load_kwargs = _hf_load_kwargs(model_name)
+    tokenizer = AutoTokenizer.from_pretrained(model_name, **load_kwargs)
+    if _uses_image_text_loader(model_name):
+        model = AutoModelForImageTextToText.from_pretrained(
+            model_name,
+            torch_dtype=torch.float16 if torch.cuda.is_available() else torch.float32,
+            device_map="auto" if torch.cuda.is_available() else None,
+            **load_kwargs,
+        )
+    else:
+        model = AutoModelForCausalLM.from_pretrained(
+            model_name,
+            torch_dtype=torch.float16 if torch.cuda.is_available() else torch.float32,
+            device_map="auto" if torch.cuda.is_available() else None,
+            **load_kwargs,
+        )
     model.eval()
 
     if tokenizer.pad_token is None:
         tokenizer.pad_token = tokenizer.eos_token
+    model.config.pad_token_id = tokenizer.pad_token_id
 
     return model, tokenizer
 
@@ -212,9 +498,12 @@ def calculate_log_probability_chat(model, tokenizer, context_messages, target_me
         total_log_prob += log_probs[0, i, next_token_id].item()
 
     target_len = len(full_ids) - len(context_ids)
+    global _WARNED_NO_BOS
     if len(context_ids) == 0 and tokenizer.bos_token_id is None and target_len > 0:
         target_len -= 1
-        print("Warning: no BOS token; first target token not scored.")
+        if not _WARNED_NO_BOS:
+            print("Warning: no BOS token; first target token not scored.")
+            _WARNED_NO_BOS = True
 
     return total_log_prob, target_len
 
@@ -226,7 +515,8 @@ def process_dataset(
     include_context=True,
     output_path=None,
     system_prompt=None,
-    observer_mode=False
+    observer_mode=False,
+    chat_template_info=None,
 ):
     """Process the dataset and calculate probabilities."""
     df = pd.read_csv(data_path, sep='\t')
@@ -285,6 +575,10 @@ def process_dataset(
                 include_context=include_context,
                 system_prompt=system_prompt
             )
+            context_messages = _normalize_messages_for_chat_template(
+                context_messages,
+                chat_template_info,
+            )
 
         # Logprobs for utterances
         if observer_mode:
@@ -339,11 +633,19 @@ def process_dataset(
                 include_context=include_context,
                 system_prompt=system_prompt
             )
+            context_with_w = _normalize_messages_for_chat_template(
+                context_with_w,
+                chat_template_info,
+            )
             context_with_wo = build_chat_messages(
                 context,
                 utterance=wo_word,
                 include_context=include_context,
                 system_prompt=system_prompt
+            )
+            context_with_wo = _normalize_messages_for_chat_template(
+                context_with_wo,
+                chat_template_info,
             )
 
         log_prob_followup_with, followup_tokens_with = calculate_log_probability_chat(
@@ -388,12 +690,20 @@ def process_dataset(
                 include_context=include_context,
                 system_prompt=system_prompt
             )
+            full_with_messages = _normalize_messages_for_chat_template(
+                full_with_messages,
+                chat_template_info,
+            )
             full_without_messages = build_chat_messages(
                 context,
                 utterance=wo_word,
                 followup=followup,
                 include_context=include_context,
                 system_prompt=system_prompt
+            )
+            full_without_messages = _normalize_messages_for_chat_template(
+                full_without_messages,
+                chat_template_info,
             )
             full_with_target = None
             full_without_target = None
@@ -443,6 +753,14 @@ def process_dataset(
         })
 
     results_df = pd.DataFrame(results)
+
+    plot_path = None
+    if output_path:
+        plot_path = output_path.rsplit('.', 1)[0] + '_outlier_detection.png'
+    results_df, outlier_summary_lines = removal_outlier_detection(
+        results_df,
+        plot_path=plot_path
+    )
 
     raw_diff = results_df['log_prob_followup_with'] - results_df['log_prob_followup_without']
     full_diff = results_df['log_prob_full_with'] - results_df['log_prob_full_without']
@@ -527,6 +845,7 @@ def process_dataset(
         f"Particle INCREASED full-sequence probability: {full_increased_pt} ({full_increased_pt/len(results_df)*100:.1f}%)",
         f"Particle DECREASED full-sequence probability: {full_decreased_pt} ({full_decreased_pt/len(results_df)*100:.1f}%)",
         f"No change: {full_unchanged_pt}",
+        *outlier_summary_lines,
         "=" * 80,
     ]
     summary = "\n".join(summary_lines)
@@ -537,9 +856,20 @@ def process_dataset(
         results_df.to_csv(output_path, sep='\t', index=False)
         print(f"Results saved to: {output_path}")
 
-        summary_path = output_path.rsplit('.', 1)[0] + '.txt'
+        output_base = output_path.rsplit('.', 1)[0]
+        rejected_iqr_path = output_base + '_rejected_iqr.csv'
+
+        results_df[results_df['removal_upper_iqr_outlier']].to_csv(
+            rejected_iqr_path,
+            sep='\t',
+            index=False
+        )
+        print(f"IQR-rejected samples saved to: {rejected_iqr_path}")
+
+        summary_path = output_base + '.txt'
         with open(summary_path, 'w') as f:
             f.write(summary + "\n")
+            f.write(f"IQR-rejected samples file: {rejected_iqr_path}\n")
         print(f"Summary saved to: {summary_path}")
 
     return results_df
@@ -616,8 +946,14 @@ def main():
         )
 
     model, tokenizer = load_model(args.model_name)
+    chat_template_info = _chat_template_info(args.model_name, tokenizer)
+    _log_chat_template_info(args.model_name, chat_template_info)
 
     system_prompt = args.observer_system_prompt if args.observer_mode else args.system_prompt
+    if system_prompt and not chat_template_info["supports_system"]:
+        raise ValueError(
+            f"{args.model_name} does not support system messages in its tokenizer chat template."
+        )
 
     process_dataset(
         args.data_path,
@@ -626,7 +962,8 @@ def main():
         include_context=include_context,
         output_path=args.output_path,
         system_prompt=system_prompt,
-        observer_mode=args.observer_mode
+        observer_mode=args.observer_mode,
+        chat_template_info=chat_template_info,
     )
 
     print("\nDone!")

@@ -46,6 +46,8 @@ OUTPUT:
             w_word_token_count, wo_word_token_count
             followup_token_count_with, followup_token_count_without
             full_token_count_with, full_token_count_without
+            removal_log_prob_delta_per_token
+            removal_upper_iqr_outlier
 
     The raw followup log prob difference is computed as:
         log_prob_followup_with - log_prob_followup_without
@@ -54,6 +56,11 @@ OUTPUT:
     The raw full-sequence log prob difference is computed as:
         log_prob_full_with - log_prob_full_without
     (positive = particle increases full-sequence probability)
+
+    Removal outlier detection additionally computes:
+        log P(S | C) - log P(S' | C)
+    where S is the original sentence and S' is the sentence with the particle removed.
+    A diagnostic plot is saved alongside the CSV/TXT outputs.
 
 CONVERSATION FORMAT:
     Conversations are formatted with speaker labels:
@@ -66,10 +73,18 @@ CONVERSATION FORMAT:
 
 import argparse
 import os
+import matplotlib.pyplot as plt
 import pandas as pd
 import torch
-from transformers import AutoTokenizer, AutoModelForCausalLM
+from transformers import (
+    AutoModelForCausalLM,
+    AutoModelForImageTextToText,
+    AutoTokenizer,
+)
 from tqdm import tqdm
+
+
+_WARNED_NO_BOS = False
 
 
 def _safe_div(total_log_prob, token_count):
@@ -78,20 +93,192 @@ def _safe_div(total_log_prob, token_count):
     return float('nan')
 
 
+def removal_outlier_detection(results_df, plot_path=None):
+    """
+    Compute removal-based outlier scores and create a diagnostic plot.
+
+    The primary score is:
+        log P(S | C) - log P(S' | C)
+    where:
+        - S  is the original sentence with the particle
+        - S' is the sentence with the particle removed
+        - C  is the preceding context
+
+    Because S and S' can have different token lengths, this function computes
+    a per-token delta and uses an upper IQR fence for outlier detection.
+
+    Args:
+        results_df: DataFrame containing sentence-level log probabilities
+        plot_path: Optional path to save the diagnostic plot
+
+    Returns:
+        (updated_results_df, summary_lines)
+    """
+    required_columns = {
+        'log_prob_w_word',
+        'log_prob_wo_word',
+        'log_prob_w_word_per_token',
+        'log_prob_wo_word_per_token',
+    }
+    missing = sorted(required_columns - set(results_df.columns))
+    if missing:
+        raise KeyError(
+            "Missing columns for removal outlier detection: "
+            + ", ".join(missing)
+        )
+
+    df = results_df.copy()
+    df['removal_log_prob_delta_per_token'] = (
+        df['log_prob_w_word_per_token'] - df['log_prob_wo_word_per_token']
+    )
+
+    per_token_delta = df['removal_log_prob_delta_per_token']
+    median_pt = per_token_delta.median()
+
+    q1 = per_token_delta.quantile(0.25)
+    q3 = per_token_delta.quantile(0.75)
+    iqr = q3 - q1
+    upper_iqr = q3 + 1.5 * iqr if pd.notna(iqr) else float('nan')
+
+    df['removal_upper_iqr_outlier'] = (
+        per_token_delta > upper_iqr if pd.notna(upper_iqr) else False
+    )
+    mean_pt = per_token_delta.mean()
+    q1_pt = q1
+    q3_pt = q3
+    std_pt = per_token_delta.std()
+
+    summary_lines = [
+        "",
+        "--- REMOVAL OUTLIER DETECTION ---",
+        "Score = log P(S | C) - log P(S' | C)",
+        "  S  = original sentence with particle",
+        "  S' = sentence with particle removed",
+        "  C  = context",
+        "",
+        "Per-token delta statistics:",
+        f"Average per-token delta: {mean_pt:.4f}",
+        f"Median per-token delta: {median_pt:.4f}",
+        f"Std dev per-token delta: {std_pt:.4f}",
+        f"Q1 per-token delta: {q1_pt:.4f}",
+        f"Q3 per-token delta: {q3_pt:.4f}",
+        f"Q3 + 1.5*IQR upper fence: {upper_iqr:.4f}",
+        "",
+        f"Upper-tail IQR outliers: {int(df['removal_upper_iqr_outlier'].sum())}",
+        "",
+        "Threshold guidance:",
+        "Use the per-token delta for filtering, since raw sentence logprobs are length-sensitive.",
+        "Use the IQR upper fence if you want a simple rule that is easy to explain in a paper.",
+        "Best practice is to inspect examples near the proposed cutoff and calibrate the final threshold on a small labeled set.",
+    ]
+
+    fig, axes = plt.subplots(
+        1,
+        2,
+        figsize=(15.5, 4.4),
+        gridspec_kw={'width_ratios': [1.9, 0.72], 'wspace': 0.06}
+    )
+
+    axes[0].hist(per_token_delta.dropna(), bins=50, color='darkorange', edgecolor='black', alpha=0.75)
+    axes[0].axvline(0, color='black', linestyle='-', linewidth=1.2, alpha=0.6, label='Zero')
+    axes[0].axvline(mean_pt, color='red', linestyle='--', linewidth=1.8, label=f"Mean: {mean_pt:.4f}")
+    axes[0].axvline(median_pt, color='green', linestyle=':', linewidth=1.8, label=f"Median: {median_pt:.4f}")
+    if pd.notna(upper_iqr):
+        axes[0].axvline(upper_iqr, color='purple', linestyle='--', linewidth=1.8, label=f"IQR upper: {upper_iqr:.4f}")
+    axes[0].set_title('Removal Delta (Per-Token)')
+    axes[0].set_xlabel("Per-token log P(S | C) - log P(S' | C)")
+    axes[0].set_ylabel('Frequency')
+    axes[0].grid(True, alpha=0.3)
+    axes[0].legend(
+        fontsize=8,
+        loc='upper center',
+        bbox_to_anchor=(0.5, 1.02),
+        ncol=4,
+        frameon=True,
+        borderaxespad=0.2,
+        columnspacing=1.0,
+        handletextpad=0.5
+    )
+
+    axes[1].axis('off')
+    stats_text = (
+        "Outlier Thresholds and Statistics\n"
+        "---------------------------------\n"
+        "\n"
+        f"Q1:              {q1_pt:.4f}\n"
+        f"Q3:              {q3_pt:.4f}\n"
+        f"Per-token median: {median_pt:.4f}\n"
+        f"Per-token std:    {std_pt:.4f}\n"
+        f"IQR upper:        {upper_iqr:.4f}\n"
+        "\n"
+        f"IQR flags: {int(df['removal_upper_iqr_outlier'].sum())}"
+    )
+    axes[1].text(
+        0.02,
+        0.98,
+        stats_text,
+        transform=axes[1].transAxes,
+        fontsize=10,
+        family='monospace',
+        verticalalignment='top',
+        bbox=dict(boxstyle='round,pad=0.35', facecolor='wheat', alpha=0.5)
+    )
+
+    fig.suptitle(
+        "Removal Outlier Detection: log P(S | C) - log P(S' | C)",
+        fontsize=12,
+        fontweight='bold'
+    )
+    fig.tight_layout(rect=[0.01, 0.01, 0.995, 0.94], pad=0.4, w_pad=0.3)
+
+    if plot_path:
+        plt.savefig(plot_path, dpi=150, bbox_inches='tight')
+        print(f"Removal outlier plot saved to: {plot_path}")
+    plt.close(fig)
+
+    return df, summary_lines
+
+
+def _hf_load_kwargs(model_name):
+    """Return model-loading kwargs for checkpoints with custom HF implementations."""
+    if model_name.startswith("allenai/OLMo") or model_name.startswith("Qwen/Qwen3.5"):
+        # OLMo checkpoints may require remote-code loading on older Transformers builds.
+        # Qwen3.5 is newer than the local Transformers release in this environment.
+        return {"trust_remote_code": True}
+    return {}
+
+
+def _uses_image_text_loader(model_name):
+    """Return True for multimodal checkpoints that still support text-only scoring."""
+    return model_name.startswith("Qwen/Qwen3.5")
+
+
 def load_model(model_name="meta-llama/Meta-Llama-3-8B"):
     """Load the language model and tokenizer."""
     print(f"Loading model: {model_name}")
-    tokenizer = AutoTokenizer.from_pretrained(model_name)
-    model = AutoModelForCausalLM.from_pretrained(
-        model_name,
-        torch_dtype=torch.float16 if torch.cuda.is_available() else torch.float32,
-        device_map="auto" if torch.cuda.is_available() else None
-    )
+    load_kwargs = _hf_load_kwargs(model_name)
+    if _uses_image_text_loader(model_name):
+        tokenizer = AutoTokenizer.from_pretrained(model_name, **load_kwargs)
+        model = AutoModelForImageTextToText.from_pretrained(
+            model_name,
+            torch_dtype=torch.float16 if torch.cuda.is_available() else torch.float32,
+            device_map="auto" if torch.cuda.is_available() else None,
+            **load_kwargs,
+        )
+    else:
+        tokenizer = AutoTokenizer.from_pretrained(model_name, **load_kwargs)
+        model = AutoModelForCausalLM.from_pretrained(
+            model_name,
+            torch_dtype=torch.float16 if torch.cuda.is_available() else torch.float32,
+            device_map="auto" if torch.cuda.is_available() else None,
+            **load_kwargs,
+        )
     model.eval()
 
     # Set padding token if not set
     if tokenizer.pad_token is None:
         tokenizer.pad_token = tokenizer.eos_token
+    model.config.pad_token_id = tokenizer.pad_token_id
 
     return model, tokenizer
 
@@ -187,10 +374,13 @@ def calculate_log_probability(model, tokenizer, context_text, target_text, devic
         total_log_prob += token_log_prob
 
     scored_target_len = target_len
+    global _WARNED_NO_BOS
     if tokenizer.bos_token_id is None and context_len == 0 and target_len > 0:
         # Without a BOS, the model cannot score the very first token.
         scored_target_len = target_len - 1
-        print("Warning: no BOS token; first target token not scored.")
+        if not _WARNED_NO_BOS:
+            print("Warning: no BOS token; first target token not scored.")
+            _WARNED_NO_BOS = True
 
     return total_log_prob, scored_target_len
 
@@ -408,6 +598,17 @@ def process_dataset(data_path, model, tokenizer, include_context=True, output_pa
     # Create results dataframe
     results_df = pd.DataFrame(results)
 
+    plot_path = None
+    if output_path:
+        output_dir = os.path.dirname(output_path)
+        if output_dir:
+            os.makedirs(output_dir, exist_ok=True)
+        plot_path = output_path.rsplit('.', 1)[0] + '_outlier_detection.png'
+    results_df, outlier_summary_lines = removal_outlier_detection(
+        results_df,
+        plot_path=plot_path
+    )
+
     # Raw followup log probability difference (WITH - WITHOUT)
     raw_diff = results_df['log_prob_followup_with'] - results_df['log_prob_followup_without']
     # Raw full-sequence log probability difference (WITH - WITHOUT)
@@ -496,6 +697,7 @@ def process_dataset(data_path, model, tokenizer, include_context=True, output_pa
         f"Particle INCREASED full-sequence probability: {full_increased_pt} ({full_increased_pt/len(results_df)*100:.1f}%)",
         f"Particle DECREASED full-sequence probability: {full_decreased_pt} ({full_decreased_pt/len(results_df)*100:.1f}%)",
         f"No change: {full_unchanged_pt}",
+        *outlier_summary_lines,
         "=" * 80,
     ]
     summary = "\n".join(summary_lines)
@@ -508,10 +710,21 @@ def process_dataset(data_path, model, tokenizer, include_context=True, output_pa
         results_df.to_csv(output_path, sep='\t', index=False)
         print(f"Results saved to: {output_path}")
 
+        output_base = output_path.rsplit('.', 1)[0]
+        rejected_iqr_path = output_base + '_rejected_iqr.csv'
+
+        results_df[results_df['removal_upper_iqr_outlier']].to_csv(
+            rejected_iqr_path,
+            sep='\t',
+            index=False
+        )
+        print(f"IQR-rejected samples saved to: {rejected_iqr_path}")
+
         # Save summary statistics to a text file with the same name
-        summary_path = output_path.rsplit('.', 1)[0] + '.txt'
+        summary_path = output_base + '.txt'
         with open(summary_path, 'w') as f:
             f.write(summary + "\n")
+            f.write(f"IQR-rejected samples file: {rejected_iqr_path}\n")
         print(f"Summary saved to: {summary_path}")
 
     return results_df

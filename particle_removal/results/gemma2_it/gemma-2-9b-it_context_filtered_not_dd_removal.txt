@@ -1,0 +1,80 @@
+================================================================================
+SUMMARY STATISTICS
+================================================================================
+Total examples processed: 1307
+Include context: True
+
+--- RAW FOLLOWUP LOG PROBABILITIES ---
+Average log probability WITH particle: -114.8138
+Average log probability WITHOUT particle: -112.4228
+Average log probability difference: -2.3910
+  (positive = particle increases followup probability)
+
+Median log probability difference: -1.7181
+Std dev of log probability difference: 6.8293
+
+Particle INCREASED followup probability: 463 (35.4%)
+Particle DECREASED followup probability: 844 (64.6%)
+No change: 0
+
+--- RAW FOLLOWUP LOG PROBABILITIES (PER-TOKEN) ---
+Average log probability WITH particle: -6.0426
+Average log probability WITHOUT particle: -5.8939
+Average log probability difference: -0.1487
+  (positive = particle increases followup probability)
+
+Median log probability difference: -0.0767
+Std dev of log probability difference: 0.4699
+
+Particle INCREASED followup probability: 463 (35.4%)
+Particle DECREASED followup probability: 844 (64.6%)
+No change: 0
+
+--- FULL-SEQUENCE LOG PROBABILITIES ---
+Average log probability WITH particle: -517.2441
+Average log probability WITHOUT particle: -521.5931
+Average log probability difference: 4.3491
+  (positive = particle increases full-sequence probability)
+
+Median log probability difference: 4.5027
+Std dev of log probability difference: 9.2086
+
+Particle INCREASED full-sequence probability: 918 (70.2%)
+Particle DECREASED full-sequence probability: 389 (29.8%)
+No change: 0
+
+--- FULL-SEQUENCE LOG PROBABILITIES (PER-TOKEN) ---
+Average log probability WITH particle: -6.0048
+Average log probability WITHOUT particle: -6.1400
+Average log probability difference: 0.1351
+  (positive = particle increases full-sequence probability)
+
+Median log probability difference: 0.1189
+Std dev of log probability difference: 0.1447
+
+Particle INCREASED full-sequence probability: 1183 (90.5%)
+Particle DECREASED full-sequence probability: 124 (9.5%)
+No change: 0
+
+--- REMOVAL OUTLIER DETECTION ---
+Score = log P(S | C) - log P(S' | C)
+  S  = original sentence with particle
+  S' = sentence with particle removed
+  C  = context
+
+Per-token delta statistics:
+Average per-token delta: 0.5497
+Median per-token delta: 0.4641
+Std dev per-token delta: 0.4354
+Q1 per-token delta: 0.2387
+Q3 per-token delta: 0.7318
+Q3 + 1.5*IQR upper fence: 1.4715
+
+Upper-tail IQR outliers: 47
+
+Threshold guidance:
+Use the per-token delta for filtering, since raw sentence logprobs are length-sensitive.
+Use the IQR upper fence if you want a simple rule that is easy to explain in a paper.
+Best practice is to inspect examples near the proposed cutoff and calibrate the final threshold on a small labeled set.
+================================================================================
+IQR-rejected samples file: results/gemma2_it/gemma-2-9b-it_context_filtered_not_dd_removal_rejected_iqr.csv

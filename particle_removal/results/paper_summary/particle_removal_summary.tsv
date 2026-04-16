@@ -1,0 +1,13 @@
+model	particle	median_delta	ci_low	ci_high	pct_positive	n_used	n_total	n_outliers	source_path
+Llama 3 8B	just	0.0568020423253377	0.0498223475920851	0.0635871361041893	69.66993755575379	1121	1182	61	particle_removal/results/llama3/Meta-Llama-3-8B_context_filtered_just_dd_removal.csv
+Llama 3 8B	only	0.0710250916019563	0.0607755689909965	0.0842292800782218	73.77521613832853	347	360	13	particle_removal/results/llama3/Meta-Llama-3-8B_context_filtered_only_dd_removal.csv
+Llama 3 8B	not	0.3732473313430398	0.3581669512249175	0.3882571571013506	97.0843183609141	1269	1307	38	particle_removal/results/llama3/Meta-Llama-3-8B_context_filtered_not_dd_removal.csv
+OLMo-2 7B	just	0.060249448475684655	0.0544109449629143	0.06921172057574075	72.03237410071942	1112	1182	70	particle_removal/results/olmo2/OLMo-2-1124-7B_context_filtered_just_dd_removal.csv
+OLMo-2 7B	only	0.0979480531768524	0.0792052243170235	0.1182603812319456	77.07736389684814	349	360	11	particle_removal/results/olmo2/OLMo-2-1124-7B_context_filtered_only_dd_removal.csv
+OLMo-2 7B	not	0.4154342393765504	0.3904182686202826	0.4333621843655904	98.03613511390417	1273	1307	34	particle_removal/results/olmo2/OLMo-2-1124-7B_context_filtered_not_dd_removal.csv
+Qwen3.5 9B	just	0.0426060639894925	0.0357368674645055	0.04894998243669839	66.06982990152194	1117	1182	65	particle_removal/results/qwen3_5/Qwen3.5-9B_context_filtered_just_dd_removal.csv
+Qwen3.5 9B	only	0.055031491564466	0.0429548885359434	0.0749361968846711	70.94017094017094	351	360	9	particle_removal/results/qwen3_5/Qwen3.5-9B_context_filtered_only_dd_removal.csv
+Qwen3.5 9B	not	0.3415258446125069	0.3271039737168177	0.35581504809550746	96.54631083202511	1274	1307	33	particle_removal/results/qwen3_5/Qwen3.5-9B_context_filtered_not_dd_removal.csv
+Gemma-2 9B	just	0.050661595764323	0.04251472329642065	0.05810434951004321	69.72972972972973	1110	1182	72	particle_removal/results/gemma2/gemma-2-9b_context_filtered_just_dd_removal.csv
+Gemma-2 9B	only	0.07534198683334786	0.0639061416898449	0.0894063291362687	73.85057471264368	348	360	12	particle_removal/results/gemma2/gemma-2-9b_context_filtered_only_dd_removal.csv
+Gemma-2 9B	not	0.3446294646109302	0.3308585114551312	0.3579182316859568	97.71473601260836	1269	1307	38	particle_removal/results/gemma2/gemma-2-9b_context_filtered_not_dd_removal.csv

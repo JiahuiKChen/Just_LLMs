@@ -4,8 +4,9 @@ Plot histogram of log probability differences with and without discourse particl
 Reads a results CSV file and creates a histogram showing:
 - Full-sequence log probability difference (WITH particle - WITHOUT particle) per-token by default
 - Conditional (followup) log probability difference per-token when --conditional is used
+- Only non-outliers after applying the IQR-based removal filter
 
-Also displays summary statistics from the corresponding .txt file.
+Summary statistics are computed from the retained non-outlier rows.
 
 USAGE:
     # Default: plots FULL-SEQUENCE probability differences per-token
@@ -51,62 +52,6 @@ def _abbreviate_model_name(model_name: str) -> str:
     return '-'.join(tail_tokens)
 
 
-def load_summary_stats(txt_path):
-    """Load summary statistics from the .txt file (raw/full + per-token)."""
-    stats = {'raw': {}, 'full': {}, 'raw_pt': {}, 'full_pt': {}}
-    if not os.path.exists(txt_path):
-        return None
-
-    with open(txt_path, 'r') as f:
-        content = f.read()
-
-    current_section = None
-
-    # Parse the relevant lines
-    for line in content.split('\n'):
-        if '--- RAW FOLLOWUP LOG PROBABILITIES (PER-TOKEN)' in line:
-            current_section = 'raw_pt'
-            continue
-        if '--- FULL-SEQUENCE LOG PROBABILITIES (PER-TOKEN)' in line:
-            current_section = 'full_pt'
-            continue
-        if '--- RAW FOLLOWUP LOG PROBABILITIES' in line:
-            current_section = 'raw'
-            continue
-        if '--- FULL-SEQUENCE LOG PROBABILITIES' in line:
-            current_section = 'full'
-            continue
-
-        if current_section is None:
-            continue
-
-        section_stats = stats[current_section]
-        if 'Average log probability WITH particle:' in line:
-            section_stats['avg_with'] = float(line.split(':')[1].strip())
-        elif 'Average log probability WITHOUT particle:' in line:
-            section_stats['avg_without'] = float(line.split(':')[1].strip())
-        elif 'Average log probability difference:' in line:
-            section_stats['avg_diff'] = float(line.split(':')[1].strip())
-        elif 'Median log probability difference:' in line:
-            section_stats['median_diff'] = float(line.split(':')[1].strip())
-        elif 'Std dev of log probability difference:' in line:
-            section_stats['std_diff'] = float(line.split(':')[1].strip())
-        elif 'Particle INCREASED' in line:
-            parts = line.split(':')[1].strip()
-            count = int(parts.split('(')[0].strip())
-            pct = float(parts.split('(')[1].replace('%)', '').strip())
-            section_stats['increased_count'] = count
-            section_stats['increased_pct'] = pct
-        elif 'Particle DECREASED' in line:
-            parts = line.split(':')[1].strip()
-            count = int(parts.split('(')[0].strip())
-            pct = float(parts.split('(')[1].replace('%)', '').strip())
-            section_stats['decreased_count'] = count
-            section_stats['decreased_pct'] = pct
-
-    return stats
-
-
 def plot_probabilities(results_path, output_path=None, use_conditional=False):
     """
     Create histogram of log probability differences (with particle - without particle).
@@ -119,10 +64,15 @@ def plot_probabilities(results_path, output_path=None, use_conditional=False):
     # Load results
     df = pd.read_csv(results_path, sep='\t')
     print(f"Loaded {len(df)} examples from {results_path}")
+    if 'removal_upper_iqr_outlier' not in df.columns:
+        raise KeyError(
+            "Missing IQR outlier column; regenerate results with calculate_followup_probabilities.py"
+        )
 
-    # Load summary stats from corresponding .txt file
-    txt_path = results_path.rsplit('.', 1)[0] + '.txt'
-    stats = load_summary_stats(txt_path)
+    outlier_mask = df['removal_upper_iqr_outlier'].fillna(False).astype(bool)
+    excluded_count = int(outlier_mask.sum())
+    df = df.loc[~outlier_mask].copy()
+    print(f"Excluded {excluded_count} IQR outliers; plotting {len(df)} non-outliers")
 
     # Select which difference to plot based on flags
     if use_conditional:
@@ -130,16 +80,20 @@ def plot_probabilities(results_path, output_path=None, use_conditional=False):
             raise KeyError("Missing per-token conditional columns; regenerate results with calculate_followup_probabilities.py")
         diff = df['log_prob_followup_with_per_token'] - df['log_prob_followup_without_per_token']
         plot_label = 'Conditional Log Probability Difference (Per-Token)'
-        stats_section = 'raw_pt' if stats and stats.get('raw_pt') else None
     else:
         if 'log_prob_full_with_per_token' not in df.columns or 'log_prob_full_without_per_token' not in df.columns:
             raise KeyError("Missing per-token full-sequence columns; regenerate results with calculate_followup_probabilities.py")
         diff = df['log_prob_full_with_per_token'] - df['log_prob_full_without_per_token']
         plot_label = 'Full-Sequence Log Probability Difference (Per-Token)'
-        stats_section = 'full_pt' if stats and stats.get('full_pt') else None
 
     mean_diff = diff.mean()
     median_diff = diff.median()
+    std_diff = diff.std()
+    increased_count = int((diff > 0).sum())
+    decreased_count = int((diff < 0).sum())
+    total_count = len(diff)
+    increased_pct = (increased_count / total_count * 100) if total_count else 0.0
+    decreased_pct = (decreased_count / total_count * 100) if total_count else 0.0
 
     # Create figure with 2 subplots in one row (1 histogram + 1 stats panel)
     fig, axes = plt.subplots(
@@ -159,46 +113,28 @@ def plot_probabilities(results_path, output_path=None, use_conditional=False):
     axes[0].axvline(median_diff, color='green', linestyle=':', linewidth=2, label=f"Median: {median_diff:.4f}")
     axes[0].legend(fontsize=9)
 
-    # Summary statistics panel - show the available section
+    # Summary statistics panel for the filtered distribution
     axes[1].axis('off')
-    if stats and stats_section and stats.get(stats_section):
-        # Fallback to single section if only one available
-        s = stats[stats_section]
-        if stats_section == 'raw_pt':
-            header = "Summary Statistics (RAW, PER-TOKEN)"
-            underline = "─" * 34
-        elif stats_section == 'full_pt':
-            header = "Summary Statistics (FULL-SEQUENCE, PER-TOKEN)"
-            underline = "─" * 46
-        elif stats_section == 'raw':
-            header = "Summary Statistics (RAW)"
-            underline = "─" * 26
-        else:
-            header = "Summary Statistics (FULL-SEQUENCE)"
-            underline = "─" * 34
-
-        summary_text = (
-            f"{header}\n"
-            f"{underline}\n"
-            f"Avg log prob WITH:    {s.get('avg_with', 'N/A'):.4f}\n"
-            f"Avg log prob WITHOUT: {s.get('avg_without', 'N/A'):.4f}\n"
-            f"Avg difference:       {s.get('avg_diff', 'N/A'):.4f}\n"
-            f"  (positive = particle\n"
-            f"   increases probability)\n"
-            f"\n"
-            f"Median difference: {s.get('median_diff', 'N/A'):.4f}\n"
-            f"Std dev:           {s.get('std_diff', 'N/A'):.4f}\n"
-            f"\n"
-            f"INCREASED: {s.get('increased_count', 'N/A')} ({s.get('increased_pct', 'N/A'):.1f}%)\n"
-            f"DECREASED: {s.get('decreased_count', 'N/A')} ({s.get('decreased_pct', 'N/A'):.1f}%)"
-        )
-        axes[1].text(0.0, 0.5, summary_text, transform=axes[1].transAxes,
-                     fontsize=10, family='monospace', verticalalignment='center',
-                     bbox=dict(boxstyle='round', facecolor='wheat', alpha=0.5))
+    summary_text = (
+        "Summary Statistics\n"
+        "------------------\n"
+        f"Plotted samples: {total_count}\n"
+        f"IQR outliers removed: {excluded_count}\n"
+        "\n"
+        f"Mean difference:   {mean_diff:.4f}\n"
+        f"Median difference: {median_diff:.4f}\n"
+        f"Std dev:           {std_diff:.4f}\n"
+        "\n"
+        f"INCREASED: {increased_count} ({increased_pct:.1f}%)\n"
+        f"DECREASED: {decreased_count} ({decreased_pct:.1f}%)"
+    )
+    axes[1].text(0.0, 0.5, summary_text, transform=axes[1].transAxes,
+                 fontsize=10, family='monospace', verticalalignment='center',
+                 bbox=dict(boxstyle='round', facecolor='wheat', alpha=0.5))
 
     # Extract info for title from filename
     basename = os.path.basename(results_path).replace('_removal.csv', '')
-    norm_indicator = "(Conditional, Per-Token)" if use_conditional else "(Full-Sequence, Per-Token)"
+    norm_indicator = "(Conditional, Per-Token, IQR-Filtered)" if use_conditional else "(Full-Sequence, Per-Token, IQR-Filtered)"
     fig.suptitle(
         f'Follow-up Probability Distribution {norm_indicator}: {basename}',
         fontsize=11,
@@ -209,6 +145,9 @@ def plot_probabilities(results_path, output_path=None, use_conditional=False):
 
     # Save or show
     if output_path:
+        output_dir = os.path.dirname(output_path)
+        if output_dir:
+            os.makedirs(output_dir, exist_ok=True)
         plt.savefig(output_path, dpi=150, bbox_inches='tight')
         print(f"Plot saved to: {output_path}")
     else:

@@ -1,0 +1,24 @@
+\begin{table}[t]
+\centering
+\small
+\begin{tabular}{llrrlr}
+\toprule
+Model & Particle & \% increased & Median $\Delta_{\mathrm{rem}}$ & 95\% bootstrap CI & N \\
+\midrule
+Llama 3 8B Instruct & just & 85.3 & 0.189 & [0.176, 0.207] & 1112 \\
+ & only & 80.3 & 0.152 & [0.129, 0.172] & 350 \\
+ & not & 97.3 & 0.528 & [0.502, 0.559] & 1253 \\
+OLMo-2 7B Instruct & just & 80.5 & 0.150 & [0.132, 0.167] & 1136 \\
+ & only & 78.1 & 0.159 & [0.138, 0.199] & 351 \\
+ & not & 96.7 & 0.536 & [0.511, 0.555] & 1281 \\
+Qwen3.5 9B CT & just & 63.5 & 0.050 & [0.039, 0.058] & 1112 \\
+ & only & 67.8 & 0.078 & [0.053, 0.095] & 348 \\
+ & not & 95.0 & 0.394 & [0.375, 0.411] & 1271 \\
+Gemma-2 9B IT & just & 82.9 & 0.149 & [0.132, 0.166] & 1131 \\
+ & only & 80.1 & 0.134 & [0.114, 0.160] & 341 \\
+ & not & 97.3 & 0.454 & [0.429, 0.473] & 1260 \\
+\bottomrule
+\end{tabular}
+\caption{Instruction-tuned LLM sensitivity to particle removal measured with the per-token removal delta $\Delta_{\mathrm{rem}} = \log P(S \mid C) - \log P(S' \mid C)$. \% increased is the share of examples with positive $\Delta_{\mathrm{rem}}$ (i.e., the same quantity you might also call \% positive). N is the number of non-outlier examples retained after IQR filtering. }
+\label{tab:particle-removal-sensitivity}
+\end{table}
