@@ -1,0 +1,38 @@
+\begin{table*}[t]
+\centering
+\small
+\setlength{\tabcolsep}{4.5pt}
+\caption{One-sample t-tests ask whether the item-level mean per-token own-context advantage is greater than zero for each model, source, and condition. Mean $\Delta$ is that item-level mean per-token advantage, and $q_{\mathrm{BH}}$ is the Benjamini--Hochberg adjusted one-sided $p$ value across all 48 tests. Across models, the not (control) condition generally shows larger positive effects than just or only.}
+\label{tab:generation-context-delta-ttests}
+\begin{tabular}{llrrrrrr}
+\toprule
+Model & Source & \multicolumn{2}{c}{\textbf{Just} (40 items)} & \multicolumn{2}{c}{\textbf{Not (control)} (30 items)} & \multicolumn{2}{c}{\textbf{Only} (30 items)} \\
+\cmidrule(lr){3-4}\cmidrule(lr){5-6}\cmidrule(lr){7-8}
+ &  & Mean $\Delta$ & $q_{\mathrm{BH}}$ & Mean $\Delta$ & $q_{\mathrm{BH}}$ & Mean $\Delta$ & $q_{\mathrm{BH}}$ \\
+\midrule
+Llama 3 8B & $S$ samples & 0.023 & $<0.001$ & 0.062 & $<0.001$ & 0.015 & $<0.001$ \\
+Llama 3 8B & $S'$ samples & 0.012 & 0.014 & 0.060 & $<0.001$ & 0.014 & $<0.001$ \\
+\addlinespace[2pt]
+Llama 3 8B Inst. & $S$ samples & 0.020 & $<0.001$ & 0.210 & $<0.001$ & 0.048 & $<0.001$ \\
+Llama 3 8B Inst. & $S'$ samples & 0.020 & $<0.001$ & 0.303 & $<0.001$ & 0.042 & $<0.001$ \\
+\addlinespace[2pt]
+Gemma 2 9B & $S$ samples & 0.012 & $<0.001$ & 0.058 & $<0.001$ & 0.012 & $<0.001$ \\
+Gemma 2 9B & $S'$ samples & 0.008 & $<0.001$ & 0.079 & $<0.001$ & 0.016 & $<0.001$ \\
+\addlinespace[2pt]
+Gemma 2 9B IT & $S$ samples & -0.001 & 0.517 & 0.234 & 0.007 & 0.037 & 0.122 \\
+Gemma 2 9B IT & $S'$ samples & 0.044 & 0.002 & 0.387 & $<0.001$ & 0.064 & 0.003 \\
+\addlinespace[2pt]
+OLMo 2 7B & $S$ samples & 0.014 & $<0.001$ & 0.045 & 0.001 & 0.020 & $<0.001$ \\
+OLMo 2 7B & $S'$ samples & 0.014 & $<0.001$ & 0.092 & $<0.001$ & 0.019 & $<0.001$ \\
+\addlinespace[2pt]
+OLMo 2 7B Inst. & $S$ samples & 0.015 & 0.081 & 0.247 & $<0.001$ & 0.022 & 0.033 \\
+OLMo 2 7B Inst. & $S'$ samples & 0.028 & 0.005 & 0.315 & $<0.001$ & 0.046 & $<0.001$ \\
+\addlinespace[2pt]
+Qwen3.5 9B & $S$ samples & 0.014 & $<0.001$ & 0.087 & $<0.001$ & 0.014 & $<0.001$ \\
+Qwen3.5 9B & $S'$ samples & 0.016 & $<0.001$ & 0.138 & $<0.001$ & 0.018 & $<0.001$ \\
+\addlinespace[2pt]
+Qwen3.5 9B Chat & $S$ samples & 0.020 & $<0.001$ & 0.253 & $<0.001$ & 0.035 & $<0.001$ \\
+Qwen3.5 9B Chat & $S'$ samples & 0.018 & $<0.001$ & 0.323 & $<0.001$ & 0.037 & $<0.001$ \\
+\bottomrule
+\end{tabular}
+\end{table*}

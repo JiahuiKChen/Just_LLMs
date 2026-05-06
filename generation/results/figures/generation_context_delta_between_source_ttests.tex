@@ -1,0 +1,30 @@
+\begin{table*}[t]
+\centering
+\small
+\setlength{\tabcolsep}{3pt}
+\caption{Paired t-tests compare matched item-level per-token own-context advantages from $S$-sampled and $S'$-sampled response sets within each model and condition. Mean $\Delta$ is the item-level mean paired difference $S' - S$, and $q_{\mathrm{BH}}$ is the Benjamini--Hochberg adjusted two-sided $p$ value across all 24 tests; $q_{\mathrm{BH}}<0.05$ indicates a reliable between-source difference after false-discovery-rate correction. Positive values mean the $S'$ source has the larger effect. Across models, BH-significant between-source effects are concentrated in the not (control) condition and usually favor $S'$ over $S$.}
+\label{tab:generation-context-delta-between-source-ttests}
+\begin{tabular}{lrrrrrr}
+\toprule
+Model & \multicolumn{2}{c}{\textbf{Just} (40 items)} & \multicolumn{2}{c}{\textbf{Not (control)} (30 items)} & \multicolumn{2}{c}{\textbf{Only} (30 items)} \\
+\cmidrule(lr){2-3}\cmidrule(lr){4-5}\cmidrule(lr){6-7}
+ & Mean $\Delta$ & $q_{\mathrm{BH}}$ & Mean $\Delta$ & $q_{\mathrm{BH}}$ & Mean $\Delta$ & $q_{\mathrm{BH}}$ \\
+\midrule
+Llama 3 8B & -0.011 & 0.014 & -0.002 & 0.959 & -0.000 & 0.959 \\
+\addlinespace[2pt]
+Llama 3 8B Inst. & 0.000 & 0.959 & 0.093 & 0.049 & -0.006 & 0.335 \\
+\addlinespace[2pt]
+Gemma 2 9B & -0.004 & 0.248 & 0.021 & 0.066 & 0.003 & 0.315 \\
+\addlinespace[2pt]
+Gemma 2 9B IT & 0.045 & 0.248 & 0.153 & 0.417 & 0.028 & 0.762 \\
+\addlinespace[2pt]
+OLMo 2 7B & 0.000 & 0.987 & 0.046 & 0.027 & -0.001 & 0.930 \\
+\addlinespace[2pt]
+OLMo 2 7B Inst. & 0.012 & 0.762 & 0.068 & 0.258 & 0.024 & 0.258 \\
+\addlinespace[2pt]
+Qwen3.5 9B & 0.002 & 0.762 & 0.050 & 0.028 & 0.004 & 0.661 \\
+\addlinespace[2pt]
+Qwen3.5 9B Chat & -0.002 & 0.870 & 0.070 & 0.027 & 0.002 & 0.923 \\
+\bottomrule
+\end{tabular}
+\end{table*}

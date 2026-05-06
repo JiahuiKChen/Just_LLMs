@@ -45,4 +45,4 @@ Create the paper and appendix context-delta visualizations:
 
 The script reads the eight model result directories from
 `run_all_models_generation_batch.sh`, excludes the bad Qwen thinking run, and
-writes PDF/SVG/PNG figures plus audit TSVs to `generation/results/figures/`.
+writes PDF/PNG figures plus audit TSVs to `generation/results/figures/`.

@@ -11,6 +11,9 @@ import pandas as pd
 
 
 ITEM_COLS = ["source_dataset", "dataset_role", "source_row_index", "id", "word", "subset"]
+ANALYSIS_DELTA_COL = "own_context_log_prob_advantage_per_token"
+ANALYSIS_OWN_LOG_PROB_COL = "own_log_prob_per_token"
+ANALYSIS_WIN_COL = "own_context_win_per_token"
 
 
 def parse_args() -> argparse.Namespace:
@@ -38,13 +41,30 @@ def default_output_prefix(candidates_path: Path) -> Path:
     return candidates_path.with_name(name)
 
 
+def prepare_analysis_frame(df: pd.DataFrame) -> pd.DataFrame:
+    df = df.copy()
+    required_cols = [ANALYSIS_DELTA_COL, ANALYSIS_OWN_LOG_PROB_COL]
+    missing = [col for col in required_cols if col not in df.columns]
+    if missing:
+        raise ValueError(
+            "Candidate file is missing token-normalized columns required for analysis: "
+            + ", ".join(missing)
+        )
+
+    df[ANALYSIS_DELTA_COL] = pd.to_numeric(df[ANALYSIS_DELTA_COL], errors="coerce")
+    df[ANALYSIS_OWN_LOG_PROB_COL] = pd.to_numeric(df[ANALYSIS_OWN_LOG_PROB_COL], errors="coerce")
+    df[ANALYSIS_WIN_COL] = df[ANALYSIS_DELTA_COL] > 0
+    return df
+
+
 def add_sampling_weights(df: pd.DataFrame) -> pd.DataFrame:
     df = df.copy()
     group_cols = ["source_dataset", "source_row_index", "id", "generated_from"]
-    group_max = df.groupby(group_cols, dropna=False)["own_log_prob"].transform("max")
-    df["candidate_weight_unnormalized"] = (df["own_log_prob"] - group_max).apply(math.exp)
+    group_max = df.groupby(group_cols, dropna=False)[ANALYSIS_OWN_LOG_PROB_COL].transform("max")
+    df["candidate_weight_unnormalized"] = (df[ANALYSIS_OWN_LOG_PROB_COL] - group_max).apply(math.exp)
     group_sum = df.groupby(group_cols, dropna=False)["candidate_weight_unnormalized"].transform("sum")
     df["candidate_weight"] = df["candidate_weight_unnormalized"] / group_sum
+    df["candidate_weight_basis"] = ANALYSIS_OWN_LOG_PROB_COL
     return df
 
 
@@ -56,29 +76,32 @@ def summarize_group(df: pd.DataFrame, group_cols: list[str]) -> pd.DataFrame:
             keys = (keys,)
         record = dict(zip(group_cols, keys))
         weights = group["candidate_weight"]
-        wins = group["own_context_win"].astype(float)
+        deltas = group[ANALYSIS_DELTA_COL]
+        wins = group[ANALYSIS_WIN_COL].astype(float)
         top1 = group[group["unique_rank"] == group["unique_rank"].min()]
+        weighted_delta = (weights * deltas).sum() / weights.sum()
+        weighted_win = (weights * wins).sum() / weights.sum()
         record.update(
             {
+                "analysis_metric": ANALYSIS_DELTA_COL,
                 "n_candidates": len(group),
                 "n_items": group[["source_dataset", "source_row_index", "id"]].drop_duplicates().shape[0],
                 "mean_candidates_per_item": len(group)
                 / max(group[["source_dataset", "source_row_index", "id"]].drop_duplicates().shape[0], 1),
-                "mean_own_context_log_prob_advantage": group["own_context_log_prob_advantage"].mean(),
-                "median_own_context_log_prob_advantage": group["own_context_log_prob_advantage"].median(),
-                "mean_own_context_log_prob_advantage_per_token": group[
-                    "own_context_log_prob_advantage_per_token"
-                ].mean(),
+                "mean_own_context_log_prob_advantage": deltas.mean(),
+                "median_own_context_log_prob_advantage": deltas.median(),
+                "mean_own_context_log_prob_advantage_per_token": deltas.mean(),
+                "median_own_context_log_prob_advantage_per_token": deltas.median(),
                 "own_context_win_rate": wins.mean(),
-                "weighted_own_context_win_rate": (weights * wins).sum() / weights.sum(),
-                "weighted_own_context_log_prob_advantage": (
-                    weights * group["own_context_log_prob_advantage"]
-                ).sum()
-                / weights.sum(),
-                "top1_own_context_win_rate": top1["own_context_win"].astype(float).mean(),
-                "top1_mean_own_context_log_prob_advantage": top1[
-                    "own_context_log_prob_advantage"
-                ].mean(),
+                "own_context_win_rate_per_token": wins.mean(),
+                "weighted_own_context_win_rate": weighted_win,
+                "weighted_own_context_win_rate_per_token": weighted_win,
+                "weighted_own_context_log_prob_advantage": weighted_delta,
+                "weighted_own_context_log_prob_advantage_per_token": weighted_delta,
+                "top1_own_context_win_rate": top1[ANALYSIS_WIN_COL].astype(float).mean(),
+                "top1_own_context_win_rate_per_token": top1[ANALYSIS_WIN_COL].astype(float).mean(),
+                "top1_mean_own_context_log_prob_advantage": top1[ANALYSIS_DELTA_COL].mean(),
+                "top1_mean_own_context_log_prob_advantage_per_token": top1[ANALYSIS_DELTA_COL].mean(),
                 "mean_unique_samples_obtained": group["unique_samples_obtained"].mean(),
                 "min_unique_samples_obtained": group["unique_samples_obtained"].min(),
                 "mean_sample_draw": group["sample_draw"].mean(),
@@ -125,24 +148,38 @@ def paired_item_summary(df: pd.DataFrame) -> pd.DataFrame:
                 continue
             one_row = one.iloc[0]
             record[f"{label}_win_rate"] = one_row["own_context_win_rate"]
+            record[f"{label}_win_rate_per_token"] = one_row["own_context_win_rate_per_token"]
             record[f"{label}_weighted_win_rate"] = one_row["weighted_own_context_win_rate"]
+            record[f"{label}_weighted_win_rate_per_token"] = one_row[
+                "weighted_own_context_win_rate_per_token"
+            ]
             record[f"{label}_mean_advantage"] = one_row["mean_own_context_log_prob_advantage"]
+            record[f"{label}_mean_advantage_per_token"] = one_row[
+                "mean_own_context_log_prob_advantage_per_token"
+            ]
             record[f"{label}_weighted_advantage"] = one_row[
                 "weighted_own_context_log_prob_advantage"
             ]
+            record[f"{label}_weighted_advantage_per_token"] = one_row[
+                "weighted_own_context_log_prob_advantage_per_token"
+            ]
             record[f"{label}_top1_win"] = one_row["top1_own_context_win_rate"]
+            record[f"{label}_top1_win_per_token"] = one_row["top1_own_context_win_rate_per_token"]
             record[f"{label}_top1_advantage"] = one_row[
                 "top1_mean_own_context_log_prob_advantage"
             ]
+            record[f"{label}_top1_advantage_per_token"] = one_row[
+                "top1_mean_own_context_log_prob_advantage_per_token"
+            ]
         records.append(record)
     paired = pd.DataFrame(records)
-    if {"p_mean_advantage", "p_prime_mean_advantage"}.issubset(paired.columns):
+    if {"p_mean_advantage_per_token", "p_prime_mean_advantage_per_token"}.issubset(paired.columns):
         paired["both_mean_advantages_positive"] = (
-            (paired["p_mean_advantage"] > 0) & (paired["p_prime_mean_advantage"] > 0)
+            (paired["p_mean_advantage_per_token"] > 0) & (paired["p_prime_mean_advantage_per_token"] > 0)
         )
-    if {"p_top1_win", "p_prime_top1_win"}.issubset(paired.columns):
+    if {"p_top1_win_per_token", "p_prime_top1_win_per_token"}.issubset(paired.columns):
         paired["both_top1_own_context_wins"] = (
-            (paired["p_top1_win"] > 0) & (paired["p_prime_top1_win"] > 0)
+            (paired["p_top1_win_per_token"] > 0) & (paired["p_prime_top1_win_per_token"] > 0)
         )
     return paired
 
@@ -156,10 +193,11 @@ def build_text_summary(df: pd.DataFrame, summaries: dict[str, pd.DataFrame]) -> 
         f"Total stimulus items: {df[['source_dataset', 'source_row_index', 'id']].drop_duplicates().shape[0]}",
         f"Sampling strategy: {', '.join(sorted(df['sampling_strategy'].dropna().astype(str).unique()))}",
         f"Top-p values: {', '.join(str(x) for x in sorted(df['top_p'].dropna().unique()))}",
+        f"Candidate weight basis: {ANALYSIS_OWN_LOG_PROB_COL}",
         "",
-        "Main metric: own_context_log_prob_advantage",
-        "  P samples:        log p(response | P) - log p(response | P')",
-        "  P' samples:       log p(response | P') - log p(response | P)",
+        f"Main metric: {ANALYSIS_DELTA_COL}",
+        "  P samples:        mean token log p(response | P) - mean token log p(response | P')",
+        "  P' samples:       mean token log p(response | P') - mean token log p(response | P)",
         "  Positive values:  response is more likely under its source context",
         "",
     ]
@@ -173,8 +211,8 @@ def build_text_summary(df: pd.DataFrame, summaries: dict[str, pd.DataFrame]) -> 
         "n_items",
         "own_context_win_rate",
         "weighted_own_context_win_rate",
-        "mean_own_context_log_prob_advantage",
-        "weighted_own_context_log_prob_advantage",
+        "mean_own_context_log_prob_advantage_per_token",
+        "weighted_own_context_log_prob_advantage_per_token",
         "top1_own_context_win_rate",
         "min_unique_samples_obtained",
     ]
@@ -182,11 +220,11 @@ def build_text_summary(df: pd.DataFrame, summaries: dict[str, pd.DataFrame]) -> 
     for _, row in condition_summary[display_cols].iterrows():
         lines.append(
             f"{row['source_dataset']} ({row['dataset_role']}), {row['generated_from']}: "
-            f"win={row['own_context_win_rate']:.3f}, "
-            f"weighted_win={row['weighted_own_context_win_rate']:.3f}, "
-            f"mean_adv={row['mean_own_context_log_prob_advantage']:.3f}, "
-            f"weighted_adv={row['weighted_own_context_log_prob_advantage']:.3f}, "
-            f"top1_win={row['top1_own_context_win_rate']:.3f}, "
+            f"win_per_token={row['own_context_win_rate']:.3f}, "
+            f"weighted_win_per_token={row['weighted_own_context_win_rate']:.3f}, "
+            f"mean_adv_per_token={row['mean_own_context_log_prob_advantage_per_token']:.3f}, "
+            f"weighted_adv_per_token={row['weighted_own_context_log_prob_advantage_per_token']:.3f}, "
+            f"top1_win_per_token={row['top1_own_context_win_rate']:.3f}, "
             f"candidates={int(row['n_candidates'])}, items={int(row['n_items'])}, "
             f"min_unique={int(row['min_unique_samples_obtained'])}"
         )
@@ -197,7 +235,7 @@ def build_text_summary(df: pd.DataFrame, summaries: dict[str, pd.DataFrame]) -> 
             [
                 "",
                 "--- ITEM-LEVEL PAIRING ---",
-                f"Items where both P and P' sampled sets have positive mean own-context advantage: "
+                f"Items where both P and P' sampled sets have positive mean own-context advantage per token: "
                 f"{int(paired['both_mean_advantages_positive'].sum())}/{len(paired)}",
                 f"Mean exact overlap count: {paired['exact_overlap_count'].mean():.2f}",
                 f"Mean exact overlap Jaccard: {paired['exact_overlap_jaccard'].mean():.3f}",
@@ -219,7 +257,7 @@ def make_plots(df: pd.DataFrame, output_prefix: Path) -> None:
         print(f"Skipping plots: {exc}")
         return
 
-    values = df["own_context_log_prob_advantage"].dropna()
+    values = df[ANALYSIS_DELTA_COL].dropna()
     if values.empty:
         print("Skipping plots: no finite context deltas.")
         return
@@ -248,15 +286,15 @@ def make_plots(df: pd.DataFrame, output_prefix: Path) -> None:
         subset = df[df["generated_from"] == source]
         if source == "P":
             source_display = "P"
-            x_formula = "Delta = log p(r | P) - log p(r | P')"
+            x_formula = "Per-token Delta = mean token log p(r | P) - mean token log p(r | P')"
         else:
             source_display = "P'"
-            x_formula = "Delta = log p(r' | P') - log p(r' | P)"
+            x_formula = "Per-token Delta = mean token log p(r' | P') - mean token log p(r' | P)"
         dataset_stat_lines = []
         if multi_dataset:
             for idx, dataset in enumerate(datasets):
                 dataset_subset = subset[subset["source_dataset"].astype(str) == dataset]
-                dataset_values = dataset_subset["own_context_log_prob_advantage"].dropna()
+                dataset_values = dataset_subset[ANALYSIS_DELTA_COL].dropna()
                 if dataset_values.empty:
                     continue
                 color = colors.get(dataset, fallback_colors[idx % len(fallback_colors)])
@@ -272,7 +310,7 @@ def make_plots(df: pd.DataFrame, output_prefix: Path) -> None:
                 )
                 dataset_mean = dataset_values.mean()
                 dataset_median = dataset_values.median()
-                dataset_win = dataset_subset["own_context_win"].astype(float).mean()
+                dataset_win = dataset_subset[ANALYSIS_WIN_COL].astype(float).mean()
                 ax.axvline(
                     dataset_median,
                     color=color,
@@ -284,7 +322,7 @@ def make_plots(df: pd.DataFrame, output_prefix: Path) -> None:
                     f"{dataset}: win={dataset_win:.3f}, mean={dataset_mean:.3f}, median={dataset_median:.3f}"
                 )
         else:
-            hist_values = subset["own_context_log_prob_advantage"].dropna()
+            hist_values = subset[ANALYSIS_DELTA_COL].dropna()
             dataset = datasets[0] if datasets else "all"
             color = colors.get(dataset, "#2f7f8f")
             ax.hist(
@@ -298,7 +336,7 @@ def make_plots(df: pd.DataFrame, output_prefix: Path) -> None:
             )
             source_mean = hist_values.mean()
             source_median = hist_values.median()
-            source_win = subset["own_context_win"].astype(float).mean()
+            source_win = subset[ANALYSIS_WIN_COL].astype(float).mean()
             ax.axvline(
                 source_median,
                 color="#2e7d32",
@@ -326,7 +364,7 @@ def make_plots(df: pd.DataFrame, output_prefix: Path) -> None:
         )
         ax.legend(fontsize=8, frameon=True, loc="center right", bbox_to_anchor=(0.98, 0.48))
     axes[0].set_ylabel("Sampled responses")
-    fig.suptitle("Delta Across n=50 Generation Samples", fontsize=13)
+    fig.suptitle("Per-token Delta Across n=50 Generation Samples", fontsize=13)
     fig.tight_layout()
     plot_path = output_prefix.with_name(output_prefix.name + "_context_delta_hist.png")
     fig.savefig(plot_path, dpi=180, bbox_inches="tight")
@@ -343,6 +381,7 @@ def main() -> None:
     df = pd.read_csv(candidates_path, sep="\t")
     if df.empty:
         raise ValueError(f"No candidates found in {candidates_path}")
+    df = prepare_analysis_frame(df)
     df = add_sampling_weights(df)
 
     summaries = {

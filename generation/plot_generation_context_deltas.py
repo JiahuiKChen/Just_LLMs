@@ -11,7 +11,9 @@ from typing import Iterable, Sequence
 import matplotlib
 
 matplotlib.use("Agg")
+import matplotlib.colors as mcolors
 import matplotlib.pyplot as plt
+from matplotlib.patches import Patch
 from matplotlib.ticker import AutoMinorLocator, MaxNLocator
 import numpy as np
 import pandas as pd
@@ -71,12 +73,18 @@ MODEL_COLORS = [
     "#000000",
 ]
 PANEL_A_Y_POSITIONS = np.array([0.0, 0.46, 1.34, 1.80, 2.68, 3.14, 4.02, 4.48])
+ITEM_DELTA_COL = "mean_own_context_log_prob_advantage_per_token"
+CONDITION_DELTA_COL = "mean_own_context_log_prob_advantage_per_token"
+CONDITION_WIN_COL = "own_context_win_rate_per_token"
+CANDIDATE_DELTA_COL = "own_context_log_prob_advantage_per_token"
+PAIRED_P_DELTA_COL = "p_mean_advantage_per_token"
+PAIRED_P_PRIME_DELTA_COL = "p_prime_mean_advantage_per_token"
 PANEL_A_XLABEL = r"$\Delta=\log p(y\mid S_{\mathrm{src}})-\log p(y\mid S_{\mathrm{alt}})$"
 
 
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(
-        description="Plot generation own-context log-probability advantages."
+        description="Plot token-normalized own-context log-probability advantages for generation results."
     )
     parser.add_argument(
         "--results_dir",
@@ -103,8 +111,8 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument(
         "--formats",
         nargs="+",
-        default=["pdf", "svg", "png"],
-        choices=["pdf", "svg", "png"],
+        default=["pdf", "png"],
+        choices=["pdf", "png"],
         help="Figure formats to write.",
     )
     parser.add_argument(
@@ -129,7 +137,6 @@ def configure_matplotlib() -> None:
             "figure.titlesize": 10,
             "pdf.fonttype": 42,
             "ps.fonttype": 42,
-            "svg.fonttype": "none",
             "axes.spines.top": False,
             "axes.spines.right": False,
         }
@@ -183,11 +190,17 @@ def read_item_data(results_dir: Path) -> pd.DataFrame:
         "mean_own_context_log_prob_advantage",
         "median_own_context_log_prob_advantage",
         "mean_own_context_log_prob_advantage_per_token",
+        "median_own_context_log_prob_advantage_per_token",
         "own_context_win_rate",
+        "own_context_win_rate_per_token",
         "weighted_own_context_win_rate",
+        "weighted_own_context_win_rate_per_token",
         "weighted_own_context_log_prob_advantage",
+        "weighted_own_context_log_prob_advantage_per_token",
         "top1_own_context_win_rate",
+        "top1_own_context_win_rate_per_token",
         "top1_mean_own_context_log_prob_advantage",
+        "top1_mean_own_context_log_prob_advantage_per_token",
     ]
     for col in numeric_cols:
         if col in item_data.columns:
@@ -217,9 +230,13 @@ def read_condition_data(results_dir: Path) -> pd.DataFrame:
     condition_data = pd.concat(frames, ignore_index=True)
     for col in [
         "mean_own_context_log_prob_advantage",
+        "mean_own_context_log_prob_advantage_per_token",
         "own_context_win_rate",
+        "own_context_win_rate_per_token",
         "weighted_own_context_win_rate",
+        "weighted_own_context_win_rate_per_token",
         "weighted_own_context_log_prob_advantage",
+        "weighted_own_context_log_prob_advantage_per_token",
     ]:
         condition_data[col] = pd.to_numeric(condition_data[col], errors="coerce")
     return condition_data
@@ -241,8 +258,12 @@ def read_paired_data(results_dir: Path) -> pd.DataFrame:
     for col in [
         "p_mean_advantage",
         "p_prime_mean_advantage",
+        "p_mean_advantage_per_token",
+        "p_prime_mean_advantage_per_token",
         "p_win_rate",
         "p_prime_win_rate",
+        "p_win_rate_per_token",
+        "p_prime_win_rate_per_token",
         "exact_overlap_jaccard",
     ]:
         paired[col] = pd.to_numeric(paired[col], errors="coerce")
@@ -323,14 +344,14 @@ def validate_coverage(item_data: pd.DataFrame) -> None:
 def compare_to_condition_summaries(item_data: pd.DataFrame, condition_data: pd.DataFrame) -> pd.DataFrame:
     item_means = (
         item_data.groupby(["model_dir", "condition", "generated_from"], as_index=False)[
-            "mean_own_context_log_prob_advantage"
+            ITEM_DELTA_COL
         ]
         .mean()
-        .rename(columns={"mean_own_context_log_prob_advantage": "mean_delta_from_items"})
+        .rename(columns={ITEM_DELTA_COL: "mean_delta_from_items"})
     )
     condition_means = condition_data[
-        ["model_dir", "condition", "generated_from", "mean_own_context_log_prob_advantage"]
-    ].rename(columns={"mean_own_context_log_prob_advantage": "mean_delta_from_condition_summary"})
+        ["model_dir", "condition", "generated_from", CONDITION_DELTA_COL]
+    ].rename(columns={CONDITION_DELTA_COL: "mean_delta_from_condition_summary"})
     checks = item_means.merge(condition_means, on=["model_dir", "condition", "generated_from"], how="outer")
     checks["abs_diff"] = (
         checks["mean_delta_from_items"] - checks["mean_delta_from_condition_summary"]
@@ -366,7 +387,7 @@ def build_model_summary(
     group_cols = ["model_dir", "model_label", "model_order", "condition", "condition_label", "generated_from"]
     for keys, group in item_data.groupby(group_cols, sort=False):
         record = dict(zip(group_cols, keys))
-        values = group["mean_own_context_log_prob_advantage"].to_numpy(dtype=float)
+        values = group[ITEM_DELTA_COL].to_numpy(dtype=float)
         ci_low, ci_high = bootstrap_ci(values, rng, bootstrap_replicates)
         record.update(
             {
@@ -531,7 +552,7 @@ def draw_panel_a(
         ax.set_xlim(not_forest_xlim if condition == "not" else particle_forest_xlim)
         ax.set_xlabel(PANEL_A_XLABEL, labelpad=6)
 
-    title = "Model-level mean Delta"
+    title = "Model-level mean per-token Delta"
     if include_panel_label:
         title = f"A. {title}"
     header_ax.text(
@@ -547,7 +568,7 @@ def draw_panel_a(
     header_ax.text(
         0.0,
         0.28,
-        "Points are model means; bars are 95% bootstrap CIs over items. Positive values favor the source context.",
+        "Points are model means of per-token Delta; bars are 95% bootstrap CIs over items. Positive values favor the source context.",
         transform=header_ax.transAxes,
         ha="left",
         va="top",
@@ -567,6 +588,128 @@ def draw_panel_a(
     )
 
 
+def style_boxplot(boxplot: dict[str, list], color: str, fill_alpha: float = 0.34) -> None:
+    for patch in boxplot["boxes"]:
+        patch.set_facecolor(mcolors.to_rgba(color, alpha=fill_alpha))
+        patch.set_edgecolor(color)
+        patch.set_linewidth(1.0)
+        patch.set_zorder(3)
+
+    for whisker in boxplot["whiskers"]:
+        whisker.set_color(color)
+        whisker.set_linewidth(1.0)
+        whisker.set_zorder(3)
+
+    for cap in boxplot["caps"]:
+        cap.set_color(color)
+        cap.set_linewidth(1.0)
+        cap.set_zorder(3)
+
+    for median in boxplot["medians"]:
+        median.set_color(color)
+        median.set_linewidth(1.5)
+        median.set_zorder(4)
+
+
+def draw_panel_a_boxplots(
+    header_ax: plt.Axes,
+    axes: Sequence[plt.Axes],
+    item_data: pd.DataFrame,
+    include_panel_label: bool = True,
+) -> None:
+    header_ax.axis("off")
+    particle_xlim = padded_limits(
+        item_data[item_data["condition"].isin(["just", "only"])][ITEM_DELTA_COL]
+    )
+    not_xlim = padded_limits(
+        item_data[item_data["condition"] == "not"][ITEM_DELTA_COL]
+    )
+    y_positions = PANEL_A_Y_POSITIONS
+    offsets = {"P": -0.09, "P_prime": 0.09}
+
+    for col_idx, condition in enumerate(CONDITIONS):
+        ax = axes[col_idx]
+        draw_model_pair_guides(ax, y_positions)
+        draw_zero_axis(ax, dense_x_grid=True)
+        ax.set_title(CONDITION_LABELS[condition])
+
+        for source in GENERATED_FROM:
+            arrays = []
+            positions = []
+            for model_idx, run in enumerate(MODEL_RUNS):
+                vals = item_data[
+                    (item_data["model_dir"] == run.result_dir)
+                    & (item_data["condition"] == condition)
+                    & (item_data["generated_from"] == source)
+                ][ITEM_DELTA_COL].dropna().to_numpy(dtype=float)
+                arrays.append(vals)
+                positions.append(y_positions[model_idx] + offsets[source])
+
+            boxplot = ax.boxplot(
+                arrays,
+                vert=False,
+                positions=positions,
+                widths=0.16,
+                patch_artist=True,
+                showfliers=False,
+                whis=(0, 100),
+                manage_ticks=False,
+            )
+            style_boxplot(boxplot, SOURCE_COLORS[source])
+
+        ax.set_ylim(y_positions[0] - 0.35, y_positions[-1] + 0.35)
+        ax.invert_yaxis()
+        ax.set_yticks(y_positions)
+        if col_idx == 0:
+            ax.set_yticklabels([run.label for run in MODEL_RUNS])
+        else:
+            ax.set_yticklabels([])
+        ax.set_xlim(not_xlim if condition == "not" else particle_xlim)
+        ax.set_xlabel(PANEL_A_XLABEL, labelpad=6)
+
+    title = "Model-level per-token Delta distributions"
+    if include_panel_label:
+        title = f"A'. {title}"
+    header_ax.text(
+        0.0,
+        0.84,
+        title,
+        transform=header_ax.transAxes,
+        ha="left",
+        va="top",
+        fontsize=10,
+        fontweight="bold",
+    )
+    header_ax.text(
+        0.0,
+        0.28,
+        "Boxes summarize the full item-level per-token Delta distributions behind Panel A; whiskers extend to the observed min/max.",
+        transform=header_ax.transAxes,
+        ha="left",
+        va="top",
+        fontsize=8,
+        color="#333333",
+    )
+    header_ax.legend(
+        [
+            Patch(
+                facecolor=mcolors.to_rgba(SOURCE_COLORS[source], alpha=0.34),
+                edgecolor=SOURCE_COLORS[source],
+                label=SOURCE_LABELS[source],
+            )
+            for source in GENERATED_FROM
+        ],
+        [SOURCE_LABELS[source] for source in GENERATED_FROM],
+        loc="upper right",
+        bbox_to_anchor=(1.0, 0.88),
+        frameon=False,
+        ncol=2,
+        columnspacing=1.2,
+        handlelength=2.1,
+        borderaxespad=0.0,
+    )
+
+
 def draw_panel_b(
     header_ax: plt.Axes,
     axes: Sequence[plt.Axes],
@@ -576,10 +719,10 @@ def draw_panel_b(
 ) -> None:
     header_ax.axis("off")
     particle_item_values = item_data[item_data["condition"].isin(["just", "only"])][
-        "mean_own_context_log_prob_advantage"
+        ITEM_DELTA_COL
     ].to_numpy(dtype=float)
     not_item_values = item_data[item_data["condition"] == "not"][
-        "mean_own_context_log_prob_advantage"
+        ITEM_DELTA_COL
     ].to_numpy(dtype=float)
     particle_item_xlim = quantile_limits(particle_item_values)
     not_item_xlim = quantile_limits(not_item_values)
@@ -595,7 +738,7 @@ def draw_panel_b(
             vals = item_data[
                 (item_data["condition"] == condition)
                 & (item_data["generated_from"] == source)
-            ]["mean_own_context_log_prob_advantage"].dropna().to_numpy(dtype=float)
+            ][ITEM_DELTA_COL].dropna().to_numpy(dtype=float)
             arrays.append(vals)
         parts = ax.violinplot(
             arrays,
@@ -648,10 +791,10 @@ def draw_panel_b(
             ax.set_yticklabels([SOURCE_LABELS[source] for source in GENERATED_FROM])
         else:
             ax.set_yticklabels([])
-        ax.set_xlabel("Item mean Delta")
+        ax.set_xlabel("Item mean per-token Delta")
         ax.set_ylim(-0.65, 1.65)
 
-    title = "Item-level mean Delta distributions"
+    title = "Item-level mean per-token Delta distributions"
     if include_panel_label:
         title = f"B. {title}"
     header_ax.text(
@@ -759,6 +902,30 @@ def plot_split_main_panels(
     return written
 
 
+def plot_panel_a_boxplots(
+    item_data: pd.DataFrame,
+    figures_dir: Path,
+    formats: Sequence[str],
+    dpi: int,
+) -> list[Path]:
+    fig = plt.figure(figsize=(7.4, 4.25))
+    grid = fig.add_gridspec(
+        2,
+        3,
+        height_ratios=[0.22, 1.0],
+        hspace=0.15,
+        wspace=0.22,
+        left=0.15,
+        right=0.98,
+        top=0.98,
+        bottom=0.14,
+    )
+    header_ax = fig.add_subplot(grid[0, :])
+    axes = [fig.add_subplot(grid[1, idx]) for idx in range(3)]
+    draw_panel_a_boxplots(header_ax, axes, item_data)
+    return save_figure(fig, figures_dir / "generation_context_delta_panel_a_boxplots", formats, dpi)
+
+
 def ecdf(values: np.ndarray) -> tuple[np.ndarray, np.ndarray]:
     finite = np.sort(values[np.isfinite(values)])
     if len(finite) == 0:
@@ -781,10 +948,10 @@ def plot_candidate_ecdf(
         squeeze=False,
     )
     particle_values = candidate_data[candidate_data["condition"].isin(["just", "only"])][
-        "own_context_log_prob_advantage"
+        CANDIDATE_DELTA_COL
     ].to_numpy(dtype=float)
     not_values = candidate_data[candidate_data["condition"] == "not"][
-        "own_context_log_prob_advantage"
+        CANDIDATE_DELTA_COL
     ].to_numpy(dtype=float)
     particle_xlim = quantile_limits(particle_values)
     not_xlim = quantile_limits(not_values)
@@ -798,7 +965,7 @@ def plot_candidate_ecdf(
                     (candidate_data["model_dir"] == run.result_dir)
                     & (candidate_data["condition"] == condition)
                     & (candidate_data["generated_from"] == source)
-                ]["own_context_log_prob_advantage"].to_numpy(dtype=float)
+                ][CANDIDATE_DELTA_COL].to_numpy(dtype=float)
                 x, y = ecdf(vals)
                 ax.plot(
                     x,
@@ -816,11 +983,11 @@ def plot_candidate_ecdf(
             else:
                 ax.set_yticklabels([])
             if row_idx == len(MODEL_RUNS) - 1:
-                ax.set_xlabel("Candidate Delta")
+                ax.set_xlabel("Candidate per-token Delta")
             if row_idx == 0 and col_idx == 2:
                 ax.legend(loc="lower right", frameon=False)
 
-    fig.suptitle("Candidate-level ECDFs of own-context Delta", x=0.52, y=0.995)
+    fig.suptitle("Candidate-level ECDFs of per-token own-context Delta", x=0.52, y=0.995)
     fig.text(
         0.99,
         0.005,
@@ -845,14 +1012,14 @@ def plot_paired_scatter(
     axes = axes[0]
     particle_values = pd.concat(
         [
-            paired_data[paired_data["condition"].isin(["just", "only"])]["p_mean_advantage"],
-            paired_data[paired_data["condition"].isin(["just", "only"])]["p_prime_mean_advantage"],
+            paired_data[paired_data["condition"].isin(["just", "only"])][PAIRED_P_DELTA_COL],
+            paired_data[paired_data["condition"].isin(["just", "only"])][PAIRED_P_PRIME_DELTA_COL],
         ]
     ).to_numpy(dtype=float)
     not_values = pd.concat(
         [
-            paired_data[paired_data["condition"] == "not"]["p_mean_advantage"],
-            paired_data[paired_data["condition"] == "not"]["p_prime_mean_advantage"],
+            paired_data[paired_data["condition"] == "not"][PAIRED_P_DELTA_COL],
+            paired_data[paired_data["condition"] == "not"][PAIRED_P_PRIME_DELTA_COL],
         ]
     ).to_numpy(dtype=float)
     particle_xlim = quantile_limits(particle_values)
@@ -869,8 +1036,8 @@ def plot_paired_scatter(
                 (paired_data["model_dir"] == run.result_dir)
                 & (paired_data["condition"] == condition)
             ]
-            x = np.clip(subset["p_mean_advantage"].to_numpy(dtype=float), lim[0], lim[1])
-            y = np.clip(subset["p_prime_mean_advantage"].to_numpy(dtype=float), lim[0], lim[1])
+            x = np.clip(subset[PAIRED_P_DELTA_COL].to_numpy(dtype=float), lim[0], lim[1])
+            y = np.clip(subset[PAIRED_P_PRIME_DELTA_COL].to_numpy(dtype=float), lim[0], lim[1])
             ax.scatter(
                 x,
                 y,
@@ -884,9 +1051,9 @@ def plot_paired_scatter(
         ax.set_ylim(lim)
         ax.set_title(CONDITION_LABELS[condition])
         ax.grid(color="#dddddd", linewidth=0.5, alpha=0.7)
-        ax.set_xlabel("S item mean Delta")
+        ax.set_xlabel("S item mean per-token Delta")
         if col_idx == 0:
-            ax.set_ylabel("S' item mean Delta")
+            ax.set_ylabel("S' item mean per-token Delta")
         else:
             ax.set_yticklabels([])
         ax.text(
@@ -906,7 +1073,7 @@ def plot_paired_scatter(
         markerscale=1.2,
         handletextpad=0.3,
     )
-    fig.suptitle("Paired item mean Deltas by generation source", y=1.04)
+    fig.suptitle("Paired item mean per-token Deltas by generation source", y=1.04)
     fig.tight_layout()
     prefix = figures_dir / "generation_context_delta_paired_scatter"
     return save_figure(fig, prefix, formats, dpi)
@@ -931,7 +1098,7 @@ def plot_winrate_heatmap(
                     & (condition_data["generated_from"] == source)
                 ]
                 if not row.empty:
-                    matrix[row_idx, col_idx] = float(row.iloc[0]["own_context_win_rate"])
+                    matrix[row_idx, col_idx] = float(row.iloc[0][CONDITION_WIN_COL])
         image = ax.imshow(matrix, cmap="viridis", vmin=vmin, vmax=vmax, aspect="auto")
         images.append(image)
         ax.set_title(SOURCE_LABELS[source])
@@ -955,7 +1122,7 @@ def plot_winrate_heatmap(
     fig.subplots_adjust(left=0.19, right=0.88, top=0.83, bottom=0.14, wspace=0.06)
     cbar = fig.colorbar(images[0], ax=axes, shrink=0.86, pad=0.02)
     cbar.set_label("Own-context win rate")
-    fig.suptitle("Win-rate heatmap for positive own-context Delta", y=1.02)
+    fig.suptitle("Win-rate heatmap for positive per-token own-context Delta", y=1.02)
     prefix = figures_dir / "generation_context_delta_winrate_heatmap"
     return save_figure(fig, prefix, formats, dpi)
 
@@ -1037,6 +1204,14 @@ def main() -> None:
             formats=args.formats,
             dpi=args.dpi,
             rng=rng,
+        )
+    )
+    figure_paths.extend(
+        plot_panel_a_boxplots(
+            item_data=item_data,
+            figures_dir=figures_dir,
+            formats=args.formats,
+            dpi=args.dpi,
         )
     )
     figure_paths.extend(
