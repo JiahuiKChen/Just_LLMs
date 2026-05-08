@@ -745,22 +745,20 @@ def main() -> None:
     args = parse_args()
     exclude_outliers = not args.include_outliers
     script_dir = Path(__file__).resolve().parent
-    repo_root = script_dir.parent
+    default_results_root = script_dir / "results"
 
     if args.preset == "instruct":
-        default_results_root = repo_root / "results"
-        default_output_dir = default_results_root / "paper_summary_instruct"
         model_specs = INSTRUCT_MODEL_SPECS
         figure_title_prefix = "Instruction-tuned LLM"
         caption_prefix = "Instruction-tuned LLM"
     else:
-        default_results_root = script_dir / "results"
-        default_output_dir = default_results_root / "paper_summary"
         model_specs = BASE_MODEL_SPECS
         figure_title_prefix = "LLM"
         caption_prefix = "LLM"
 
     results_root = args.results_root or default_results_root
+    output_root = results_root / "paper_summary_comparison"
+    default_output_dir = output_root / args.preset
     output_dir = args.output_dir or default_output_dir
 
     summary_df = collect_summary(
@@ -782,9 +780,7 @@ def main() -> None:
     summary_path = output_dir / "particle_removal_summary.tsv"
     figure_prefix = output_dir / "particle_removal_main_figure"
     latex_path = output_dir / "particle_removal_summary_table.tex"
-    comparison_prefix = (
-        results_root / "paper_summary_comparison" / "particle_removal_panel_c_stacked"
-    )
+    comparison_prefix = output_root / "particle_removal_panel_c_stacked"
 
     write_summary_tsv(summary_df, summary_path)
     make_main_figure(
