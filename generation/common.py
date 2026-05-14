@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import gc
 import math
+import os
 import re
 from dataclasses import dataclass
 from typing import Iterable, List, Optional, Tuple
@@ -45,6 +46,16 @@ def uses_image_text_loader(model_name: str) -> bool:
     return model_name.startswith("Qwen/Qwen3.5")
 
 
+def configured_device_map() -> Optional[str]:
+    """Read an optional device_map override from the environment."""
+    if not torch.cuda.is_available():
+        return None
+    raw_value = os.environ.get("JUST_LLMS_DEVICE_MAP", "auto").strip()
+    if raw_value.lower() in {"", "none", "null"}:
+        return None
+    return raw_value
+
+
 def load_model(model_name: str = "meta-llama/Meta-Llama-3-8B"):
     """Load a Hugging Face causal LM and tokenizer."""
     print(f"Loading model: {model_name}", flush=True)
@@ -52,7 +63,7 @@ def load_model(model_name: str = "meta-llama/Meta-Llama-3-8B"):
     tokenizer = AutoTokenizer.from_pretrained(model_name, **load_kwargs)
     model_kwargs = {
         "dtype": torch.float16 if torch.cuda.is_available() else torch.float32,
-        "device_map": "auto" if torch.cuda.is_available() else None,
+        "device_map": configured_device_map(),
         **load_kwargs,
     }
     model_cls = AutoModelForImageTextToText if uses_image_text_loader(model_name) else AutoModelForCausalLM
