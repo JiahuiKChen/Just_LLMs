@@ -62,7 +62,8 @@ from tqdm import tqdm
 
 
 _WARNED_NO_BOS = False
-QWEN25_DEFAULT_SYSTEM_PROMPT = (
+# Older Qwen chat templates may inject this prompt, but verified Qwen3 models do not.
+QWEN_LEGACY_DEFAULT_SYSTEM_PROMPT = (
     "You are Qwen, created by Alibaba Cloud. You are a helpful assistant."
 )
 
@@ -241,10 +242,10 @@ def _chat_template_info(model_name, tokenizer):
             "requires_user_message": False,
             "requires_user_first": True,
         }
-    if QWEN25_DEFAULT_SYSTEM_PROMPT in template:
+    if QWEN_LEGACY_DEFAULT_SYSTEM_PROMPT in template:
         return {
             "supports_system": True,
-            "implicit_system_prompt": QWEN25_DEFAULT_SYSTEM_PROMPT,
+            "implicit_system_prompt": QWEN_LEGACY_DEFAULT_SYSTEM_PROMPT,
             "requires_user_message": False,
             "requires_user_first": False,
         }
@@ -272,6 +273,16 @@ def _chat_template_info(model_name, tokenizer):
 
 def _log_chat_template_info(model_name, chat_template_info):
     """Print the chat-template/system-prompt behavior being used."""
+    if model_name == "Qwen/Qwen3.5-9B":
+        print(
+            f"{model_name}: using the post-trained Qwen3.5 checkpoint for "
+            "instruction-tuned scoring via tokenizer.apply_chat_template()."
+        )
+    elif model_name == "Qwen/Qwen3.5-9B-Base":
+        print(
+            f"{model_name}: this is the pre-trained-only base checkpoint; "
+            "use the non-chat scoring script for base-model runs."
+        )
     if not chat_template_info["supports_system"]:
         print(f"{model_name}: tokenizer chat template does not support system messages.")
     elif chat_template_info["implicit_system_prompt"]:

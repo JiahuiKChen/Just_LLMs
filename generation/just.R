@@ -11,7 +11,7 @@ model_meta <- tribble(
   "OLMo-2-1124-7B-Instruct", "OLMo2-7B-I","OLMo2",TRUE,
   "gemma-2-9b", "Gemma2-9B", "Gemma2",FALSE,
   "gemma-2-9b-it", "Gemma2-9B-I", "Gemma2",TRUE,
-  "Qwen3.5-9B","Qwen3.5-9B","Qwen3.5",FALSE,
+  "Qwen3.5-9B-Base","Qwen3.5-9B-Base","Qwen3.5",FALSE,
   "Qwen3.5-9B-Instruct","Qwen3.5-9B-I","Qwen3.5",TRUE
 )
 
@@ -74,7 +74,3 @@ relevant %>%
   ggplot(aes(word, effect_size, shape = instruction, color = generated_from)) +
   geom_point() +
   facet_wrap(~family)
-  
-  
-  
-  

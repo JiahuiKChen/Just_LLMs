@@ -37,9 +37,9 @@ BASE_MODEL_SPECS = [
         "prefix": "OLMo-2-1124-7B",
     },
     {
-        "label": "Qwen3.5 9B",
+        "label": "Qwen3.5 9B Base",
         "results_dir": "qwen3_5",
-        "prefix": "Qwen3.5-9B",
+        "prefix": "Qwen3.5-9B-Base",
     },
     {
         "label": "Gemma-2 9B",

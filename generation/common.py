@@ -121,6 +121,9 @@ def build_prompt_pair(context: str, w_word: str, wo_word: str) -> PromptPair:
     return PromptPair(prompt_p=prompt_p, prompt_p_prime=prompt_p_prime, next_speaker=next_speaker)
 
 
+# Legacy template string retained only for tokenizer-behavior detection.
+# Qwen3/Qwen3.5 post-trained checkpoints are intentionally formatted with
+# their chat template as-is; we do not inject a default system prompt.
 QWEN25_DEFAULT_SYSTEM_PROMPT = (
     "You are Qwen, created by Alibaba Cloud. You are a helpful assistant."
 )
@@ -196,7 +199,7 @@ def build_chat_messages(
     system_prompt: Optional[str] = None,
 ) -> List[dict]:
     """
-    Build chat messages matching particle_removal's instruction-tuned setup.
+    Build chat messages for instruction-tuned/chat-template generation.
 
     Roles are assigned so the particle-bearing utterance is a user message and
     the generated continuation is the assistant's next turn.

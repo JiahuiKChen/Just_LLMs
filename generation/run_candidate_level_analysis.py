@@ -149,8 +149,8 @@ def model_meta() -> pd.DataFrame:
                 "model_order": 5,
             },
             {
-                "source_model": "Qwen3.5-9B",
-                "short": "Qwen3.5-9B",
+                "source_model": "Qwen3.5-9B-Base",
+                "short": "Qwen3.5-9B-Base",
                 "family": "Qwen3.5",
                 "instruction": False,
                 "model_order": 6,

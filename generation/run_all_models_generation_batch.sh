@@ -20,7 +20,7 @@ MODELS=(
   "google/gemma-2-9b-it|generation/results/gemma2_it|chat"
   "allenai/OLMo-2-1124-7B|generation/results/olmo2|base"
   "allenai/OLMo-2-1124-7B-Instruct|generation/results/olmo2_instruct|chat"
-  "Qwen/Qwen3.5-9B|generation/results/qwen3_5|base"
+  "Qwen/Qwen3.5-9B-Base|generation/results/qwen3_5|base"
   "Qwen/Qwen3.5-9B|generation/results/qwen35_instruct|chat"
 )
 

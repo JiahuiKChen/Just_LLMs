@@ -10,6 +10,7 @@ plot from the merged CSV.
 import argparse
 import math
 import os
+import shutil
 import subprocess
 import sys
 from pathlib import Path
@@ -23,6 +24,26 @@ if str(REPO_ROOT) not in sys.path:
 
 from particle_removal.calculate_followup_probabilities import removal_outlier_detection
 from particle_removal.plot_probabilities import plot_probabilities
+
+
+def _remove_empty_parent_dirs(path: Path, stop_at: Path) -> None:
+    """Remove empty parent directories up to, but not including, stop_at."""
+    current = path
+    while current != stop_at and current.exists():
+        try:
+            current.rmdir()
+        except OSError:
+            break
+        current = current.parent
+
+
+def cleanup_shard_artifacts(shard_dir: Path, output_dir: Path) -> None:
+    """Delete temporary shard files after a successful merged run."""
+    if not shard_dir.exists():
+        return
+    shutil.rmtree(shard_dir)
+    _remove_empty_parent_dirs(shard_dir.parent, output_dir)
+    print(f"Removed temporary shard artifacts: {shard_dir}", flush=True)
 
 
 def detect_usable_gpus(min_free_mem_mb: int) -> List[int]:
@@ -246,15 +267,15 @@ def run_worker(
     env["PYTHONUNBUFFERED"] = "1"
 
     log_path.parent.mkdir(parents=True, exist_ok=True)
-    log_file = open(log_path, "w")
-    return subprocess.Popen(
-        cmd,
-        cwd=repo_root,
-        env=env,
-        stdout=log_file,
-        stderr=subprocess.STDOUT,
-        text=True,
-    )
+    with open(log_path, "w") as log_file:
+        return subprocess.Popen(
+            cmd,
+            cwd=repo_root,
+            env=env,
+            stdout=log_file,
+            stderr=subprocess.STDOUT,
+            text=True,
+        )
 
 
 def run_dataset_parallel(
@@ -322,6 +343,7 @@ def run_dataset_parallel(
         output_path=final_output_path,
         observer_mode=observer_mode if observer_mode else None,
     )
+    cleanup_shard_artifacts(shard_dir, output_dir)
     return final_output_path
 
 

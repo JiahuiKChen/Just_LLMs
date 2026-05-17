@@ -32,7 +32,7 @@ MODEL_RUNS: tuple[ModelRun, ...] = (
     ModelRun("gemma2_it", "Gemma 2 9B IT"),
     ModelRun("olmo2", "OLMo 2 7B"),
     ModelRun("olmo2_instruct", "OLMo 2 7B Inst."),
-    ModelRun("qwen3_5", "Qwen3.5 9B"),
+    ModelRun("qwen3_5", "Qwen3.5 9B Base"),
     ModelRun("qwen35_instruct", "Qwen3.5 9B Chat"),
 )
 

@@ -1,0 +1,23 @@
+================================================================================
+GENERATION CROSS-SCORING SUMMARY
+================================================================================
+Total candidates: 4000
+Total stimulus items: 40
+Sampling strategy: nucleus
+Top-p values: 0.9
+Candidate weight basis: own_log_prob_per_token
+
+Main metric: own_context_log_prob_advantage_per_token
+  P samples:        mean token log p(response | P) - mean token log p(response | P')
+  P' samples:       mean token log p(response | P') - mean token log p(response | P)
+  Positive values:  response is more likely under its source context
+
+--- BY DATASET AND CONDITION ---
+just (discourse_particle), P: win_per_token=0.586, weighted_win_per_token=0.613, mean_adv_per_token=0.014, weighted_adv_per_token=0.018, top1_win_per_token=0.450, candidates=2000, items=40, min_unique=50
+just (discourse_particle), P_prime: win_per_token=0.576, weighted_win_per_token=0.559, mean_adv_per_token=0.013, weighted_adv_per_token=0.010, top1_win_per_token=0.550, candidates=2000, items=40, min_unique=50
+
+--- ITEM-LEVEL PAIRING ---
+Items where both P and P' sampled sets have positive mean own-context advantage per token: 27/40
+Mean exact overlap count: 1.30
+Mean exact overlap Jaccard: 0.013
+================================================================================

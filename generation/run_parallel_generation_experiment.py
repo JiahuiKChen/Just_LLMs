@@ -17,6 +17,26 @@ import pandas as pd
 REPO_ROOT = Path(__file__).resolve().parents[1]
 
 
+def _remove_empty_parent_dirs(path: Path, stop_at: Path) -> None:
+    """Remove empty parent directories up to, but not including, stop_at."""
+    current = path
+    while current != stop_at and current.exists():
+        try:
+            current.rmdir()
+        except OSError:
+            break
+        current = current.parent
+
+
+def cleanup_shard_artifacts(shard_dir: Path, output_dir: Path) -> None:
+    """Delete temporary shard files after a successful merged run."""
+    if not shard_dir.exists():
+        return
+    shutil.rmtree(shard_dir)
+    _remove_empty_parent_dirs(shard_dir.parent, output_dir)
+    print(f"Removed temporary shard artifacts: {shard_dir}", flush=True)
+
+
 def detect_usable_gpus(min_free_mem_mb: int) -> List[int]:
     cmd = [
         "nvidia-smi",
@@ -113,7 +133,7 @@ def run_worker(
 
     log_path.parent.mkdir(parents=True, exist_ok=True)
     log_file = open(log_path, "w")
-    return subprocess.Popen(
+    proc = subprocess.Popen(
         cmd,
         cwd=REPO_ROOT,
         env=env,
@@ -121,6 +141,8 @@ def run_worker(
         stderr=subprocess.STDOUT,
         text=True,
     )
+    proc._codex_log_file = log_file
+    return proc
 
 
 def analyze_candidates(candidates_path: Path, make_plots: bool) -> None:
@@ -157,14 +179,16 @@ def run_dataset_parallel(
 ) -> Path:
     model_short = model_name.split("/")[-1]
     context_tag = "context" if include_context else "noContext"
+    shard_dir = output_dir / "shards" / data_path.stem
     final_output_path = output_dir / (
         f"{model_short}_{context_tag}_{data_path.stem}_generation_candidates.tsv"
     )
     if skip_existing and final_output_path.exists():
         print(f"Skipping existing candidates: {final_output_path}", flush=True)
+        if not keep_shards:
+            cleanup_shard_artifacts(shard_dir, output_dir)
         return final_output_path
 
-    shard_dir = output_dir / "shards" / data_path.stem
     shard_paths = split_tsv(data_path, len(gpu_ids), shard_dir)
     used_gpu_ids = gpu_ids[: len(shard_paths)]
 
@@ -205,26 +229,38 @@ def run_dataset_parallel(
         shard_output_paths.append(shard_output_path)
         log_paths.append(log_path)
 
-    for proc, log_path in zip(processes, log_paths):
-        return_code = proc.wait()
-        if return_code != 0:
-            raise RuntimeError(f"Shard worker failed with code {return_code}. See log: {log_path}")
+    try:
+        for proc, log_path in zip(processes, log_paths):
+            return_code = proc.wait()
+            log_file = getattr(proc, "_codex_log_file", None)
+            if log_file is not None:
+                log_file.close()
+            if return_code != 0:
+                raise RuntimeError(
+                    f"Shard worker failed with code {return_code}. See log: {log_path}"
+                )
 
-    merged_df = pd.concat(
-        [pd.read_csv(path, sep="\t") for path in shard_output_paths],
-        ignore_index=True,
-    )
-    merged_df.sort_values(
-        ["source_dataset", "source_row_index", "generated_from", "unique_rank"],
-        inplace=True,
-    )
-    merged_df.to_csv(final_output_path, sep="\t", index=False)
-    print(f"Merged candidates saved to: {final_output_path}", flush=True)
+        merged_df = pd.concat(
+            [pd.read_csv(path, sep="\t") for path in shard_output_paths],
+            ignore_index=True,
+        )
+        merged_df.sort_values(
+            ["source_dataset", "source_row_index", "generated_from", "unique_rank"],
+            inplace=True,
+        )
+        merged_df.to_csv(final_output_path, sep="\t", index=False)
+        print(f"Merged candidates saved to: {final_output_path}", flush=True)
 
-    if not skip_analysis:
-        analyze_candidates(final_output_path, make_plots=make_plots)
+        if not skip_analysis:
+            analyze_candidates(final_output_path, make_plots=make_plots)
+    finally:
+        for proc in processes:
+            log_file = getattr(proc, "_codex_log_file", None)
+            if log_file is not None and not log_file.closed:
+                log_file.close()
+
     if not keep_shards:
-        shutil.rmtree(shard_dir, ignore_errors=True)
+        cleanup_shard_artifacts(shard_dir, output_dir)
     return final_output_path
 
 
