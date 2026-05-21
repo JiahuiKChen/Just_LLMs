@@ -1,2 +1,0 @@
-model_name	data_path	num_rows	num_folds	hidden_size	gold_delta_mean	gold_delta_sign_accuracy	effect_delta_mean	effect_delta_sign_accuracy
-meta-llama/Meta-Llama-3-8B	dd_data/filtered_not_dd.tsv	1307	5	4096	0.5331311361791528	0.6702371843917369	0.7663327972307036	0.7276205049732212

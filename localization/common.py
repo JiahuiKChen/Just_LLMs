@@ -1,17 +1,15 @@
 #!/usr/bin/env python3
-"""Shared helpers for not-only discourse unit localization experiments."""
+"""Shared helpers for discourse-particle localization experiments."""
 
 from __future__ import annotations
 
 import hashlib
 import json
 import math
-import random
-import re
 import sys
 from contextlib import contextmanager
 from pathlib import Path
-from typing import Iterable, Iterator, List, Optional, Sequence
+from typing import Iterator, List, Optional, Sequence
 
 import numpy as np
 import pandas as pd
@@ -26,18 +24,22 @@ from generation.common import (  # noqa: E402
     build_prompt_pair,
     calculate_log_probability,
     load_model,
-    normalize_response,
-    sample_unique_responses_nucleus,
     validate_stimulus_row,
 )
 
 DEFAULT_MODEL_NAME = "meta-llama/Meta-Llama-3-8B"
-DEFAULT_DATA_PATH = "dd_data/filtered_not_dd.tsv"
-DEFAULT_HUMAN_NEGATIVES = 5
-DEFAULT_GENERATED_NEGATIVES = 3
+DEFAULT_NOT_DATA_PATH = "dd_data/filtered_not_dd.tsv"
 DEFAULT_MASK_PERCENTS = (0.5, 1.0, 5.0)
-DEFAULT_NUM_FOLDS = 5
 DEFAULT_RANDOM_SEEDS = tuple(range(10))
+DEFAULT_PARTICLES = ("just", "only", "not")
+DEFAULT_POOL_TOP_K = 500
+DEFAULT_POOL_NUM_FOLDS = 2
+DEFAULT_RANDOM_MASK_SEEDS = (0, 1, 2, 3)
+PARTICLE_DATA_PATHS = {
+    "just": "dd_data/filtered_just_dd.tsv",
+    "only": "dd_data/filtered_only_dd.tsv",
+    "not": DEFAULT_NOT_DATA_PATH,
+}
 
 
 def stable_int(*parts: object) -> int:
@@ -45,15 +47,6 @@ def stable_int(*parts: object) -> int:
     joined = "::".join(str(part) for part in parts)
     digest = hashlib.sha256(joined.encode("utf-8")).hexdigest()
     return int(digest[:16], 16)
-
-
-def set_global_seed(seed: int) -> None:
-    """Seed Python, NumPy, and torch RNGs for deterministic runs."""
-    random.seed(seed)
-    np.random.seed(seed)
-    torch.manual_seed(seed)
-    if torch.cuda.is_available():
-        torch.cuda.manual_seed_all(seed)
 
 
 def parse_mask_percents(raw: object) -> List[float]:
@@ -87,12 +80,30 @@ def model_short_name(model_name: str) -> str:
     return model_name.split("/")[-1]
 
 
+def default_results_root(model_name: str) -> Path:
+    """Return the default root directory for a model's localization runs."""
+    return REPO_ROOT / "localization" / "results" / model_short_name(model_name)
+
+
 def default_results_dir(model_name: str, dataset_name: str = "not", row_limit: Optional[int] = None) -> Path:
     """Return the default output directory for a localization run."""
-    base = REPO_ROOT / "localization" / "results" / model_short_name(model_name) / dataset_name
+    base = default_results_root(model_name) / dataset_name
     if row_limit is not None:
         return base / f"rowlimit_{row_limit}"
     return base
+
+
+def normalize_particle_name(particle: str) -> str:
+    """Normalize a particle label used in file paths and filtering."""
+    return str(particle).strip().lower()
+
+
+def particle_data_path(particle: str) -> str:
+    """Return the default DailyDialogue TSV path for a particle."""
+    normalized = normalize_particle_name(particle)
+    if normalized not in PARTICLE_DATA_PATHS:
+        raise KeyError(f"Unsupported particle: {particle}")
+    return PARTICLE_DATA_PATHS[normalized]
 
 
 def rename_unnamed_columns(df: pd.DataFrame) -> pd.DataFrame:
@@ -104,19 +115,6 @@ def rename_unnamed_columns(df: pd.DataFrame) -> pd.DataFrame:
             renamed[column] = "source_file_index" if unnamed_count == 0 else f"source_file_index_{unnamed_count}"
             unnamed_count += 1
     return df.rename(columns=renamed)
-
-
-def followup_token_length(text: str) -> int:
-    """Return a rough whitespace-token count for matching distractors."""
-    return len([part for part in str(text).strip().split() if part])
-
-
-def final_punctuation(text: str) -> str:
-    """Return the final punctuation mark if one exists."""
-    stripped = str(text).rstrip()
-    if not stripped:
-        return ""
-    return stripped[-1] if stripped[-1] in ".?!,;:" else ""
 
 
 def json_dumps(value: object) -> str:
@@ -140,15 +138,20 @@ def json_loads(value: object) -> object:
     return json.loads(text)
 
 
-def load_source_rows(data_path: str, row_limit: Optional[int] = None, word_filter: str = "not") -> pd.DataFrame:
-    """Load and validate source rows from the not-control dataset."""
+def load_source_rows(
+    data_path: str,
+    row_limit: Optional[int] = None,
+    word_filter: Optional[str] = None,
+) -> pd.DataFrame:
+    """Load and validate source rows from a particle dataset."""
     df = pd.read_csv(data_path, sep="\t")
     df = rename_unnamed_columns(df)
     if "source_row_index" not in df.columns:
         df.insert(0, "source_row_index", range(len(df)))
 
     if "word" in df.columns and word_filter:
-        mask = df["word"].fillna("").astype(str).str.strip().str.lower() == word_filter
+        normalized_filter = normalize_particle_name(word_filter)
+        mask = df["word"].fillna("").astype(str).str.strip().str.lower() == normalized_filter
         df = df.loc[mask].copy()
 
     valid_rows = []
@@ -178,85 +181,42 @@ def load_source_rows(data_path: str, row_limit: Optional[int] = None, word_filte
     return pilot_df
 
 
-def attach_human_negative_followups(
-    df: pd.DataFrame,
-    num_negatives: int = DEFAULT_HUMAN_NEGATIVES,
-    seed: int = 0,
-) -> pd.DataFrame:
-    """Attach deterministic human distractor followups to each row."""
-    rows = []
-    for row in df.itertuples(index=False):
-        target_followup = str(row.followup).strip()
-        target_norm = normalize_response(target_followup)
-        target_len = followup_token_length(target_followup)
-        target_punct = final_punctuation(target_followup)
-
-        candidates = []
-        for other in df.itertuples(index=False):
-            if other.pilot_row_index == row.pilot_row_index:
-                continue
-            other_followup = str(other.followup).strip()
-            other_norm = normalize_response(other_followup)
-            if not other_followup or other_norm == target_norm:
-                continue
-            punct_match = int(final_punctuation(other_followup) == target_punct)
-            length_diff = abs(followup_token_length(other_followup) - target_len)
-            tie_break = stable_int(seed, row.pilot_row_index, other.pilot_row_index, other_norm)
-            candidates.append(
-                (
-                    -punct_match,
-                    length_diff,
-                    tie_break,
-                    int(other.pilot_row_index),
-                    int(other.source_row_index),
-                    other_followup,
-                    other_norm,
-                )
-            )
-
-        selected_followups = []
-        selected_pilot_indices = []
-        selected_source_indices = []
-        seen_norms = set()
-        for _, _, _, pilot_index, source_index, followup, followup_norm in sorted(candidates):
-            if followup_norm in seen_norms:
-                continue
-            seen_norms.add(followup_norm)
-            selected_followups.append(followup)
-            selected_pilot_indices.append(pilot_index)
-            selected_source_indices.append(source_index)
-            if len(selected_followups) >= num_negatives:
-                break
-
-        record = row._asdict()
-        record["human_negative_followups"] = json_dumps(selected_followups)
-        record["human_negative_pilot_row_indices"] = json_dumps(selected_pilot_indices)
-        record["human_negative_source_row_indices"] = json_dumps(selected_source_indices)
-        record["human_negative_count"] = len(selected_followups)
-        record["followup_token_length"] = target_len
-        record["followup_final_punctuation"] = target_punct
-        rows.append(record)
-
-    return pd.DataFrame(rows)
-
-
-def prepare_not_pilot_dataset(
-    data_path: str,
-    output_path: Optional[Path] = None,
-    human_negatives: int = DEFAULT_HUMAN_NEGATIVES,
-    seed: int = 0,
+def load_particle_source_rows(
+    particle: str,
+    data_path: Optional[str] = None,
     row_limit: Optional[int] = None,
 ) -> pd.DataFrame:
-    """Build the processed not-only pilot dataset and optionally save it."""
-    pilot_df = load_source_rows(data_path=data_path, row_limit=row_limit, word_filter="not")
-    pilot_df = attach_human_negative_followups(pilot_df, num_negatives=human_negatives, seed=seed)
-    pilot_df["build_seed"] = seed
-    pilot_df["human_negative_target"] = human_negatives
-    pilot_df["row_limit"] = row_limit if row_limit is not None else ""
-    if output_path is not None:
-        output_path.parent.mkdir(parents=True, exist_ok=True)
-        pilot_df.to_csv(output_path, sep="\t", index=False)
-    return pilot_df
+    """Load validated DailyDialogue rows for one particle."""
+    normalized = normalize_particle_name(particle)
+    resolved_data_path = data_path or particle_data_path(normalized)
+    return load_source_rows(
+        data_path=resolved_data_path,
+        row_limit=row_limit,
+        word_filter=normalized,
+    )
+
+
+def find_generation_candidates_path(
+    model_name: str,
+    particle: str,
+    results_dir: Optional[Path] = None,
+) -> Path:
+    """Locate the per-model candidate TSV for one particle."""
+    root = Path(results_dir) if results_dir is not None else REPO_ROOT / "generation" / "results"
+    pattern = f"{model_short_name(model_name)}_context_{normalize_particle_name(particle)}_generation_candidates.tsv"
+    matches = sorted(
+        path
+        for path in root.rglob(pattern)
+        if not path.name.endswith("_generation_candidates_weighted.tsv")
+    )
+    if not matches:
+        raise FileNotFoundError(f"Could not find candidate TSV matching {pattern} under {root}")
+    if len(matches) > 1:
+        raise FileExistsError(
+            f"Found multiple candidate TSVs for {model_name} / {particle}: "
+            + ", ".join(str(path) for path in matches)
+        )
+    return matches[0]
 
 
 def assign_folds(num_rows: int, num_folds: int, seed: int) -> np.ndarray:
@@ -271,6 +231,17 @@ def assign_folds(num_rows: int, num_folds: int, seed: int) -> np.ndarray:
     for fold_id, subset in enumerate(np.array_split(shuffled, num_folds)):
         fold_ids[subset] = fold_id
     return fold_ids
+
+
+def assign_group_folds(group_values: Sequence[object], num_folds: int, seed: int) -> np.ndarray:
+    """Assign folds at the group level and broadcast them back to all rows."""
+    series = pd.Series(list(group_values))
+    if series.empty:
+        raise ValueError("Cannot assign group folds to an empty sequence.")
+    unique_values = pd.unique(series)
+    fold_ids = assign_folds(len(unique_values), num_folds=num_folds, seed=seed)
+    fold_map = {group_value: int(fold_id) for group_value, fold_id in zip(unique_values, fold_ids)}
+    return series.map(fold_map).to_numpy(dtype=int, copy=False)
 
 
 def build_prompt_columns(df: pd.DataFrame) -> pd.DataFrame:
@@ -288,154 +259,6 @@ def build_prompt_columns(df: pd.DataFrame) -> pd.DataFrame:
     result["prompt_without"] = prompts_without
     result["next_speaker"] = next_speakers
     return result
-
-
-def score_targets_for_prompt(
-    model,
-    tokenizer,
-    prompt_text: str,
-    targets: Sequence[str],
-    device: torch.device,
-    layer_mask: Optional[np.ndarray] = None,
-) -> List[tuple[float, int]]:
-    """Score multiple target strings under the same prompt."""
-    scores = []
-    for target_text in targets:
-        score = calculate_log_probability_with_ablation(
-            model=model,
-            tokenizer=tokenizer,
-            prompt_text=prompt_text,
-            target_text=target_text,
-            device=device,
-            layer_mask=layer_mask,
-        )
-        scores.append(score)
-    return scores
-
-
-def mean_or_nan(values: Sequence[float]) -> float:
-    """Return the mean of values or NaN if the sequence is empty."""
-    if not values:
-        return float("nan")
-    return float(np.mean(values))
-
-
-def compute_margin(gold_log_prob: float, negative_log_probs: Sequence[float]) -> float:
-    """Return the gold-vs-negatives log-prob margin."""
-    negative_mean = mean_or_nan(negative_log_probs)
-    if math.isnan(negative_mean):
-        return float("nan")
-    return gold_log_prob - negative_mean
-
-
-def compute_row_metrics(
-    model,
-    tokenizer,
-    row: pd.Series,
-    device: torch.device,
-    layer_mask: Optional[np.ndarray] = None,
-    generated_negatives_with: Optional[Sequence[str]] = None,
-    generated_negatives_without: Optional[Sequence[str]] = None,
-) -> dict:
-    """Compute gold and margin metrics for a single row."""
-    prompt_with = row["prompt_with"]
-    prompt_without = row["prompt_without"]
-    gold_followup = row["followup"]
-    human_negative_followups = list(json_loads(row["human_negative_followups"]))
-
-    gold_with, gold_with_len = calculate_log_probability_with_ablation(
-        model=model,
-        tokenizer=tokenizer,
-        prompt_text=prompt_with,
-        target_text=gold_followup,
-        device=device,
-        layer_mask=layer_mask,
-    )
-    gold_without, gold_without_len = calculate_log_probability_with_ablation(
-        model=model,
-        tokenizer=tokenizer,
-        prompt_text=prompt_without,
-        target_text=gold_followup,
-        device=device,
-        layer_mask=layer_mask,
-    )
-
-    human_scores_with = score_targets_for_prompt(
-        model=model,
-        tokenizer=tokenizer,
-        prompt_text=prompt_with,
-        targets=human_negative_followups,
-        device=device,
-        layer_mask=layer_mask,
-    )
-    human_scores_without = score_targets_for_prompt(
-        model=model,
-        tokenizer=tokenizer,
-        prompt_text=prompt_without,
-        targets=human_negative_followups,
-        device=device,
-        layer_mask=layer_mask,
-    )
-
-    human_negative_log_probs_with = [score for score, _ in human_scores_with]
-    human_negative_log_probs_without = [score for score, _ in human_scores_without]
-    margin_human_with = compute_margin(gold_with, human_negative_log_probs_with)
-    margin_human_without = compute_margin(gold_without, human_negative_log_probs_without)
-
-    row_metrics = {
-        "gold_log_prob_with": gold_with,
-        "gold_log_prob_without": gold_without,
-        "gold_token_count_with": gold_with_len,
-        "gold_token_count_without": gold_without_len,
-        "gold_delta": gold_with - gold_without,
-        "margin_human_with": margin_human_with,
-        "margin_human_without": margin_human_without,
-        "effect_delta": margin_human_with - margin_human_without,
-        "human_negative_log_probs_with": json_dumps(human_negative_log_probs_with),
-        "human_negative_log_probs_without": json_dumps(human_negative_log_probs_without),
-    }
-
-    if generated_negatives_with is not None or generated_negatives_without is not None:
-        negatives_with = list(human_negative_followups)
-        negatives_without = list(human_negative_followups)
-        if generated_negatives_with:
-            negatives_with.extend(generated_negatives_with)
-        if generated_negatives_without:
-            negatives_without.extend(generated_negatives_without)
-
-        hybrid_scores_with = score_targets_for_prompt(
-            model=model,
-            tokenizer=tokenizer,
-            prompt_text=prompt_with,
-            targets=negatives_with,
-            device=device,
-            layer_mask=layer_mask,
-        )
-        hybrid_scores_without = score_targets_for_prompt(
-            model=model,
-            tokenizer=tokenizer,
-            prompt_text=prompt_without,
-            targets=negatives_without,
-            device=device,
-            layer_mask=layer_mask,
-        )
-        hybrid_negative_log_probs_with = [score for score, _ in hybrid_scores_with]
-        hybrid_negative_log_probs_without = [score for score, _ in hybrid_scores_without]
-        margin_hybrid_with = compute_margin(gold_with, hybrid_negative_log_probs_with)
-        margin_hybrid_without = compute_margin(gold_without, hybrid_negative_log_probs_without)
-        row_metrics.update(
-            {
-                "generated_negative_followups_with": json_dumps(list(generated_negatives_with or [])),
-                "generated_negative_followups_without": json_dumps(list(generated_negatives_without or [])),
-                "margin_hybrid_with": margin_hybrid_with,
-                "margin_hybrid_without": margin_hybrid_without,
-                "effect_delta_hybrid": margin_hybrid_with - margin_hybrid_without,
-                "hybrid_negative_log_probs_with": json_dumps(hybrid_negative_log_probs_with),
-                "hybrid_negative_log_probs_without": json_dumps(hybrid_negative_log_probs_without),
-            }
-        )
-
-    return row_metrics
 
 
 def get_decoder_layers(model) -> Sequence[torch.nn.Module]:
@@ -587,6 +410,41 @@ def calculate_log_probability_with_ablation(
     return total_log_prob, scored_target_len
 
 
+def score_target_pair(
+    model,
+    tokenizer,
+    prompt_with: str,
+    prompt_without: str,
+    target_text: str,
+    device: torch.device,
+    layer_mask: Optional[np.ndarray] = None,
+) -> dict:
+    """Score one target under the paired particle-present and particle-removed prompts."""
+    log_prob_with, token_count_with = calculate_log_probability_with_ablation(
+        model=model,
+        tokenizer=tokenizer,
+        prompt_text=prompt_with,
+        target_text=target_text,
+        device=device,
+        layer_mask=layer_mask,
+    )
+    log_prob_without, token_count_without = calculate_log_probability_with_ablation(
+        model=model,
+        tokenizer=tokenizer,
+        prompt_text=prompt_without,
+        target_text=target_text,
+        device=device,
+        layer_mask=layer_mask,
+    )
+    return {
+        "log_prob_with": log_prob_with,
+        "log_prob_without": log_prob_without,
+        "token_count_with": token_count_with,
+        "token_count_without": token_count_without,
+        "context_advantage": log_prob_with - log_prob_without,
+    }
+
+
 def extract_prompt_hidden_states(
     model,
     tokenizer,
@@ -623,6 +481,159 @@ def extract_prompt_hidden_states(
     return np.concatenate(prompt_batches, axis=0)
 
 
+def extract_response_onset_hidden_states(
+    model,
+    tokenizer,
+    prompts: Sequence[str],
+    targets: Sequence[str],
+    batch_size: int = 4,
+    onset_tokens: int = 3,
+    desc: str = "Onset states",
+) -> np.ndarray:
+    """Extract mean hidden states over the first few target-token positions."""
+    if len(prompts) != len(targets):
+        raise ValueError("prompts and targets must have identical lengths.")
+    if onset_tokens <= 0:
+        raise ValueError("onset_tokens must be positive.")
+
+    device = get_device(model)
+    sequence_batches = []
+    pad_token_id = tokenizer.pad_token_id
+    if pad_token_id is None:
+        pad_token_id = tokenizer.eos_token_id
+    if pad_token_id is None:
+        raise ValueError("Tokenizer must define pad_token_id or eos_token_id for onset extraction.")
+
+    for start in tqdm(range(0, len(prompts), batch_size), desc=desc):
+        batch_prompts = list(prompts[start : start + batch_size])
+        batch_targets = list(targets[start : start + batch_size])
+        encoded_rows = [
+            encode_prompt_target(tokenizer, prompt_text=prompt, target_text=target)
+            for prompt, target in zip(batch_prompts, batch_targets)
+        ]
+        full_tokens = [row[0] for row in encoded_rows]
+        prompt_lens = [row[1] for row in encoded_rows]
+        target_lens = [row[2] for row in encoded_rows]
+        max_len = max(len(tokens) for tokens in full_tokens)
+
+        input_ids = torch.full(
+            (len(full_tokens), max_len),
+            fill_value=pad_token_id,
+            dtype=torch.long,
+            device=device,
+        )
+        attention_mask = torch.zeros_like(input_ids)
+        for row_idx, tokens in enumerate(full_tokens):
+            token_tensor = torch.tensor(tokens, dtype=torch.long, device=device)
+            input_ids[row_idx, : len(tokens)] = token_tensor
+            attention_mask[row_idx, : len(tokens)] = 1
+
+        with torch.no_grad():
+            outputs = model(input_ids=input_ids, attention_mask=attention_mask, output_hidden_states=True, use_cache=False)
+
+        layer_vectors = []
+        for hidden_state in outputs.hidden_states[1:]:
+            sample_vectors = []
+            for row_idx, (prompt_len, target_len) in enumerate(zip(prompt_lens, target_lens)):
+                if target_len <= 0:
+                    raise ValueError("All onset-localization targets must contain at least one token.")
+                start_pos = prompt_len
+                end_pos = min(prompt_len + onset_tokens, prompt_len + target_len)
+                pooled = hidden_state[row_idx, start_pos:end_pos].mean(dim=0)
+                sample_vectors.append(pooled.float().cpu())
+            layer_vectors.append(torch.stack(sample_vectors, dim=0))
+        sequence_batches.append(torch.stack(layer_vectors, dim=1).numpy())
+
+    return np.concatenate(sequence_batches, axis=0)
+
+
+def extract_full_sequence_hidden_states(
+    model,
+    tokenizer,
+    prompts: Sequence[str],
+    targets: Sequence[str],
+    batch_size: int = 4,
+    desc: str = "Sequence states",
+) -> np.ndarray:
+    """Extract final-token hidden states from full prompt+target sequences."""
+    if len(prompts) != len(targets):
+        raise ValueError("prompts and targets must have identical lengths (number of examples, NOT string length).")
+    device = get_device(model)
+    sequence_batches = []
+    for start in tqdm(range(0, len(prompts), batch_size), desc=desc):
+        batch_prompts = list(prompts[start : start + batch_size])
+        batch_targets = list(targets[start : start + batch_size])
+        batch_texts = [
+            f"{prompt}{target}"
+            for prompt, target in zip(batch_prompts, batch_targets)
+        ]
+        encoded = tokenizer(
+            batch_texts,
+            return_tensors="pt",
+            padding=True,
+            truncation=False,
+        )
+        encoded = {key: value.to(device) for key, value in encoded.items()}
+        attention_mask = encoded.get("attention_mask")
+        if attention_mask is None:
+            attention_mask = torch.ones_like(encoded["input_ids"], device=device)
+        final_positions = attention_mask.sum(dim=1) - 1
+
+        with torch.no_grad():
+            outputs = model(**encoded, output_hidden_states=True, use_cache=False)
+
+        layer_vectors = []
+        for hidden_state in outputs.hidden_states[1:]:
+            positions = final_positions.to(hidden_state.device)
+            gathered = hidden_state[
+                torch.arange(hidden_state.shape[0], device=hidden_state.device),
+                positions,
+            ]
+            layer_vectors.append(gathered.float().cpu())
+        sequence_batches.append(torch.stack(layer_vectors, dim=1).numpy())
+
+    return np.concatenate(sequence_batches, axis=0)
+
+
+def compute_welch_t_scores(
+    states_with: np.ndarray,
+    states_without: np.ndarray,
+    use_abs: bool = True,
+) -> np.ndarray:
+    """Compute per-unit Welch t-statistics between two activation sets."""
+    with_array = np.asarray(states_with, dtype=np.float64)
+    without_array = np.asarray(states_without, dtype=np.float64)
+    if with_array.ndim != 3 or without_array.ndim != 3:
+        raise ValueError(
+            "Expected activation arrays with shape [rows, layers, hidden], got "
+            f"{with_array.shape} and {without_array.shape}"
+        )
+    if with_array.shape[1:] != without_array.shape[1:]:
+        raise ValueError(
+            "Activation arrays must agree on [layers, hidden], got "
+            f"{with_array.shape[1:]} and {without_array.shape[1:]}"
+        )
+    if with_array.shape[0] <= 0 or without_array.shape[0] <= 0:
+        raise ValueError("Welch t-statistics require at least one observation per condition.")
+
+    if use_abs:
+        with_array = np.abs(with_array)
+        without_array = np.abs(without_array)
+
+    n_with = with_array.shape[0]
+    n_without = without_array.shape[0]
+    mean_with = with_array.mean(axis=0)
+    mean_without = without_array.mean(axis=0)
+    var_with = with_array.var(axis=0, ddof=1) if n_with > 1 else np.zeros_like(mean_with)
+    var_without = without_array.var(axis=0, ddof=1) if n_without > 1 else np.zeros_like(mean_without)
+    denominator = np.sqrt((var_with / max(n_with, 1)) + (var_without / max(n_without, 1)))
+    scores = np.zeros_like(mean_with, dtype=np.float64)
+    valid = denominator > 0
+    scores[valid] = (mean_with[valid] - mean_without[valid]) / denominator[valid]
+    scores = np.nan_to_num(scores, nan=0.0, posinf=0.0, neginf=0.0)
+    return scores.astype(np.float32)
+
+
 def compute_signed_correlations(delta_states: np.ndarray, effect_delta: np.ndarray) -> np.ndarray:
     """Compute per-unit Pearson correlations between prompt deltas and effect deltas."""
     if delta_states.ndim != 3:
@@ -656,6 +667,45 @@ def build_mask_from_scores(signed_scores: np.ndarray, percent: float) -> np.ndar
     mask = np.zeros(total_units, dtype=bool)
     mask[top_indices] = True
     return mask.reshape(abs_scores.shape)
+
+
+def build_mask_from_directional_scores(
+    directional_scores: np.ndarray,
+    percent: float,
+    require_positive: bool = True,
+) -> np.ndarray:
+    """Select a fixed-size mask from directional scores, preferring positive units."""
+    if percent <= 0:
+        raise ValueError("Mask percent must be positive.")
+    scores = np.asarray(directional_scores, dtype=np.float64)
+    total_units = scores.size
+    top_k = max(1, int(math.ceil(total_units * (percent / 100.0))))
+    flat_scores = scores.reshape(-1)
+    selected: list[int] = []
+
+    if require_positive:
+        positive_indices = np.flatnonzero(flat_scores > 0)
+        if len(positive_indices) > 0:
+            positive_scores = flat_scores[positive_indices]
+            take = min(top_k, len(positive_indices))
+            chosen_positive = positive_indices[np.argpartition(positive_scores, -take)[-take:]]
+            selected.extend(int(index) for index in chosen_positive.tolist())
+
+    if len(selected) < top_k:
+        remaining_needed = top_k - len(selected)
+        if selected:
+            selected_mask = np.zeros(total_units, dtype=bool)
+            selected_mask[selected] = True
+            candidate_indices = np.flatnonzero(~selected_mask)
+        else:
+            candidate_indices = np.arange(total_units)
+        candidate_scores = flat_scores[candidate_indices]
+        extra_indices = candidate_indices[np.argpartition(candidate_scores, -remaining_needed)[-remaining_needed:]]
+        selected.extend(int(index) for index in extra_indices.tolist())
+
+    mask = np.zeros(total_units, dtype=bool)
+    mask[np.asarray(selected[:top_k], dtype=int)] = True
+    return mask.reshape(scores.shape)
 
 
 def sample_random_mask_from_complement(mask: np.ndarray, seed: int) -> np.ndarray:
@@ -770,123 +820,116 @@ def plot_layer_counts(masks: Sequence[np.ndarray], percent: float, output_path: 
     plt.close(fig)
 
 
-def plot_before_after_histogram(
-    df: pd.DataFrame,
-    metric_column: str,
-    baseline_condition: str,
-    ablated_condition: str,
-    output_path: Path,
-    title: str,
-) -> None:
-    """Plot before/after histograms for one metric and one ablation condition."""
-    import matplotlib.pyplot as plt
+def summarize_particle_ablation_rows(row_df: pd.DataFrame) -> pd.DataFrame:
+    """Summarize per-target ablation effects for generated and gold targets."""
+    required = {
+        "particle",
+        "target_type",
+        "mask_percent",
+        "ablation_condition",
+        "evaluation_id",
+        "log_prob_with",
+        "log_prob_without",
+        "context_advantage",
+        "log_prob_with_change_from_none",
+        "log_prob_without_change_from_none",
+        "context_advantage_change_from_none",
+    }
+    missing = sorted(required - set(row_df.columns))
+    if missing:
+        raise KeyError("Missing columns for particle-ablation summary: " + ", ".join(missing))
 
-    baseline = df.loc[df["ablation_condition"] == baseline_condition, metric_column].dropna().to_numpy()
-    ablated = df.loc[df["ablation_condition"] == ablated_condition, metric_column].dropna().to_numpy()
-    fig, ax = plt.subplots(figsize=(8, 4.5))
-    ax.hist(baseline, bins=40, alpha=0.6, label=baseline_condition, color="gray", edgecolor="black")
-    ax.hist(ablated, bins=40, alpha=0.6, label=ablated_condition, color="darkorange", edgecolor="black")
-    ax.axvline(0.0, color="black", linestyle="--", linewidth=1.0)
-    ax.set_title(title)
-    ax.set_xlabel(metric_column)
-    ax.set_ylabel("Count")
-    ax.legend()
-    ax.grid(True, alpha=0.25)
-    fig.tight_layout()
-    output_path.parent.mkdir(parents=True, exist_ok=True)
-    fig.savefig(output_path, dpi=150, bbox_inches="tight")
-    plt.close(fig)
-
-
-def generated_negative_cache_path(run_dir: Path) -> Path:
-    """Return the default cache path for generated distractors."""
-    return run_dir / "generated_negative_cache.tsv"
-
-
-def build_generated_negative_cache(
-    df: pd.DataFrame,
-    model,
-    tokenizer,
-    output_path: Path,
-    generated_negatives: int = DEFAULT_GENERATED_NEGATIVES,
-    top_p: float = 0.9,
-    temperature: float = 1.0,
-    sample_batch_size: int = 16,
-    max_sample_draws: int = 100,
-    max_new_tokens: int = 64,
-    base_seed: int = 20260506,
-) -> pd.DataFrame:
-    """Sample and cache generated distractor followups for auxiliary evaluation."""
-    device = get_device(model)
     rows = []
-    for row in tqdm(df.itertuples(index=False), total=len(df), desc="Generated distractors"):
-        excluded = {normalize_response(str(row.followup).strip())}
-        excluded.update(normalize_response(text) for text in json_loads(row.human_negative_followups))
-        prompt_pair = build_prompt_pair(row.context, row.w_word, row.wo_word)
+    grouped = row_df.groupby(
+        ["particle", "target_type", "mask_percent", "ablation_condition"],
+        dropna=False,
+        sort=False,
+    )
+    for (particle, target_type, mask_percent, condition), condition_df in grouped:
+        values_with = pd.to_numeric(condition_df["log_prob_with_change_from_none"], errors="coerce")
+        values_without = pd.to_numeric(condition_df["log_prob_without_change_from_none"], errors="coerce")
+        values_adv = pd.to_numeric(condition_df["context_advantage_change_from_none"], errors="coerce")
+        rows.append(
+            {
+                "particle": particle,
+                "target_type": target_type,
+                "mask_percent": mask_percent,
+                "ablation_condition": condition,
+                "num_rows": int(condition_df["evaluation_id"].nunique()),
+                "log_prob_with_mean": float(pd.to_numeric(condition_df["log_prob_with"], errors="coerce").mean()),
+                "log_prob_without_mean": float(pd.to_numeric(condition_df["log_prob_without"], errors="coerce").mean()),
+                "context_advantage_mean": float(pd.to_numeric(condition_df["context_advantage"], errors="coerce").mean()),
+                "log_prob_with_change_from_none_mean": float(values_with.mean()),
+                "log_prob_without_change_from_none_mean": float(values_without.mean()),
+                "context_advantage_change_from_none_mean": float(values_adv.mean()),
+                "prompt_with_decrease_fraction": float((values_with < 0).mean()),
+            }
+        )
 
-        prompt_specs = [
-            ("with", prompt_pair.prompt_p),
-            ("without", prompt_pair.prompt_p_prime),
-        ]
-        record = {
-            "pilot_row_index": int(row.pilot_row_index),
-            "source_row_index": int(row.source_row_index),
-        }
-        for label, prompt in prompt_specs:
-            seed = stable_int(base_seed, row.pilot_row_index, label)
-            samples = sample_unique_responses_nucleus(
-                model=model,
-                tokenizer=tokenizer,
-                prompt=prompt,
-                device=device,
-                samples_per_condition=generated_negatives,
-                top_p=top_p,
-                temperature=temperature,
-                sample_batch_size=sample_batch_size,
-                max_sample_draws=max_sample_draws,
-                max_new_tokens=max_new_tokens,
-                seed=seed,
+    summary_df = pd.DataFrame(rows)
+    if summary_df.empty:
+        return summary_df
+
+    random_mean_rows = []
+    random_df = row_df.loc[row_df["ablation_condition"] == "random"].copy()
+    if not random_df.empty:
+        random_target_means = (
+            random_df.groupby(
+                ["particle", "target_type", "mask_percent", "evaluation_id"],
+                dropna=False,
+                sort=False,
+            )[[
+                "log_prob_with",
+                "log_prob_without",
+                "context_advantage",
+                "log_prob_with_change_from_none",
+                "log_prob_without_change_from_none",
+                "context_advantage_change_from_none",
+            ]]
+            .mean()
+            .reset_index()
+        )
+        for (particle, target_type, mask_percent), condition_df in random_target_means.groupby(
+            ["particle", "target_type", "mask_percent"],
+            dropna=False,
+            sort=False,
+        ):
+            values_with = pd.to_numeric(condition_df["log_prob_with_change_from_none"], errors="coerce")
+            values_without = pd.to_numeric(condition_df["log_prob_without_change_from_none"], errors="coerce")
+            values_adv = pd.to_numeric(condition_df["context_advantage_change_from_none"], errors="coerce")
+            random_mean_rows.append(
+                {
+                    "particle": particle,
+                    "target_type": target_type,
+                    "mask_percent": mask_percent,
+                    "ablation_condition": "random_mean",
+                    "num_rows": int(condition_df["evaluation_id"].nunique()),
+                    "log_prob_with_mean": float(pd.to_numeric(condition_df["log_prob_with"], errors="coerce").mean()),
+                    "log_prob_without_mean": float(pd.to_numeric(condition_df["log_prob_without"], errors="coerce").mean()),
+                    "context_advantage_mean": float(pd.to_numeric(condition_df["context_advantage"], errors="coerce").mean()),
+                    "log_prob_with_change_from_none_mean": float(values_with.mean()),
+                    "log_prob_without_change_from_none_mean": float(values_without.mean()),
+                    "context_advantage_change_from_none_mean": float(values_adv.mean()),
+                    "prompt_with_decrease_fraction": float((values_with < 0).mean()),
+                }
             )
-            selected = []
-            seen_norms = set(excluded)
-            for sample in samples:
-                response = sample["response"]
-                response_norm = normalize_response(response)
-                if not response or response_norm in seen_norms:
-                    continue
-                seen_norms.add(response_norm)
-                selected.append(response)
-                if len(selected) >= generated_negatives:
-                    break
-            record[f"generated_negative_followups_{label}"] = json_dumps(selected)
-            record[f"generated_negative_count_{label}"] = len(selected)
-        rows.append(record)
+        summary_df = pd.concat([summary_df, pd.DataFrame(random_mean_rows)], ignore_index=True, sort=False)
 
-    cache_df = pd.DataFrame(rows)
-    output_path.parent.mkdir(parents=True, exist_ok=True)
-    cache_df.to_csv(output_path, sep="\t", index=False)
-    return cache_df
-
-
-def merge_generated_negative_cache(df: pd.DataFrame, cache_df: pd.DataFrame) -> pd.DataFrame:
-    """Attach generated negative columns to the processed pilot dataset."""
-    merged = df.merge(cache_df, on=["pilot_row_index", "source_row_index"], how="left")
-    for column in (
-        "generated_negative_followups_with",
-        "generated_negative_followups_without",
+    random_lookup = summary_df.loc[summary_df["ablation_condition"] == "random_mean"].set_index(
+        ["particle", "target_type", "mask_percent"]
+    )
+    for metric in (
+        "log_prob_with_change_from_none_mean",
+        "log_prob_without_change_from_none_mean",
+        "context_advantage_change_from_none_mean",
     ):
-        if column not in merged.columns:
-            merged[column] = json_dumps([])
-        else:
-            merged[column] = merged[column].fillna(json_dumps([]))
-    return merged
-
-
-def summarize_metric_frame(df: pd.DataFrame, metric_columns: Sequence[str]) -> dict:
-    """Summarize means and sign accuracies for a set of metric columns."""
-    summary = {}
-    for column in metric_columns:
-        values = pd.to_numeric(df[column], errors="coerce")
-        summary[f"{column}_mean"] = float(values.mean())
-        summary[f"{column}_sign_accuracy"] = float((values > 0).mean())
-    return summary
+        comparison_column = metric.replace("_change_from_none_mean", "_localized_minus_random_mean")
+        summary_df[comparison_column] = np.nan
+        localized_mask = summary_df["ablation_condition"] == "localized"
+        for idx in summary_df.loc[localized_mask].index:
+            row = summary_df.loc[idx]
+            key = (row["particle"], row["target_type"], row["mask_percent"])
+            if key not in random_lookup.index:
+                continue
+            summary_df.at[idx, comparison_column] = row[metric] - random_lookup.loc[key, metric]
+    return summary_df
