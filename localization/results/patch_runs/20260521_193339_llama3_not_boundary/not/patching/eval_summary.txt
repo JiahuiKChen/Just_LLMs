@@ -1,0 +1,86 @@
+================================================================================
+PATCHING EVALUATION SUMMARY
+================================================================================
+not | necessity | generated | top_k=1 | localized: effect=0.0202, delta=-0.0202, normalized=0.1302
+  localized-minus-random mean=0.0168, stronger_fraction=0.964
+not | necessity | generated | top_k=1 | none: effect=0.0000, delta=0.0000, normalized=0.0000
+not | necessity | generated | top_k=1 | random_mean: effect=0.0033, delta=-0.0033, normalized=0.0237
+not | necessity | generated | top_k=3 | localized: effect=0.0253, delta=-0.0253, normalized=0.1606
+  localized-minus-random mean=-0.0002, stronger_fraction=0.536
+not | necessity | generated | top_k=3 | none: effect=0.0000, delta=0.0000, normalized=0.0000
+not | necessity | generated | top_k=3 | random_mean: effect=0.0255, delta=-0.0255, normalized=0.1563
+not | necessity | generated | top_k=5 | localized: effect=0.0281, delta=-0.0281, normalized=0.1755
+  localized-minus-random mean=0.0020, stronger_fraction=0.607
+not | necessity | generated | top_k=5 | none: effect=0.0000, delta=0.0000, normalized=0.0000
+not | necessity | generated | top_k=5 | random_mean: effect=0.0260, delta=-0.0260, normalized=0.1611
+not | necessity | generated | top_k=10 | localized: effect=0.0305, delta=-0.0305, normalized=0.1904
+  localized-minus-random mean=0.0015, stronger_fraction=0.571
+not | necessity | generated | top_k=10 | none: effect=0.0000, delta=0.0000, normalized=0.0000
+not | necessity | generated | top_k=10 | random_mean: effect=0.0291, delta=-0.0291, normalized=0.1788
+not | necessity | gold | top_k=1 | localized: effect=0.0066, delta=-0.0066, normalized=-2821.0885
+  localized-minus-random mean=0.0046, stronger_fraction=0.536
+not | necessity | gold | top_k=1 | none: effect=0.0000, delta=0.0000, normalized=0.0000
+not | necessity | gold | top_k=1 | random_mean: effect=0.0020, delta=-0.0020, normalized=-375.1183
+not | necessity | gold | top_k=3 | localized: effect=0.0124, delta=-0.0124, normalized=-2917.6604
+  localized-minus-random mean=-0.0008, stronger_fraction=0.500
+not | necessity | gold | top_k=3 | none: effect=0.0000, delta=0.0000, normalized=0.0000
+not | necessity | gold | top_k=3 | random_mean: effect=0.0132, delta=-0.0132, normalized=-1372.7398
+not | necessity | gold | top_k=5 | localized: effect=0.0157, delta=-0.0157, normalized=-3285.3152
+  localized-minus-random mean=0.0030, stronger_fraction=0.679
+not | necessity | gold | top_k=5 | none: effect=0.0000, delta=0.0000, normalized=0.0000
+not | necessity | gold | top_k=5 | random_mean: effect=0.0128, delta=-0.0128, normalized=-1555.5106
+not | necessity | gold | top_k=10 | localized: effect=0.0168, delta=-0.0168, normalized=-3284.4441
+  localized-minus-random mean=0.0031, stronger_fraction=0.571
+not | necessity | gold | top_k=10 | none: effect=0.0000, delta=0.0000, normalized=0.0000
+not | necessity | gold | top_k=10 | random_mean: effect=0.0136, delta=-0.0136, normalized=-1973.8608
+not | sufficiency | generated | top_k=1 | localized: effect=0.0306, delta=0.0306, normalized=0.1920
+  localized-minus-random mean=0.0095, stronger_fraction=0.786
+not | sufficiency | generated | top_k=1 | none: effect=0.0000, delta=0.0000, normalized=0.0000
+not | sufficiency | generated | top_k=1 | random_mean: effect=0.0212, delta=0.0212, normalized=0.1281
+not | sufficiency | generated | top_k=3 | localized: effect=0.0353, delta=0.0353, normalized=0.2187
+  localized-minus-random mean=0.0066, stronger_fraction=0.821
+not | sufficiency | generated | top_k=3 | none: effect=0.0000, delta=0.0000, normalized=0.0000
+not | sufficiency | generated | top_k=3 | random_mean: effect=0.0287, delta=0.0287, normalized=0.1744
+not | sufficiency | generated | top_k=5 | localized: effect=0.0388, delta=0.0388, normalized=0.2390
+  localized-minus-random mean=0.0065, stronger_fraction=0.821
+not | sufficiency | generated | top_k=5 | none: effect=0.0000, delta=0.0000, normalized=0.0000
+not | sufficiency | generated | top_k=5 | random_mean: effect=0.0323, delta=0.0323, normalized=0.1991
+not | sufficiency | generated | top_k=10 | localized: effect=0.0399, delta=0.0399, normalized=0.2451
+  localized-minus-random mean=0.0034, stronger_fraction=0.607
+not | sufficiency | generated | top_k=10 | none: effect=0.0000, delta=0.0000, normalized=0.0000
+not | sufficiency | generated | top_k=10 | random_mean: effect=0.0365, delta=0.0365, normalized=0.2266
+not | sufficiency | gold | top_k=1 | localized: effect=0.0174, delta=0.0174, normalized=-1997.2295
+  localized-minus-random mean=0.0072, stronger_fraction=0.643
+not | sufficiency | gold | top_k=1 | none: effect=0.0000, delta=0.0000, normalized=0.0000
+not | sufficiency | gold | top_k=1 | random_mean: effect=0.0102, delta=0.0102, normalized=-209.8593
+not | sufficiency | gold | top_k=3 | localized: effect=0.0215, delta=0.0215, normalized=-2084.2866
+  localized-minus-random mean=0.0066, stronger_fraction=0.679
+not | sufficiency | gold | top_k=3 | none: effect=0.0000, delta=0.0000, normalized=0.0000
+not | sufficiency | gold | top_k=3 | random_mean: effect=0.0149, delta=0.0149, normalized=-588.6619
+not | sufficiency | gold | top_k=5 | localized: effect=0.0247, delta=0.0247, normalized=-2098.0446
+  localized-minus-random mean=0.0076, stronger_fraction=0.714
+not | sufficiency | gold | top_k=5 | none: effect=0.0000, delta=0.0000, normalized=0.0000
+not | sufficiency | gold | top_k=5 | random_mean: effect=0.0170, delta=0.0170, normalized=-957.1860
+not | sufficiency | gold | top_k=10 | localized: effect=0.0259, delta=0.0259, normalized=-1992.1086
+  localized-minus-random mean=0.0057, stronger_fraction=0.643
+not | sufficiency | gold | top_k=10 | none: effect=0.0000, delta=0.0000, normalized=0.0000
+not | sufficiency | gold | top_k=10 | random_mean: effect=0.0201, delta=0.0201, normalized=-1821.2057
+
+--- Localized vs Random Mean Tests ---
+not | necessity | generated | top_k=1: mean_diff=0.0168, 95% CI [0.0126, 0.0214], p_greater=0.0000, n=28
+not | necessity | generated | top_k=3: mean_diff=-0.0002, 95% CI [-0.0033, 0.0027], p_greater=0.5378, n=28
+not | necessity | generated | top_k=5: mean_diff=0.0020, 95% CI [-0.0001, 0.0042], p_greater=0.0409, n=28
+not | necessity | generated | top_k=10: mean_diff=0.0015, 95% CI [-0.0017, 0.0042], p_greater=0.1758, n=28
+not | necessity | gold | top_k=1: mean_diff=0.0046, 95% CI [-0.0046, 0.0146], p_greater=0.1838, n=28
+not | necessity | gold | top_k=3: mean_diff=-0.0008, 95% CI [-0.0069, 0.0052], p_greater=0.5979, n=28
+not | necessity | gold | top_k=5: mean_diff=0.0030, 95% CI [-0.0037, 0.0110], p_greater=0.2577, n=28
+not | necessity | gold | top_k=10: mean_diff=0.0031, 95% CI [-0.0036, 0.0109], p_greater=0.2337, n=28
+not | sufficiency | generated | top_k=1: mean_diff=0.0095, 95% CI [0.0059, 0.0129], p_greater=0.0000, n=28
+not | sufficiency | generated | top_k=3: mean_diff=0.0066, 95% CI [0.0042, 0.0092], p_greater=0.0000, n=28
+not | sufficiency | generated | top_k=5: mean_diff=0.0065, 95% CI [0.0034, 0.0096], p_greater=0.0002, n=28
+not | sufficiency | generated | top_k=10: mean_diff=0.0034, 95% CI [0.0003, 0.0067], p_greater=0.0256, n=28
+not | sufficiency | gold | top_k=1: mean_diff=0.0072, 95% CI [-0.0012, 0.0156], p_greater=0.0545, n=28
+not | sufficiency | gold | top_k=3: mean_diff=0.0066, 95% CI [0.0001, 0.0131], p_greater=0.0305, n=28
+not | sufficiency | gold | top_k=5: mean_diff=0.0076, 95% CI [0.0008, 0.0151], p_greater=0.0247, n=28
+not | sufficiency | gold | top_k=10: mean_diff=0.0057, 95% CI [0.0007, 0.0117], p_greater=0.0237, n=28
+================================================================================

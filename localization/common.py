@@ -7,7 +7,8 @@ import hashlib
 import json
 import math
 import sys
-from contextlib import contextmanager
+from contextlib import contextmanager, nullcontext
+from dataclasses import dataclass
 from pathlib import Path
 from typing import Iterator, List, Optional, Sequence
 
@@ -40,6 +41,26 @@ PARTICLE_DATA_PATHS = {
     "only": "dd_data/filtered_only_dd.tsv",
     "not": DEFAULT_NOT_DATA_PATH,
 }
+
+
+@dataclass(frozen=True)
+class EncodedSequenceBatch:
+    """Batch of prompt+target token ids with prompt/target boundaries."""
+
+    input_ids: torch.Tensor
+    attention_mask: torch.Tensor
+    prompt_lens: np.ndarray
+    target_lens: np.ndarray
+
+
+@dataclass(frozen=True)
+class PredictionPositionSpec:
+    """One relative prediction position searched by activation patching."""
+
+    label: str
+    position_order: int
+    target_offset: Optional[int]
+    use_last: bool = False
 
 
 def stable_int(*parts: object) -> int:
@@ -272,6 +293,34 @@ def get_decoder_layers(model) -> Sequence[torch.nn.Module]:
     raise ValueError(f"Unsupported model architecture for residual-layer access: {type(model)}")
 
 
+def get_component_modules(model, component: str) -> Sequence[torch.nn.Module]:
+    """Return per-layer modules for component-level activation patching."""
+    normalized = normalize_particle_name(component)
+    decoder_layers = list(get_decoder_layers(model))
+    if normalized == "resid":
+        return decoder_layers
+    if normalized == "attn":
+        attr = "self_attn"
+    elif normalized == "mlp":
+        attr = "mlp"
+    else:
+        raise ValueError(f"Unsupported patch component: {component}")
+
+    modules = []
+    missing_layers = []
+    for layer_index, layer in enumerate(decoder_layers):
+        if not hasattr(layer, attr):
+            missing_layers.append(layer_index)
+            continue
+        modules.append(getattr(layer, attr))
+    if missing_layers:
+        raise ValueError(
+            f"Component {normalized} is not available on decoder layers: "
+            + ", ".join(str(value) for value in missing_layers)
+        )
+    return modules
+
+
 def get_hidden_size(model) -> int:
     """Return the decoder hidden size from the model config."""
     for attr in ("hidden_size", "n_embd", "d_model"):
@@ -321,6 +370,554 @@ def encode_prompt_target(
     return full_tokens, prompt_len, target_len
 
 
+def _last_token_index_before_char(tokenizer, text: str, char_end: int) -> int:
+    """Return the token index whose token starts before char_end and is last in the prefix."""
+    if char_end <= 0:
+        raise ValueError("char_end must be positive.")
+    if tokenizer.is_fast:
+        enc = tokenizer(text, add_special_tokens=False, return_offsets_mapping=True)
+        token_index = -1
+        for idx, (start, end) in enumerate(enc["offset_mapping"]):
+            if start == end == 0:
+                continue
+            if start < char_end:
+                token_index = idx
+            else:
+                break
+        if token_index < 0:
+            raise ValueError("Could not resolve a token before the requested character boundary.")
+        return int(token_index)
+
+    prefix_tokens = tokenizer.encode(text[:char_end], add_special_tokens=False)
+    if not prefix_tokens:
+        raise ValueError("Could not resolve a token before the requested character boundary.")
+    return len(prefix_tokens) - 1
+
+
+def resolve_utterance_final_positions(
+    tokenizer,
+    prompts: Sequence[str],
+    utterances: Sequence[str],
+) -> np.ndarray:
+    """Resolve the final token of the particle-bearing utterance inside each prompt."""
+    if len(prompts) != len(utterances):
+        raise ValueError("prompts and utterances must have identical lengths.")
+    positions = np.full((len(prompts), 1), fill_value=-1, dtype=np.int64)
+    bos_offset = 1 if tokenizer.bos_token_id is not None else 0
+    for row_idx, (prompt, utterance) in enumerate(zip(prompts, utterances)):
+        prompt_text = str(prompt)
+        utterance_text = str(utterance).strip()
+        if not utterance_text:
+            raise ValueError(f"Empty utterance for row {row_idx}.")
+        start_char = prompt_text.rfind(utterance_text)
+        if start_char < 0:
+            raw_utterance = str(utterance)
+            start_char = prompt_text.rfind(raw_utterance)
+            utterance_text = raw_utterance
+        if start_char < 0:
+            raise ValueError(
+                f"Could not find utterance in prompt for row {row_idx}: {utterance_text!r}"
+            )
+        end_char = start_char + len(utterance_text)
+        token_index = _last_token_index_before_char(tokenizer, prompt_text, end_char)
+        positions[row_idx, 0] = int(token_index) + bos_offset
+    return positions
+
+
+def build_encoded_sequence_batch(
+    tokenizer,
+    prompts: Sequence[str],
+    targets: Sequence[str],
+    device: torch.device,
+) -> EncodedSequenceBatch:
+    """Tokenize prompt+target pairs into one padded batch."""
+    if len(prompts) != len(targets):
+        raise ValueError("prompts and targets must have identical lengths.")
+    if not prompts:
+        raise ValueError("At least one prompt/target pair is required.")
+
+    pad_token_id = tokenizer.pad_token_id
+    if pad_token_id is None:
+        pad_token_id = tokenizer.eos_token_id
+    if pad_token_id is None:
+        raise ValueError("Tokenizer must define pad_token_id or eos_token_id for sequence batching.")
+
+    encoded_rows = [
+        encode_prompt_target(tokenizer, prompt_text=prompt, target_text=target)
+        for prompt, target in zip(prompts, targets)
+    ]
+    full_tokens = [row[0] for row in encoded_rows]
+    prompt_lens = np.asarray([row[1] for row in encoded_rows], dtype=np.int64)
+    target_lens = np.asarray([row[2] for row in encoded_rows], dtype=np.int64)
+    max_len = max(len(tokens) for tokens in full_tokens)
+
+    input_ids = torch.full(
+        (len(full_tokens), max_len),
+        fill_value=pad_token_id,
+        dtype=torch.long,
+        device=device,
+    )
+    attention_mask = torch.zeros_like(input_ids)
+    for row_idx, tokens in enumerate(full_tokens):
+        token_tensor = torch.tensor(tokens, dtype=torch.long, device=device)
+        input_ids[row_idx, : len(tokens)] = token_tensor
+        attention_mask[row_idx, : len(tokens)] = 1
+
+    return EncodedSequenceBatch(
+        input_ids=input_ids,
+        attention_mask=attention_mask,
+        prompt_lens=prompt_lens,
+        target_lens=target_lens,
+    )
+
+
+def build_prediction_position_specs(
+    patch_scope: str,
+    onset_tokens: int,
+) -> list[PredictionPositionSpec]:
+    """Return the ordered relative prediction positions for one patch scope."""
+    if onset_tokens <= 0:
+        raise ValueError("onset_tokens must be positive.")
+
+    specs: list[PredictionPositionSpec] = []
+    if patch_scope == "prompt_boundary":
+        specs.append(PredictionPositionSpec(label="predict_0", position_order=0, target_offset=0))
+    elif patch_scope == "utterance_final":
+        specs.append(PredictionPositionSpec(label="utterance_final", position_order=0, target_offset=None))
+    elif patch_scope == "response_onset":
+        for offset in range(onset_tokens):
+            specs.append(
+                PredictionPositionSpec(
+                    label=f"predict_{offset}",
+                    position_order=len(specs),
+                    target_offset=offset,
+                )
+            )
+    elif patch_scope == "full_final":
+        specs.append(PredictionPositionSpec(label="predict_last", position_order=0, target_offset=None, use_last=True))
+    elif patch_scope == "hybrid":
+        for offset in range(onset_tokens):
+            specs.append(
+                PredictionPositionSpec(
+                    label=f"predict_{offset}",
+                    position_order=len(specs),
+                    target_offset=offset,
+                )
+            )
+        specs.append(
+            PredictionPositionSpec(
+                label="predict_last",
+                position_order=len(specs),
+                target_offset=None,
+                use_last=True,
+            )
+        )
+    else:
+        raise ValueError(f"Unsupported patch_scope: {patch_scope}")
+    return specs
+
+
+def resolve_prediction_positions(
+    prompt_lens: Sequence[int],
+    target_lens: Sequence[int],
+    position_specs: Sequence[PredictionPositionSpec],
+) -> np.ndarray:
+    """Resolve ordered relative prediction positions to absolute token indices."""
+    prompt_array = np.asarray(prompt_lens, dtype=np.int64)
+    target_array = np.asarray(target_lens, dtype=np.int64)
+    if prompt_array.shape != target_array.shape:
+        raise ValueError("prompt_lens and target_lens must have identical shapes.")
+
+    position_matrix = np.full((len(prompt_array), len(position_specs)), fill_value=-1, dtype=np.int64)
+    for row_idx, (prompt_len, target_len) in enumerate(zip(prompt_array, target_array)):
+        used_positions: set[int] = set()
+        if int(target_len) <= 0:
+            continue
+        for column_idx, spec in enumerate(position_specs):
+            if spec.use_last:
+                absolute_position = int(prompt_len) + int(target_len) - 2
+            else:
+                if spec.target_offset is None:
+                    raise ValueError(
+                        f"Position {spec.label!r} is not resolvable from prompt/target lengths alone."
+                    )
+                if spec.target_offset >= int(target_len):
+                    continue
+                absolute_position = int(prompt_len) - 1 + spec.target_offset
+            if absolute_position in used_positions:
+                continue
+            used_positions.add(absolute_position)
+            position_matrix[row_idx, column_idx] = absolute_position
+    return position_matrix
+
+
+def score_target_log_probs_from_logits(
+    logits: torch.Tensor,
+    input_ids: torch.Tensor,
+    prompt_lens: Sequence[int],
+    target_lens: Sequence[int],
+    bos_token_id: Optional[int],
+) -> tuple[np.ndarray, np.ndarray, np.ndarray]:
+    """Score each target continuation from model logits."""
+    prompt_array = np.asarray(prompt_lens, dtype=np.int64)
+    target_array = np.asarray(target_lens, dtype=np.int64)
+    if logits.ndim != 3:
+        raise ValueError(f"Expected logits with shape [batch, seq, vocab], got {tuple(logits.shape)}")
+    if input_ids.ndim != 2:
+        raise ValueError(f"Expected input_ids with shape [batch, seq], got {tuple(input_ids.shape)}")
+    if logits.shape[:2] != input_ids.shape:
+        raise ValueError(
+            f"logits and input_ids must agree on [batch, seq], got {tuple(logits.shape[:2])} and {tuple(input_ids.shape)}"
+        )
+    if len(prompt_array) != logits.shape[0] or len(target_array) != logits.shape[0]:
+        raise ValueError("prompt_lens and target_lens must align with the batch size.")
+
+    log_probs = torch.nn.functional.log_softmax(logits, dim=-1)
+    totals = np.zeros(logits.shape[0], dtype=np.float64)
+    counts = np.zeros(logits.shape[0], dtype=np.int64)
+    per_token = np.full(logits.shape[0], np.nan, dtype=np.float64)
+    for row_idx, (prompt_len, target_len) in enumerate(zip(prompt_array, target_array)):
+        if target_len <= 0:
+            continue
+        start_position = max(int(prompt_len) - 1, 0)
+        end_position = int(prompt_len) + int(target_len) - 1
+        total_log_prob = 0.0
+        for position in range(start_position, end_position):
+            next_token_id = int(input_ids[row_idx, position + 1].item())
+            total_log_prob += float(log_probs[row_idx, position, next_token_id].item())
+        scored_target_len = int(target_len)
+        if bos_token_id is None and int(prompt_len) == 0 and int(target_len) > 0:
+            scored_target_len = int(target_len) - 1
+        totals[row_idx] = total_log_prob
+        counts[row_idx] = scored_target_len
+        if scored_target_len > 0:
+            per_token[row_idx] = total_log_prob / float(scored_target_len)
+    return totals, counts, per_token
+
+
+def _extract_hidden_from_layer_output(output):
+    """Return the tensor-like hidden state from a decoder-layer output."""
+    return output[0] if isinstance(output, (tuple, list)) else output
+
+
+def _replace_hidden_in_layer_output(output, hidden):
+    """Rebuild a decoder-layer output after modifying the hidden state."""
+    if isinstance(output, tuple):
+        return (hidden,) + output[1:]
+    if isinstance(output, list):
+        return [hidden, *output[1:]]
+    return hidden
+
+
+@contextmanager
+def residual_capture_hooks(
+    model,
+    position_matrix: np.ndarray,
+) -> Iterator[list[Optional[torch.Tensor]]]:
+    """Capture decoder-layer residual vectors at example-specific token positions."""
+    hooks = []
+    position_matrix = np.asarray(position_matrix, dtype=np.int64)
+    if position_matrix.ndim != 2:
+        raise ValueError(f"Expected position_matrix with shape [batch, sites], got {position_matrix.shape}")
+
+    decoder_layers = get_decoder_layers(model)
+    batch_size, site_count = position_matrix.shape
+    captured_layers: list[Optional[torch.Tensor]] = [None] * len(decoder_layers)
+    valid_batch, valid_site = np.nonzero(position_matrix >= 0)
+    valid_positions = position_matrix[valid_batch, valid_site]
+    batch_index_tensor = None if len(valid_batch) == 0 else torch.tensor(valid_batch, dtype=torch.long)
+    site_index_tensor = None if len(valid_site) == 0 else torch.tensor(valid_site, dtype=torch.long)
+    position_tensor = None if len(valid_positions) == 0 else torch.tensor(valid_positions, dtype=torch.long)
+
+    def make_hook(layer_index: int):
+        nonlocal batch_index_tensor, site_index_tensor, position_tensor
+
+        def hook_fn(_module, _inputs, output):
+            nonlocal batch_index_tensor, site_index_tensor, position_tensor
+            hidden = _extract_hidden_from_layer_output(output)
+            layer_capture = hidden.new_zeros((batch_size, site_count, hidden.shape[-1]))
+            if batch_index_tensor is not None:
+                if batch_index_tensor.device != hidden.device:
+                    batch_index_tensor = batch_index_tensor.to(hidden.device)
+                    site_index_tensor = site_index_tensor.to(hidden.device)
+                    position_tensor = position_tensor.to(hidden.device)
+                gathered = hidden[batch_index_tensor, position_tensor]
+                layer_capture[batch_index_tensor, site_index_tensor] = gathered
+            captured_layers[layer_index] = layer_capture.detach().cpu()
+            return output
+
+        return hook_fn
+
+    try:
+        for layer_index, layer in enumerate(decoder_layers):
+            hooks.append(layer.register_forward_hook(make_hook(layer_index)))
+        yield captured_layers
+    finally:
+        for hook in hooks:
+            hook.remove()
+
+
+@contextmanager
+def component_capture_hooks(
+    model,
+    component: str,
+    position_matrix: np.ndarray,
+) -> Iterator[list[Optional[torch.Tensor]]]:
+    """Capture per-layer component vectors at example-specific token positions."""
+    hooks = []
+    position_matrix = np.asarray(position_matrix, dtype=np.int64)
+    if position_matrix.ndim != 2:
+        raise ValueError(f"Expected position_matrix with shape [batch, sites], got {position_matrix.shape}")
+
+    component_modules = get_component_modules(model, component)
+    batch_size, site_count = position_matrix.shape
+    captured_layers: list[Optional[torch.Tensor]] = [None] * len(component_modules)
+    valid_batch, valid_site = np.nonzero(position_matrix >= 0)
+    valid_positions = position_matrix[valid_batch, valid_site]
+    batch_index_tensor = None if len(valid_batch) == 0 else torch.tensor(valid_batch, dtype=torch.long)
+    site_index_tensor = None if len(valid_site) == 0 else torch.tensor(valid_site, dtype=torch.long)
+    position_tensor = None if len(valid_positions) == 0 else torch.tensor(valid_positions, dtype=torch.long)
+
+    def make_hook(layer_index: int):
+        nonlocal batch_index_tensor, site_index_tensor, position_tensor
+
+        def hook_fn(_module, _inputs, output):
+            nonlocal batch_index_tensor, site_index_tensor, position_tensor
+            hidden = _extract_hidden_from_layer_output(output)
+            layer_capture = hidden.new_zeros((batch_size, site_count, hidden.shape[-1]))
+            if batch_index_tensor is not None:
+                if batch_index_tensor.device != hidden.device:
+                    batch_index_tensor = batch_index_tensor.to(hidden.device)
+                    site_index_tensor = site_index_tensor.to(hidden.device)
+                    position_tensor = position_tensor.to(hidden.device)
+                gathered = hidden[batch_index_tensor, position_tensor]
+                layer_capture[batch_index_tensor, site_index_tensor] = gathered
+            captured_layers[layer_index] = layer_capture.detach().cpu()
+            return output
+
+        return hook_fn
+
+    try:
+        for layer_index, module in enumerate(component_modules):
+            hooks.append(module.register_forward_hook(make_hook(layer_index)))
+        yield captured_layers
+    finally:
+        for hook in hooks:
+            hook.remove()
+
+
+def build_residual_patch_plan(
+    layer_position_pairs: Sequence[tuple[int, int]],
+    target_positions: np.ndarray,
+    source_cache: torch.Tensor,
+) -> dict[int, list[dict[str, torch.Tensor]]]:
+    """Map layer/position site selections to per-layer patch operations."""
+    target_positions = np.asarray(target_positions, dtype=np.int64)
+    if target_positions.ndim != 2:
+        raise ValueError(f"Expected target_positions with shape [batch, sites], got {target_positions.shape}")
+    if source_cache.ndim != 4:
+        raise ValueError(
+            "Expected source_cache with shape [layers, batch, sites, hidden], got "
+            f"{tuple(source_cache.shape)}"
+        )
+    if source_cache.shape[1:3] != target_positions.shape:
+        raise ValueError(
+            "source_cache and target_positions must agree on [batch, sites], got "
+            f"{tuple(source_cache.shape[1:3])} and {tuple(target_positions.shape)}"
+        )
+
+    plan: dict[int, list[dict[str, torch.Tensor]]] = {}
+    for layer_index, position_index in layer_position_pairs:
+        if not (0 <= layer_index < source_cache.shape[0]):
+            raise ValueError(f"Layer index {layer_index} is out of range for source_cache.")
+        if not (0 <= position_index < target_positions.shape[1]):
+            raise ValueError(f"Position index {position_index} is out of range for target_positions.")
+        valid_batch = np.flatnonzero(target_positions[:, position_index] >= 0)
+        if len(valid_batch) == 0:
+            continue
+        plan.setdefault(layer_index, []).append(
+            {
+                "batch_indices": torch.tensor(valid_batch, dtype=torch.long),
+                "target_positions": torch.tensor(target_positions[valid_batch, position_index], dtype=torch.long),
+                "source_vectors": source_cache[layer_index, valid_batch, position_index].clone(),
+            }
+        )
+    return plan
+
+
+@contextmanager
+def residual_patch_hooks(
+    model,
+    patch_plan: Optional[dict[int, list[dict[str, torch.Tensor]]]],
+) -> Iterator[None]:
+    """Replace decoder-layer residual vectors at example-specific token positions."""
+    hooks = []
+    if not patch_plan:
+        yield
+        return
+
+    decoder_layers = get_decoder_layers(model)
+
+    def make_hook(specs: list[dict[str, torch.Tensor]]):
+        cached_specs = [
+            {
+                "batch_indices": spec["batch_indices"],
+                "target_positions": spec["target_positions"],
+                "source_vectors": spec["source_vectors"],
+            }
+            for spec in specs
+        ]
+
+        def hook_fn(_module, _inputs, output):
+            hidden = _extract_hidden_from_layer_output(output)
+            modified = None
+            for spec in cached_specs:
+                if spec["batch_indices"].numel() == 0:
+                    continue
+                if spec["batch_indices"].device != hidden.device:
+                    spec["batch_indices"] = spec["batch_indices"].to(hidden.device)
+                    spec["target_positions"] = spec["target_positions"].to(hidden.device)
+                    spec["source_vectors"] = spec["source_vectors"].to(hidden.device, dtype=hidden.dtype)
+                elif spec["source_vectors"].dtype != hidden.dtype:
+                    spec["source_vectors"] = spec["source_vectors"].to(dtype=hidden.dtype)
+                if modified is None:
+                    modified = hidden.clone()
+                modified[spec["batch_indices"], spec["target_positions"]] = spec["source_vectors"]
+            if modified is None:
+                return output
+            return _replace_hidden_in_layer_output(output, modified)
+
+        return hook_fn
+
+    try:
+        for layer_index, specs in patch_plan.items():
+            if not (0 <= layer_index < len(decoder_layers)):
+                raise ValueError(f"Layer index {layer_index} is out of range for decoder layers.")
+            hooks.append(decoder_layers[layer_index].register_forward_hook(make_hook(specs)))
+        yield
+    finally:
+        for hook in hooks:
+            hook.remove()
+
+
+@contextmanager
+def component_patch_hooks(
+    model,
+    component: str,
+    patch_plan: Optional[dict[int, list[dict[str, torch.Tensor]]]],
+) -> Iterator[None]:
+    """Replace component vectors at example-specific token positions."""
+    hooks = []
+    if not patch_plan:
+        yield
+        return
+
+    component_modules = get_component_modules(model, component)
+
+    def make_hook(specs: list[dict[str, torch.Tensor]]):
+        cached_specs = [
+            {
+                "batch_indices": spec["batch_indices"],
+                "target_positions": spec["target_positions"],
+                "source_vectors": spec["source_vectors"],
+            }
+            for spec in specs
+        ]
+
+        def hook_fn(_module, _inputs, output):
+            hidden = _extract_hidden_from_layer_output(output)
+            modified = None
+            for spec in cached_specs:
+                if spec["batch_indices"].numel() == 0:
+                    continue
+                if spec["batch_indices"].device != hidden.device:
+                    spec["batch_indices"] = spec["batch_indices"].to(hidden.device)
+                    spec["target_positions"] = spec["target_positions"].to(hidden.device)
+                    spec["source_vectors"] = spec["source_vectors"].to(hidden.device, dtype=hidden.dtype)
+                elif spec["source_vectors"].dtype != hidden.dtype:
+                    spec["source_vectors"] = spec["source_vectors"].to(dtype=hidden.dtype)
+                if modified is None:
+                    modified = hidden.clone()
+                modified[spec["batch_indices"], spec["target_positions"]] = spec["source_vectors"]
+            if modified is None:
+                return output
+            return _replace_hidden_in_layer_output(output, modified)
+
+        return hook_fn
+
+    try:
+        for layer_index, specs in patch_plan.items():
+            if not (0 <= layer_index < len(component_modules)):
+                raise ValueError(f"Layer index {layer_index} is out of range for {component} modules.")
+            hooks.append(component_modules[layer_index].register_forward_hook(make_hook(specs)))
+        yield
+    finally:
+        for hook in hooks:
+            hook.remove()
+
+
+def run_sequence_model(
+    model,
+    batch: EncodedSequenceBatch,
+    capture_positions: Optional[np.ndarray] = None,
+    patch_plan: Optional[dict[int, list[dict[str, torch.Tensor]]]] = None,
+) -> tuple[torch.Tensor, Optional[torch.Tensor]]:
+    """Run one batched forward pass with optional residual capture and patching."""
+    capture_context = (
+        residual_capture_hooks(model, capture_positions)
+        if capture_positions is not None
+        else nullcontext([])
+    )
+    with torch.no_grad():
+        with capture_context as captured_layers:
+            with residual_patch_hooks(model, patch_plan=patch_plan):
+                outputs = model(
+                    input_ids=batch.input_ids,
+                    attention_mask=batch.attention_mask,
+                    use_cache=False,
+                )
+
+    capture_tensor = None
+    if capture_positions is not None:
+        if any(layer_capture is None for layer_capture in captured_layers):
+            raise ValueError("Residual capture hooks did not record every decoder layer.")
+        capture_tensor = torch.stack([layer_capture for layer_capture in captured_layers if layer_capture is not None], dim=0)
+    return outputs.logits, capture_tensor
+
+
+def run_component_sequence_model(
+    model,
+    batch: EncodedSequenceBatch,
+    component: str,
+    capture_positions: Optional[np.ndarray] = None,
+    patch_plan: Optional[dict[int, list[dict[str, torch.Tensor]]]] = None,
+) -> tuple[torch.Tensor, Optional[torch.Tensor]]:
+    """Run a batched forward pass with optional component capture and patching."""
+    capture_context = (
+        component_capture_hooks(model, component=component, position_matrix=capture_positions)
+        if capture_positions is not None
+        else nullcontext([])
+    )
+    with torch.no_grad():
+        with capture_context as captured_layers:
+            with component_patch_hooks(model, component=component, patch_plan=patch_plan):
+                outputs = model(
+                    input_ids=batch.input_ids,
+                    attention_mask=batch.attention_mask,
+                    use_cache=False,
+                )
+
+    capture_tensor = None
+    if capture_positions is not None:
+        if any(layer_capture is None for layer_capture in captured_layers):
+            raise ValueError(f"{component} capture hooks did not record every layer.")
+        capture_tensor = torch.stack(
+            [layer_capture for layer_capture in captured_layers if layer_capture is not None],
+            dim=0,
+        )
+    return outputs.logits, capture_tensor
+
+
 @contextmanager
 def residual_ablation_hooks(
     model,
@@ -347,18 +944,14 @@ def residual_ablation_hooks(
             nonlocal index_tensor
             if index_tensor is None or start_position < 0:
                 return output
-            hidden = output[0] if isinstance(output, (tuple, list)) else output
+            hidden = _extract_hidden_from_layer_output(output)
             if hidden.shape[1] <= start_position:
                 return output
             if index_tensor.device != hidden.device:
                 index_tensor = index_tensor.to(hidden.device)
             modified = hidden.clone()
             modified[:, start_position:, index_tensor] = 0.0
-            if isinstance(output, tuple):
-                return (modified,) + output[1:]
-            if isinstance(output, list):
-                return [modified, *output[1:]]
-            return modified
+            return _replace_hidden_in_layer_output(output, modified)
 
         return hook_fn
 
@@ -390,24 +983,22 @@ def calculate_log_probability_with_ablation(
     if target_len <= 0:
         return 0.0, 0
 
-    input_ids = torch.tensor([full_tokens], device=device)
+    input_ids = torch.tensor([full_tokens], dtype=torch.long, device=device)
+    attention_mask = torch.ones_like(input_ids)
     start_position = max(prompt_len - 1, 0)
 
     with torch.no_grad():
         with residual_ablation_hooks(model, layer_mask=layer_mask, start_position=start_position):
-            logits = model(input_ids=input_ids).logits
+            logits = model(input_ids=input_ids, attention_mask=attention_mask, use_cache=False).logits
 
-    log_probs = torch.nn.functional.log_softmax(logits, dim=-1)
-    total_log_prob = 0.0
-    end_idx = len(full_tokens) - 1
-    for position in range(start_position, end_idx):
-        next_token_id = full_tokens[position + 1]
-        total_log_prob += log_probs[0, position, next_token_id].item()
-
-    scored_target_len = target_len
-    if tokenizer.bos_token_id is None and prompt_len == 0 and target_len > 0:
-        scored_target_len = target_len - 1
-    return total_log_prob, scored_target_len
+    totals, counts, _ = score_target_log_probs_from_logits(
+        logits=logits,
+        input_ids=input_ids,
+        prompt_lens=[prompt_len],
+        target_lens=[target_len],
+        bos_token_id=tokenizer.bos_token_id,
+    )
+    return float(totals[0]), int(counts[0])
 
 
 def score_target_pair(

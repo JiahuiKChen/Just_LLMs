@@ -1,0 +1,86 @@
+================================================================================
+PATCHING EVALUATION SUMMARY
+================================================================================
+not | utterance_final | prompt_without | necessity | generated | top_k=1 | localized: effect=0.0138, delta=-0.0138, normalized=0.0892
+  localized-minus-random mean=0.0127, stronger_fraction=0.964
+not | utterance_final | prompt_without | necessity | generated | top_k=1 | none: effect=0.0000, delta=0.0000, normalized=0.0000
+not | utterance_final | prompt_without | necessity | generated | top_k=1 | random_mean: effect=0.0011, delta=-0.0011, normalized=0.0086
+not | utterance_final | prompt_without | necessity | generated | top_k=3 | localized: effect=0.0227, delta=-0.0227, normalized=0.1456
+  localized-minus-random mean=0.0168, stronger_fraction=0.893
+not | utterance_final | prompt_without | necessity | generated | top_k=3 | none: effect=0.0000, delta=0.0000, normalized=0.0000
+not | utterance_final | prompt_without | necessity | generated | top_k=3 | random_mean: effect=0.0059, delta=-0.0059, normalized=0.0397
+not | utterance_final | prompt_without | necessity | generated | top_k=5 | localized: effect=0.0303, delta=-0.0303, normalized=0.1925
+  localized-minus-random mean=0.0237, stronger_fraction=0.964
+not | utterance_final | prompt_without | necessity | generated | top_k=5 | none: effect=0.0000, delta=0.0000, normalized=0.0000
+not | utterance_final | prompt_without | necessity | generated | top_k=5 | random_mean: effect=0.0067, delta=-0.0067, normalized=0.0446
+not | utterance_final | prompt_without | necessity | generated | top_k=10 | localized: effect=0.0371, delta=-0.0371, normalized=0.2376
+  localized-minus-random mean=0.0328, stronger_fraction=0.964
+not | utterance_final | prompt_without | necessity | generated | top_k=10 | none: effect=0.0000, delta=0.0000, normalized=0.0000
+not | utterance_final | prompt_without | necessity | generated | top_k=10 | random_mean: effect=0.0043, delta=-0.0043, normalized=0.0288
+not | utterance_final | prompt_without | necessity | gold | top_k=1 | localized: effect=0.0060, delta=-0.0060, normalized=-959.7683
+  localized-minus-random mean=0.0062, stronger_fraction=0.714
+not | utterance_final | prompt_without | necessity | gold | top_k=1 | none: effect=0.0000, delta=0.0000, normalized=0.0000
+not | utterance_final | prompt_without | necessity | gold | top_k=1 | random_mean: effect=-0.0001, delta=0.0001, normalized=-38.9349
+not | utterance_final | prompt_without | necessity | gold | top_k=3 | localized: effect=0.0095, delta=-0.0095, normalized=-2122.9322
+  localized-minus-random mean=0.0077, stronger_fraction=0.679
+not | utterance_final | prompt_without | necessity | gold | top_k=3 | none: effect=0.0000, delta=0.0000, normalized=0.0000
+not | utterance_final | prompt_without | necessity | gold | top_k=3 | random_mean: effect=0.0017, delta=-0.0017, normalized=-792.2482
+not | utterance_final | prompt_without | necessity | gold | top_k=5 | localized: effect=0.0150, delta=-0.0150, normalized=-2550.9484
+  localized-minus-random mean=0.0145, stronger_fraction=0.786
+not | utterance_final | prompt_without | necessity | gold | top_k=5 | none: effect=0.0000, delta=0.0000, normalized=0.0000
+not | utterance_final | prompt_without | necessity | gold | top_k=5 | random_mean: effect=0.0005, delta=-0.0005, normalized=-872.7409
+not | utterance_final | prompt_without | necessity | gold | top_k=10 | localized: effect=0.0201, delta=-0.0201, normalized=-3211.0061
+  localized-minus-random mean=0.0206, stronger_fraction=0.821
+not | utterance_final | prompt_without | necessity | gold | top_k=10 | none: effect=0.0000, delta=0.0000, normalized=0.0000
+not | utterance_final | prompt_without | necessity | gold | top_k=10 | random_mean: effect=-0.0005, delta=0.0005, normalized=-337.1665
+not | utterance_final | prompt_without | sufficiency | generated | top_k=1 | localized: effect=0.0329, delta=0.0329, normalized=0.2023
+  localized-minus-random mean=0.0222, stronger_fraction=1.000
+not | utterance_final | prompt_without | sufficiency | generated | top_k=1 | none: effect=0.0000, delta=0.0000, normalized=0.0000
+not | utterance_final | prompt_without | sufficiency | generated | top_k=1 | random_mean: effect=0.0107, delta=0.0107, normalized=0.0659
+not | utterance_final | prompt_without | sufficiency | generated | top_k=3 | localized: effect=0.0456, delta=0.0456, normalized=0.2777
+  localized-minus-random mean=0.0303, stronger_fraction=1.000
+not | utterance_final | prompt_without | sufficiency | generated | top_k=3 | none: effect=0.0000, delta=0.0000, normalized=0.0000
+not | utterance_final | prompt_without | sufficiency | generated | top_k=3 | random_mean: effect=0.0153, delta=0.0153, normalized=0.0928
+not | utterance_final | prompt_without | sufficiency | generated | top_k=5 | localized: effect=0.0559, delta=0.0559, normalized=0.3371
+  localized-minus-random mean=0.0305, stronger_fraction=1.000
+not | utterance_final | prompt_without | sufficiency | generated | top_k=5 | none: effect=0.0000, delta=0.0000, normalized=0.0000
+not | utterance_final | prompt_without | sufficiency | generated | top_k=5 | random_mean: effect=0.0254, delta=0.0254, normalized=0.1524
+not | utterance_final | prompt_without | sufficiency | generated | top_k=10 | localized: effect=0.0655, delta=0.0655, normalized=0.3917
+  localized-minus-random mean=0.0513, stronger_fraction=1.000
+not | utterance_final | prompt_without | sufficiency | generated | top_k=10 | none: effect=0.0000, delta=0.0000, normalized=0.0000
+not | utterance_final | prompt_without | sufficiency | generated | top_k=10 | random_mean: effect=0.0142, delta=0.0142, normalized=0.0866
+not | utterance_final | prompt_without | sufficiency | gold | top_k=1 | localized: effect=0.0193, delta=0.0193, normalized=-442.1260
+  localized-minus-random mean=0.0127, stronger_fraction=0.786
+not | utterance_final | prompt_without | sufficiency | gold | top_k=1 | none: effect=0.0000, delta=0.0000, normalized=0.0000
+not | utterance_final | prompt_without | sufficiency | gold | top_k=1 | random_mean: effect=0.0066, delta=0.0066, normalized=-116.3406
+not | utterance_final | prompt_without | sufficiency | gold | top_k=3 | localized: effect=0.0295, delta=0.0295, normalized=-967.1302
+  localized-minus-random mean=0.0195, stronger_fraction=0.786
+not | utterance_final | prompt_without | sufficiency | gold | top_k=3 | none: effect=0.0000, delta=0.0000, normalized=0.0000
+not | utterance_final | prompt_without | sufficiency | gold | top_k=3 | random_mean: effect=0.0100, delta=0.0100, normalized=-111.8092
+not | utterance_final | prompt_without | sufficiency | gold | top_k=5 | localized: effect=0.0364, delta=0.0364, normalized=-1111.8349
+  localized-minus-random mean=0.0215, stronger_fraction=0.750
+not | utterance_final | prompt_without | sufficiency | gold | top_k=5 | none: effect=0.0000, delta=0.0000, normalized=0.0000
+not | utterance_final | prompt_without | sufficiency | gold | top_k=5 | random_mean: effect=0.0149, delta=0.0149, normalized=-168.1871
+not | utterance_final | prompt_without | sufficiency | gold | top_k=10 | localized: effect=0.0424, delta=0.0424, normalized=-1699.2464
+  localized-minus-random mean=0.0343, stronger_fraction=0.857
+not | utterance_final | prompt_without | sufficiency | gold | top_k=10 | none: effect=0.0000, delta=0.0000, normalized=0.0000
+not | utterance_final | prompt_without | sufficiency | gold | top_k=10 | random_mean: effect=0.0080, delta=0.0080, normalized=-168.5689
+
+--- Localized vs Random Mean Tests ---
+not | utterance_final | prompt_without | necessity | generated | top_k=1: mean_diff=0.0127, 95% CI [0.0080, 0.0183], p_greater=0.0000, n=28
+not | utterance_final | prompt_without | necessity | generated | top_k=3: mean_diff=0.0168, 95% CI [0.0105, 0.0245], p_greater=0.0000, n=28
+not | utterance_final | prompt_without | necessity | generated | top_k=5: mean_diff=0.0237, 95% CI [0.0152, 0.0330], p_greater=0.0000, n=28
+not | utterance_final | prompt_without | necessity | generated | top_k=10: mean_diff=0.0328, 95% CI [0.0230, 0.0439], p_greater=0.0000, n=28
+not | utterance_final | prompt_without | necessity | gold | top_k=1: mean_diff=0.0062, 95% CI [0.0006, 0.0119], p_greater=0.0227, n=28
+not | utterance_final | prompt_without | necessity | gold | top_k=3: mean_diff=0.0077, 95% CI [0.0015, 0.0141], p_greater=0.0125, n=28
+not | utterance_final | prompt_without | necessity | gold | top_k=5: mean_diff=0.0145, 95% CI [0.0059, 0.0229], p_greater=0.0008, n=28
+not | utterance_final | prompt_without | necessity | gold | top_k=10: mean_diff=0.0206, 95% CI [0.0097, 0.0315], p_greater=0.0006, n=28
+not | utterance_final | prompt_without | sufficiency | generated | top_k=1: mean_diff=0.0222, 95% CI [0.0151, 0.0295], p_greater=0.0000, n=28
+not | utterance_final | prompt_without | sufficiency | generated | top_k=3: mean_diff=0.0303, 95% CI [0.0209, 0.0410], p_greater=0.0000, n=28
+not | utterance_final | prompt_without | sufficiency | generated | top_k=5: mean_diff=0.0305, 95% CI [0.0218, 0.0402], p_greater=0.0000, n=28
+not | utterance_final | prompt_without | sufficiency | generated | top_k=10: mean_diff=0.0513, 95% CI [0.0387, 0.0646], p_greater=0.0000, n=28
+not | utterance_final | prompt_without | sufficiency | gold | top_k=1: mean_diff=0.0127, 95% CI [0.0056, 0.0220], p_greater=0.0002, n=28
+not | utterance_final | prompt_without | sufficiency | gold | top_k=3: mean_diff=0.0195, 95% CI [0.0090, 0.0319], p_greater=0.0004, n=28
+not | utterance_final | prompt_without | sufficiency | gold | top_k=5: mean_diff=0.0215, 95% CI [0.0109, 0.0331], p_greater=0.0003, n=28
+not | utterance_final | prompt_without | sufficiency | gold | top_k=10: mean_diff=0.0343, 95% CI [0.0185, 0.0513], p_greater=0.0000, n=28
+================================================================================
