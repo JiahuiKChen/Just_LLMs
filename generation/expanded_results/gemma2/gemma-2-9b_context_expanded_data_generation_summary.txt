@@ -1,0 +1,27 @@
+================================================================================
+GENERATION CROSS-SCORING SUMMARY
+================================================================================
+Total candidates: 18000
+Total stimulus items: 180
+Sampling strategy: nucleus
+Top-p values: 0.9
+Candidate weight basis: own_log_prob_per_token
+
+Main metric: own_context_log_prob_advantage_per_token
+  P samples:        mean token log p(response | P) - mean token log p(response | P')
+  P' samples:       mean token log p(response | P') - mean token log p(response | P)
+  Positive values:  response is more likely under its source context
+
+--- BY DATASET AND CONDITION ---
+expanded_data (discourse_particle), P: win_per_token=0.645, weighted_win_per_token=0.662, mean_adv_per_token=0.017, weighted_adv_per_token=0.018, top1_win_per_token=0.733, candidates=3000, items=60, min_unique=50
+expanded_data (discourse_particle), P_prime: win_per_token=0.577, weighted_win_per_token=0.567, mean_adv_per_token=0.015, weighted_adv_per_token=0.014, top1_win_per_token=0.500, candidates=3000, items=60, min_unique=50
+expanded_data (discourse_particle), P: win_per_token=0.604, weighted_win_per_token=0.604, mean_adv_per_token=0.019, weighted_adv_per_token=0.017, top1_win_per_token=0.583, candidates=3000, items=60, min_unique=50
+expanded_data (discourse_particle), P_prime: win_per_token=0.609, weighted_win_per_token=0.609, mean_adv_per_token=0.017, weighted_adv_per_token=0.017, top1_win_per_token=0.567, candidates=3000, items=60, min_unique=50
+expanded_data (meaning_control), P: win_per_token=0.747, weighted_win_per_token=0.769, mean_adv_per_token=0.060, weighted_adv_per_token=0.063, top1_win_per_token=0.733, candidates=3000, items=60, min_unique=50
+expanded_data (meaning_control), P_prime: win_per_token=0.657, weighted_win_per_token=0.648, mean_adv_per_token=0.066, weighted_adv_per_token=0.066, top1_win_per_token=0.667, candidates=3000, items=60, min_unique=50
+
+--- ITEM-LEVEL PAIRING ---
+Items where both P and P' sampled sets have positive mean own-context advantage per token: 150/180
+Mean exact overlap count: 0.59
+Mean exact overlap Jaccard: 0.006
+================================================================================
