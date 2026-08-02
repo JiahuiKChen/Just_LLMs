@@ -27,6 +27,8 @@ from localization.common import (
     load_model,
     model_short_name,
     normalize_particle_name,
+    prepare_prompt_columns_for_model,
+    resolve_utterance_final_lexical_positions,
     resolve_utterance_final_positions,
     run_component_sequence_model,
     score_target_log_probs_from_logits,
@@ -36,7 +38,12 @@ COMPONENTS = ("resid", "attn", "mlp")
 CORRUPTION_MODE = "prompt_without"
 POSITION_LABEL_PROMPT_BOUNDARY = "prompt_boundary"
 POSITION_LABEL_UTTERANCE_FINAL = "utterance_final"
-POSITION_LABELS = (POSITION_LABEL_PROMPT_BOUNDARY, POSITION_LABEL_UTTERANCE_FINAL)
+POSITION_LABEL_UTTERANCE_FINAL_LEXICAL = "utterance_final_lexical"
+POSITION_LABELS = (
+    POSITION_LABEL_PROMPT_BOUNDARY,
+    POSITION_LABEL_UTTERANCE_FINAL,
+    POSITION_LABEL_UTTERANCE_FINAL_LEXICAL,
+)
 POSITION_ORDER = 0
 PATCH_DIR_NAME = "component_patching"
 SUMMARY_FILES = ("generation_pool.tsv", "fold_assignment.tsv", "pool_summary.tsv")
@@ -164,6 +171,12 @@ def resolve_prompt_positions(
             prompts=batch_df[prompt_column].astype(str).tolist(),
             utterances=batch_df[utterance_column].astype(str).tolist(),
         )
+    if position_label == POSITION_LABEL_UTTERANCE_FINAL_LEXICAL:
+        return resolve_utterance_final_lexical_positions(
+            tokenizer=tokenizer,
+            prompts=batch_df[prompt_column].astype(str).tolist(),
+            utterances=batch_df[utterance_column].astype(str).tolist(),
+        )
     raise ValueError(f"Unsupported position_label: {position_label}")
 
 
@@ -255,6 +268,7 @@ def localize_particle(
         raise FileNotFoundError(f"Missing generation pool: {pool_path}")
     copy_pool_files(pool_dir=pool_dir, run_dir=run_dir)
     pool_df = pd.read_csv(pool_path, sep="\t")
+    pool_df = prepare_prompt_columns_for_model(pool_df, tokenizer, model.config._name_or_path)
     required_columns = {
         "pool_row_index",
         "pool_rank",
@@ -264,7 +278,7 @@ def localize_particle(
         "prompt_with",
         "prompt_without",
     }
-    if position_label == POSITION_LABEL_UTTERANCE_FINAL:
+    if position_label in {POSITION_LABEL_UTTERANCE_FINAL, POSITION_LABEL_UTTERANCE_FINAL_LEXICAL}:
         required_columns.update({"w_word", "wo_word"})
     missing = sorted(required_columns - set(pool_df.columns))
     if missing:

@@ -22,8 +22,10 @@ if str(REPO_ROOT) not in sys.path:
     sys.path.insert(0, str(REPO_ROOT))
 
 from generation.common import (  # noqa: E402
+    build_chat_prompt_pair,
     build_prompt_pair,
     calculate_log_probability,
+    chat_template_info,
     load_model,
     validate_stimulus_row,
 )
@@ -282,6 +284,91 @@ def build_prompt_columns(df: pd.DataFrame) -> pd.DataFrame:
     return result
 
 
+def _coerce_optional_bool(value: object, default: bool = True) -> bool:
+    """Interpret booleans serialized in candidate TSV files."""
+    if value is None or pd.isna(value):
+        return default
+    if isinstance(value, (bool, np.bool_)):
+        return bool(value)
+    normalized = str(value).strip().lower()
+    if normalized in {"1", "true", "yes", "y"}:
+        return True
+    if normalized in {"0", "false", "no", "n"}:
+        return False
+    raise ValueError(f"Could not interpret boolean value: {value!r}")
+
+
+def _render_chat_generation_prompt(tokenizer, messages: list[dict]) -> str:
+    """Render chat messages through the tokenizer, ready for assistant text."""
+    template = getattr(tokenizer, "chat_template", "") or ""
+    if not template:
+        raise ValueError("A pool marked prompt_mode=chat requires a tokenizer chat template.")
+    template_kwargs = {}
+    if "enable_thinking" in template:
+        template_kwargs["enable_thinking"] = False
+    rendered = tokenizer.apply_chat_template(
+        messages,
+        tokenize=False,
+        add_generation_prompt=True,
+        **template_kwargs,
+    )
+    # encode_prompt_target adds BOS itself. Avoid duplicating a BOS emitted by
+    # apply_chat_template while retaining every other template control token.
+    bos_token = getattr(tokenizer, "bos_token", None)
+    if bos_token and rendered.startswith(bos_token):
+        rendered = rendered[len(bos_token) :]
+    return rendered
+
+
+def prepare_prompt_columns_for_model(
+    df: pd.DataFrame,
+    tokenizer,
+    model_name: str,
+) -> pd.DataFrame:
+    """Reconstruct pool prompts using each row's recorded prompt mode.
+
+    Generation pools historically contain plain-text prompt columns even when
+    their candidates were produced with an instruction model's chat template.
+    This adapter preserves base-model behavior and renders chat-mode rows in the
+    same assistant-generation format used during candidate generation.
+    """
+    if "prompt_mode" not in df.columns:
+        return df
+
+    modes = df["prompt_mode"].fillna("base").astype(str).str.strip().str.lower()
+    unsupported = sorted(set(modes) - {"base", "chat"})
+    if unsupported:
+        raise ValueError(f"Unsupported prompt_mode values: {', '.join(unsupported)}")
+    if not (modes == "chat").any():
+        return df
+
+    required = {"context", "w_word", "wo_word"}
+    missing = sorted(required - set(df.columns))
+    if missing:
+        raise KeyError(f"Chat prompt reconstruction requires columns: {', '.join(missing)}")
+
+    result = df.copy()
+    info = chat_template_info(model_name, tokenizer)
+    for row_index in result.index[modes == "chat"]:
+        row = result.loc[row_index]
+        pair = build_chat_prompt_pair(
+            context=str(row["context"]),
+            w_word=str(row["w_word"]),
+            wo_word=str(row["wo_word"]),
+            include_context=_coerce_optional_bool(row.get("include_context", True)),
+            info=info,
+        )
+        result.at[row_index, "prompt_with"] = _render_chat_generation_prompt(
+            tokenizer,
+            pair.messages_p,
+        )
+        result.at[row_index, "prompt_without"] = _render_chat_generation_prompt(
+            tokenizer,
+            pair.messages_p_prime,
+        )
+    return result
+
+
 def get_decoder_layers(model) -> Sequence[torch.nn.Module]:
     """Return decoder block modules for supported causal LM architectures."""
     if hasattr(model, "model") and hasattr(model.model, "layers"):
@@ -420,6 +507,49 @@ def resolve_utterance_final_positions(
             )
         end_char = start_char + len(utterance_text)
         token_index = _last_token_index_before_char(tokenizer, prompt_text, end_char)
+        positions[row_idx, 0] = int(token_index) + bos_offset
+    return positions
+
+
+def resolve_utterance_final_lexical_positions(
+    tokenizer,
+    prompts: Sequence[str],
+    utterances: Sequence[str],
+) -> np.ndarray:
+    """Resolve the token containing the utterance's final letter or digit.
+
+    Unlike ``resolve_utterance_final_positions``, this skips terminal
+    punctuation. That makes the intervention insensitive to whether a prompt
+    serializer merges the punctuation with a following newline or places an
+    end-of-turn control token after it.
+    """
+    if len(prompts) != len(utterances):
+        raise ValueError("prompts and utterances must have identical lengths.")
+    positions = np.full((len(prompts), 1), fill_value=-1, dtype=np.int64)
+    bos_offset = 1 if tokenizer.bos_token_id is not None else 0
+    for row_idx, (prompt, utterance) in enumerate(zip(prompts, utterances)):
+        prompt_text = str(prompt)
+        utterance_text = str(utterance).strip()
+        if not utterance_text:
+            raise ValueError(f"Empty utterance for row {row_idx}.")
+        start_char = prompt_text.rfind(utterance_text)
+        if start_char < 0:
+            raw_utterance = str(utterance)
+            start_char = prompt_text.rfind(raw_utterance)
+            utterance_text = raw_utterance
+        if start_char < 0:
+            raise ValueError(
+                f"Could not find utterance in prompt for row {row_idx}: {utterance_text!r}"
+            )
+
+        final_lexical_offset = next(
+            (index for index in range(len(utterance_text) - 1, -1, -1) if utterance_text[index].isalnum()),
+            None,
+        )
+        if final_lexical_offset is None:
+            raise ValueError(f"Utterance contained no lexical character for row {row_idx}.")
+        lexical_char_end = start_char + final_lexical_offset + 1
+        token_index = _last_token_index_before_char(tokenizer, prompt_text, lexical_char_end)
         positions[row_idx, 0] = int(token_index) + bos_offset
     return positions
 

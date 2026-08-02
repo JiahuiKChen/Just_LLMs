@@ -49,6 +49,22 @@ def parse_args() -> argparse.Namespace:
         help="Root generation/results directory used to locate per-model candidate TSVs.",
     )
     parser.add_argument(
+        "--candidate_path",
+        default=None,
+        help=(
+            "Optional explicit candidate TSV. This may be a consolidated file containing "
+            "multiple particles; rows are filtered by --particles."
+        ),
+    )
+    parser.add_argument(
+        "--candidate_id_prefix",
+        default=None,
+        help=(
+            "Optional source-id prefix applied after particle filtering, for example "
+            "'just_e_' to isolate exclusive-just items in a consolidated candidate TSV."
+        ),
+    )
+    parser.add_argument(
         "--top_k",
         type=int,
         default=DEFAULT_POOL_TOP_K,
@@ -109,6 +125,7 @@ def summarize_pool(
     selected_df: pd.DataFrame,
     particle: str,
     candidate_path: Path,
+    candidate_id_prefix: str | None,
     source_data_path: str,
     selection_mode: str,
     positive_count: int,
@@ -120,6 +137,7 @@ def summarize_pool(
     record = {
         "particle": particle,
         "candidate_path": str(candidate_path),
+        "candidate_id_prefix": candidate_id_prefix or "",
         "source_data_path": source_data_path,
         "selection_mode": selection_mode,
         "selection_metric": "own_context_log_prob_advantage_per_token",
@@ -200,6 +218,8 @@ def build_particle_pool(
     model_name: str,
     particle: str,
     results_dir: Path,
+    candidate_path_override: str | None,
+    candidate_id_prefix: str | None,
     top_k: int,
     num_folds: int,
     seed: int,
@@ -207,11 +227,17 @@ def build_particle_pool(
     output_root: str | None,
 ) -> None:
     """Build and save one pooled generation set."""
-    candidate_path = find_generation_candidates_path(
-        model_name=model_name,
-        particle=particle,
-        results_dir=results_dir,
+    candidate_path = (
+        Path(candidate_path_override)
+        if candidate_path_override
+        else find_generation_candidates_path(
+            model_name=model_name,
+            particle=particle,
+            results_dir=results_dir,
+        )
     )
+    if not candidate_path.exists():
+        raise FileNotFoundError(f"Candidate TSV does not exist: {candidate_path}")
     run_dir = resolve_run_dir(model_name, particle, output_root=output_root)
     run_dir.mkdir(parents=True, exist_ok=True)
 
@@ -236,6 +262,15 @@ def build_particle_pool(
     candidate_particle_df = candidate_df.loc[
         candidate_df["word"].fillna("").astype(str).str.strip().str.lower() == normalized_particle
     ].copy()
+    if candidate_id_prefix:
+        candidate_particle_df = candidate_particle_df.loc[
+            candidate_particle_df["id"].fillna("").astype(str).str.startswith(candidate_id_prefix)
+        ].copy()
+        if candidate_particle_df.empty:
+            raise ValueError(
+                f"No {normalized_particle} rows in {candidate_path} matched source-id prefix "
+                f"{candidate_id_prefix!r}."
+            )
     relevant_df = candidate_particle_df.loc[
         candidate_particle_df["generated_from"].astype(str) == "P"
     ].copy()
@@ -248,8 +283,18 @@ def build_particle_pool(
         errors="coerce",
     )
 
-    source_data_path = particle_data_path(particle)
-    source_df = load_particle_source_rows(particle, data_path=source_data_path)
+    embedded_followup_column = "followup_metadata_only"
+    has_embedded_followups = (
+        embedded_followup_column in candidate_particle_df.columns
+        and candidate_particle_df[embedded_followup_column].notna().all()
+        and candidate_particle_df[embedded_followup_column].astype(str).str.strip().ne("").all()
+    )
+    source_data_path = (
+        f"{candidate_path}::{embedded_followup_column}"
+        if has_embedded_followups
+        else particle_data_path(particle)
+    )
+    source_df = None if has_embedded_followups else load_particle_source_rows(particle, data_path=source_data_path)
     if selection_mode == SELECTION_MODE_ALL_P_GENERATIONS:
         validate_all_source_prompts_covered(
             candidate_particle_df=candidate_particle_df,
@@ -268,27 +313,31 @@ def build_particle_pool(
     positive_df = relevant_df.loc[
         pd.to_numeric(relevant_df["own_context_log_prob_advantage_per_token"], errors="coerce") > 0
     ].copy()
-    source_meta = source_df.loc[
-        :,
-        ["source_row_index", "id", "context", "w_word", "wo_word", "followup"],
-    ].rename(
-        columns={
-            "source_row_index": "raw_source_row_index",
-            "context": "source_context",
-            "w_word": "source_w_word",
-            "wo_word": "source_wo_word",
-            "followup": "source_followup",
-        }
-    )
-    selected_df = selected_df.merge(source_meta, on="id", how="left", validate="many_to_one")
-    if selected_df["source_followup"].isna().any():
-        raise ValueError(
-            f"Failed to recover source followups for {particle}: "
-            f"{int(selected_df['source_followup'].isna().sum())} missing rows"
+    if has_embedded_followups:
+        selected_df["followup"] = selected_df[embedded_followup_column].astype(str).str.strip()
+    else:
+        assert source_df is not None
+        source_meta = source_df.loc[
+            :,
+            ["source_row_index", "id", "context", "w_word", "wo_word", "followup"],
+        ].rename(
+            columns={
+                "source_row_index": "raw_source_row_index",
+                "context": "source_context",
+                "w_word": "source_w_word",
+                "wo_word": "source_wo_word",
+                "followup": "source_followup",
+            }
         )
-    validate_joined_columns(selected_df)
+        selected_df = selected_df.merge(source_meta, on="id", how="left", validate="many_to_one")
+        if selected_df["source_followup"].isna().any():
+            raise ValueError(
+                f"Failed to recover source followups for {particle}: "
+                f"{int(selected_df['source_followup'].isna().sum())} missing rows"
+            )
+        validate_joined_columns(selected_df)
+        selected_df["followup"] = selected_df["source_followup"].astype(str).str.strip()
 
-    selected_df["followup"] = selected_df["source_followup"].astype(str).str.strip()
     selected_df["particle"] = normalized_particle
     selected_df["selection_score_per_token"] = selected_df["own_context_log_prob_advantage_per_token"]
     selected_df["selection_score_raw"] = selected_df["own_context_log_prob_advantage"]
@@ -344,6 +393,7 @@ def build_particle_pool(
         selected_df=selected_df,
         particle=normalized_particle,
         candidate_path=candidate_path,
+        candidate_id_prefix=candidate_id_prefix,
         source_data_path=source_data_path,
         selection_mode=selection_mode,
         positive_count=len(positive_df),
@@ -375,6 +425,8 @@ def main() -> None:
             model_name=args.model_name,
             particle=particle,
             results_dir=results_dir,
+            candidate_path_override=args.candidate_path,
+            candidate_id_prefix=args.candidate_id_prefix,
             top_k=args.top_k,
             num_folds=args.num_folds,
             seed=args.seed,
