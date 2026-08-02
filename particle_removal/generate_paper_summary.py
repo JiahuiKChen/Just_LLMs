@@ -15,6 +15,7 @@ The summary table reports:
 """
 
 import argparse
+import sys
 from pathlib import Path
 from typing import Optional
 
@@ -23,6 +24,12 @@ import numpy as np
 import pandas as pd
 from matplotlib import colors as mcolors
 from matplotlib.patches import Patch
+
+REPO_ROOT = Path(__file__).resolve().parents[1]
+if str(REPO_ROOT) not in sys.path:
+    sys.path.insert(0, str(REPO_ROOT))
+
+from localization.plot_style import configure_times_font  # noqa: E402
 
 
 BASE_MODEL_SPECS = [
@@ -410,6 +417,7 @@ def make_stacked_panel_c_figure(
     output_prefix: Path,
     exclude_outliers: bool,
 ) -> None:
+    configure_times_font()
     fig = plt.figure(figsize=(13.8, 8.3))
     grid = fig.add_gridspec(
         3,
