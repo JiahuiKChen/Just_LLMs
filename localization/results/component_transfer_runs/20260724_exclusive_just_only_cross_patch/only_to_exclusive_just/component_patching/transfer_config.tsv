@@ -1,0 +1,2 @@
+transfer_label	site_source	evaluation_target	position_label	source_site_score_rows	target_pool_rows	target_source_items	top_ks	random_seeds	eval_modes
+only_to_exclusive_just	only	exclusive_just	utterance_final	192	500	30	1,3,5,10	0,1,2,3	sufficiency,necessity
