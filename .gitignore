@@ -174,3 +174,8 @@ cython_debug/
 .claude
 .codex
 logs/
+
+# Repackaged localization results created for collaborator analysis.
+# Canonical experiment outputs remain under the dated result directories.
+/localization/results/localization_results_agg/
+/localization/results/localization_results_agg.zip
