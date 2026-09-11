@@ -1,0 +1,16 @@
+left_group	right_group	scope	component	left_fold	right_fold	layer_count	spearman_rho	spearman_p_value
+exclusive_just	only	pooled	attn	all	all	32	0.6964809384164222	9.53775730659875e-06
+exclusive_just	only	fold_pair	attn	0	0	32	0.5692815249266862	0.0006728899645591245
+exclusive_just	only	fold_pair	attn	0	1	32	0.6627565982404692	3.581320492702821e-05
+exclusive_just	only	fold_pair	attn	1	0	32	0.6264662756598239	0.00012515566354078393
+exclusive_just	only	fold_pair	attn	1	1	32	0.5124633431085044	0.0027111530625661957
+exclusive_just	only	pooled	mlp	all	all	32	0.08357771260997067	0.6492719826984914
+exclusive_just	only	fold_pair	mlp	0	0	32	0.07404692082111436	0.6871239709469289
+exclusive_just	only	fold_pair	mlp	0	1	32	0.2569648093841642	0.15568091539815332
+exclusive_just	only	fold_pair	mlp	1	0	32	0.014296187683284457	0.938100321882791
+exclusive_just	only	fold_pair	mlp	1	1	32	0.5359237536656891	0.0015703868912928947
+exclusive_just	only	pooled	resid	all	all	32	0.9013929618768328	1.979078047370949e-12
+exclusive_just	only	fold_pair	resid	0	0	32	0.87316715542522	7.106411808287649e-11
+exclusive_just	only	fold_pair	resid	0	1	32	0.911290322580645	4.333494364685715e-13
+exclusive_just	only	fold_pair	resid	1	0	32	0.8299120234604105	4.2790086702703455e-09
+exclusive_just	only	fold_pair	resid	1	1	32	0.8900293255131964	9.398156893006206e-12
